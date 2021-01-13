@@ -1,0 +1,34 @@
+{
+  "version": 2,
+  "project_name": null,
+  "default_service": null,
+  "unittest": [
+    {
+      "service": null,
+      "command": null
+    }
+  ],
+  "e2e": [
+    {
+      "service": null,
+      "command": null
+    }
+  ],
+  "predeploy": [],
+  "preup": [],
+  "default_deployment": "staging",
+  "deployments": {
+    "staging": {
+      "env_file": ".env.staging",
+      "target": null,
+      "docker_vars": {}
+    },
+    "prod": {
+      "env_file": ".env.prod",
+      "target": null,
+      "docker_vars": {}
+    }
+  },
+  "aliases": {},
+  "plugins": {}
+}

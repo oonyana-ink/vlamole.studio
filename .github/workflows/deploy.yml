@@ -1,0 +1,14 @@
+name: deploy
+on:
+  push:
+    branches:
+      - develop
+jobs:
+  deploy_theme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy
+        uses: ./.github/actions/deploy-action
+        env:
+          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}

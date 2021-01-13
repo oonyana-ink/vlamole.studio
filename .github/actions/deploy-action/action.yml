@@ -1,0 +1,5 @@
+name: 'Themeify Deploy'
+description: 'Deploy Shopify theme using Themeify'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

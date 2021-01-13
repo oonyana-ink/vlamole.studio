@@ -1,0 +1,2 @@
+.env.local filter=git-crypt diff=git-crypt 
+theme/config.yml filter=git-crypt diff=git-crypt 

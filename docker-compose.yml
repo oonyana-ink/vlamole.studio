@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+  themeify:
+    build:
+      context: ./themeify
+    env_file:
+      - ./.env.local
+    ports:
+      - 8383:8383
+    volumes:
+      - ./:/repo
+      - ./theme:/theme
+      - ./themeify/run.sh:/theme/run.sh
+      - ./.syk-plugins/themeify/cli:/themeify
+    working_dir: /theme
+    command: ./run.sh start_dev

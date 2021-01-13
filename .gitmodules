@@ -1,0 +1,4 @@
+[submodule ".syk-plugins/themeify"]
+	path = .syk-plugins/themeify
+	url = git@github.com:typecode/themeify.git
+	branch = deploy-workflow
