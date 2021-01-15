@@ -1,0 +1,13 @@
+header {
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+
+    .hamburger {
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        height: 0.75rem;
+        width: 1.5rem;
+    }
+}

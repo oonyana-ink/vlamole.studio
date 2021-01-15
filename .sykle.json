@@ -29,6 +29,11 @@
       "docker_vars": {}
     }
   },
-  "aliases": {},
+  "aliases": {
+      "npm": {
+          "service": "themeify",
+          "command": "npm"
+      }
+  },
   "plugins": {}
 }

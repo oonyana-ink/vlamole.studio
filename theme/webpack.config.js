@@ -48,9 +48,6 @@ module.exports = {
     contentBase: path.join(__dirname, 'assets'),
     host: '0.0.0.0',
     port: 8989,
-    disableHostCheck: true,
-    proxy: {
-      '!^/assets': process.env.SHOPIFY_STORE
-    }
+    disableHostCheck: true
   }
 }

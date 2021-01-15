@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+
+
+// FONT-FACE DELARATIONS
+///////////////////////////////////////////////////////////
+// mixin to include fonts, assuming each font has the same file
+// names for each format (except for the extension)
+
+
+@include font-face(gilroy-extrabold-webfont, $font-name-title, 800);

@@ -1,0 +1,13 @@
+:root {
+    --space: #{rem(10)};
+    --grid-margin: 1.5vw;
+    --grid-gutter: #{space(2)};
+    --min-width: 100vw;
+}
+
+.grid {
+    @include flex(
+        $justify: space-between
+    );
+    padding: var(--grid-margin);
+}

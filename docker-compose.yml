@@ -7,6 +7,7 @@ services:
       - ./.env.local
     ports:
       - 8383:8383
+      - 8989:8989
     volumes:
       - ./:/repo
       - ./theme:/theme

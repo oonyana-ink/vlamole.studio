@@ -1,0 +1,8 @@
+
+@function space-vars($multiplier) {
+    @return 'var(--space) * #{$multiplier}';
+}
+
+@function space($multiplier) {
+    @return calc(#{space-vars($multiplier)});
+}

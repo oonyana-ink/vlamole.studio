@@ -1,0 +1,11 @@
+html {
+    @include font(sans, $weight: light, $line-height: 1.4);
+    @include responsive(font-size, (
+        default:  100%,
+        full-xl:  110%,
+        full-xxl: 130%,
+
+        tablet: 87.5%, // 16px --> 14px
+        phone: 87.5%  // 16px --> 14px
+    ));
+}

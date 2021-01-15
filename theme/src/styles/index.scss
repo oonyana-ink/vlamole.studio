@@ -1,3 +1,18 @@
-body {
-    background-color: #e0e0e0;
+@import "utils/css_wrappers";
+@import "utils/fonts";
+@import "utils/grid";
+@import "utils/responsive";
+
+@import "core/reset";
+@import "core/responsive";
+@import "core/fonts";
+@import "core/typography";
+
+@import "layout/grid";
+
+@import "sections/header";
+@import "sections/footer";
+
+#preview-bar-iframe {
+    display: none;
 }
