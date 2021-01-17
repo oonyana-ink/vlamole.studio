@@ -1,0 +1,15 @@
+{% assign columns = 12 %}
+
+<div class="grid">
+  {% for i in (1..columns) %}
+    <div class="grid__column"></div>
+  {% endfor %}
+</div>
+
+{% schema %}
+  {
+    "name": "grid overlay",
+    "tag": "div",
+    "class": "grid-overlay"
+  }
+{% endschema %}

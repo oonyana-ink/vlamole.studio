@@ -1,13 +1,31 @@
+$grid-margin: 6vw;
+$column-count: 12;
+$gutter: 1rem;
+
 :root {
     --space: #{rem(10)};
-    --grid-margin: 1.5vw;
-    --grid-gutter: #{space(2)};
-    --min-width: 100vw;
+    --grid-margin: #{$grid-margin};
+    --grid-gutter: #{$gutter};
+    --column-width: calc((100vw - #{$grid-margin * 2} - (#{$column-count - 1} * var(--grid-gutter))) / #{$column-count});
 }
 
 .grid {
     @include flex(
         $justify: space-between
     );
-    padding: var(--grid-margin);
+    margin: 0 var(--grid-margin);
+
+    &__column {
+        width: var(--column-width);
+
+        @for $i from 1 through $column-count {
+            &--#{$i} {
+                width: calc(var(--column-width) * #{$i});
+            }
+
+            &--offset-#{$i} {
+                margin-left: calc(var(--column-width) * #{$i});
+            }
+        }
+    }
 }

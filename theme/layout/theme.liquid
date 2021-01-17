@@ -56,12 +56,17 @@
     {%- endif -%}
 
     {% section 'header' %}
+    {% section 'drone' %}
 
     <main class="main-content" role="main" tabindex="-1">
-        {{ content_for_layout }}
+      {% section 'hero' %}
+      {{ content_for_layout }}
     </main>
 
+    {% section 'background' %}
     {% section 'footer' %}
+    {% section 'grid_overlay' %}
+
     <script src="{{ 'three.min.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'GLTFLoader.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'DRACOLoader.js' | asset_url }}" defer="defer"></script>

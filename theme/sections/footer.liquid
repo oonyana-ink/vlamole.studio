@@ -1,8 +1,20 @@
-Footer
+<div class="footer__content">
+  <div class="footer__left-side">
+    <a class="social-icon icon">{% render 'instagram.svg' %}</a>
+    <a class="social-icon icon">{% render 'twitter.svg' %}</a>
+    <div class="small-print">
+      <div>&copy; 2021 vlamole.studio | Terms &amp; Conditions | Privacy Policy</div>
+    </div>
+  </div>
 
+  <div class="footer_right-side">
+    <a class="button">Get One</a>
+  </div>
+</div>
 {% schema %}
     {
         "name": "footer",
-        "tag": "footer"
+        "tag": "footer",
+        "class": "footer"
     }
 {% endschema %}

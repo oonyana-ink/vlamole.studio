@@ -1,0 +1,33 @@
+.hero {
+    height: 100vh;
+    justify-content: flex-end;
+    position: relative;
+    width: 100%;
+    z-index: 20;
+
+    .grid {
+        align-items: center;
+        height: 100%;
+    }
+
+    .title {
+        @include font-family(title);
+        color: $dark-blue;
+        font-size: 22rem;
+        letter-spacing: -0.04em;
+        line-height: 0.75;
+        position: relative;
+        transform: translateX(-3%);
+    }
+
+    .subtitle {
+        background-color: $light-blue;
+        color: #fff;
+        font-size: 0.1em;
+        letter-spacing: normal;
+        padding: 0.5em 1.5em;
+        position: absolute;
+        top: 50%;
+        transform: translate(0.58em, -50%);
+    }
+}

@@ -1,13 +1,80 @@
-header {
+$menu_toggle_width: 1.5rem;
+$menu_toggle_height: $menu_toggle_width * 0.5;
+
+.header {
     left: 0;
+    padding: $page-margin;
     position: fixed;
     right: 0;
     top: 0;
+    z-index: 100;
 
-    .hamburger {
-        border-top: 1px solid black;
-        border-bottom: 1px solid black;
-        height: 0.75rem;
-        width: 1.5rem;
+    &__content {
+        align-items: flex-start;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__right-side {
+        align-items: flex-end;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .logo {
+        svg {
+            height: 2rem;
+            width: auto;
+
+            path {
+                fill: $dark-blue;
+            }
+        }
+    }
+
+    .logotype {
+        @include font(title);
+        color: $dark-blue;
+        font-size: 1rem;
+        margin-left: 0.6rem;
+        transform: translateY(-50%) rotate(90deg);
+        transform-origin: left bottom;
+    }
+
+    .breadcrumb {
+        color: $light-blue;
+    }
+
+    .menu-toggle {
+        height: $menu_toggle_height;
+        position: relative;
+        width: $menu_toggle_width;
+
+        &:before {
+            background-color: $dark-blue;
+            content: '';
+            display: none;
+            height: 2px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+        }
+
+        &:after {
+            border-bottom: 2px solid $dark-blue;
+            border-top: 2px solid $dark-blue;
+            box-sizing: border-box;
+            content: '';
+            display: block;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
+    }
+
+    .cart {
+        margin-top: 1rem;
     }
 }

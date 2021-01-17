@@ -1,6 +1,23 @@
-footer {
+.footer {
     bottom: 0;
     left: 0;
+    padding: $page-margin;
     position: fixed;
     right: 0;
+    z-index: 100;
+
+    &__content {
+        align-items: flex-end;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .social-icon {
+        margin-top: 1rem;
+    }
+
+    .small-print {
+        color: $dark-blue;
+        margin-top: 1rem;
+    }
 }

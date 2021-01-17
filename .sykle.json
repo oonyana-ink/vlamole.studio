@@ -30,10 +30,14 @@
     }
   },
   "aliases": {
-      "npm": {
-          "service": "themeify",
-          "command": "npm"
-      }
+    "npm": {
+      "service": "themeify",
+      "command": "npm"
+    },
+    "themeify": {
+      "service": "themeify",
+      "command": "themeify"
+    }
   },
   "plugins": {}
 }

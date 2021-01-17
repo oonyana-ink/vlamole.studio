@@ -1,12 +1,18 @@
-<div class="grid">
-    <div class="hamburger"></div>
-    <div class="logo">Logo</div>
-    <div class="cart">C</div>
+<div class="header__content">
+  <div class="header__left-side">
+    <div class="logo">{% render "logo.svg" %}</div>
+    <div class="logotype">vlamole.studio<span class="breadcrumb">/bateleur</span></div>
+  </div>
+  <div class="header__right-side">
+    <div class="menu-toggle"></div>
+    <div class="cart icon">{% render 'cart.svg' %}</div>
+  </div>
 </div>
 
 {% schema %}
     {
         "name": "header",
-        "tag": "header"
+        "tag": "header",
+        "class": "header"
     }
 {% endschema %}
