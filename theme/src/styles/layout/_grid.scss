@@ -11,20 +11,35 @@ $gutter: 1rem;
 
 .grid {
     @include flex(
-        $justify: space-between
+        $justify: flex-start
     );
     margin: 0 var(--grid-margin);
 
+    &--full-page {
+        box-sizing: border-box;
+        height: 100%;
+        padding: var(--grid-margin) 0
+    }
+
+    &--align-center {
+        align-items: center;
+    }
+
     &__column {
+        margin-right: var(--grid-gutter);
         width: var(--column-width);
+
+        &:last-child {
+            margin-right: 0;
+        }
 
         @for $i from 1 through $column-count {
             &--#{$i} {
-                width: calc(var(--column-width) * #{$i});
+                width: calc((var(--column-width) * #{$i}) + (var(--grid-gutter) * #{$i - 1}));
             }
 
             &--offset-#{$i} {
-                margin-left: calc(var(--column-width) * #{$i});
+                margin-left: calc(var(--column-width) * #{$i} + (var(--grid-gutter) * #{$i}));
             }
         }
     }

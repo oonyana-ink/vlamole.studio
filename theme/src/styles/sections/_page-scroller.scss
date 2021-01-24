@@ -1,0 +1,27 @@
+.page-scroller {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    right: $page-margin;
+    transform: translateY(-50%);
+
+    &__segment {
+        background-color: $dark-blue;
+        font-size: 1rem;
+        // border-radius: 50%;
+        height: 2px;
+        margin-bottom: 0.75em;
+        width: 0.75em;
+
+        &:first-child {
+            background-color: $light-blue;
+            width: 1.5em;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}

@@ -1,6 +1,6 @@
 // FONT VARIABLES
 ///////////////////////////////////////////////////////////
-$font-name-sans: 'Roboto';
+$font-name-sans: 'Cabin';
 $font-name-title: 'Gilroy';
 $font-family-sans: '#{$font-name-sans}', Helvetica Neue, Helvetica, Arial, sans-serif;
 $font-family-title: '#{$font-name-title}', Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -36,44 +36,48 @@ $font-weights: (
 }
 
 @mixin font-size($size, $family: sans, $uppercase: false) {
-    font-size: rem($size);
-
-    @if $family == sans and $uppercase == false {
-        @if $size {
-            @if $size > 72 {
-                letter-spacing: -0.055em;
-            } @else if $size > 32 {
-                letter-spacing: -0.04em;
-            } @else {
-                letter-spacing: -0.01em;
-            }
-        }
-
-    } @else if $family == sans and $uppercase == true {
-        @if $size {
-            @if $size > 32 {
-                letter-spacing: 0;
-            } @else if $size > 24 {
-                letter-spacing: 0;
-            }
-            @else if $size > 12 {
-                letter-spacing: 0.03em;
-            } @else {
-                letter-spacing: 0.04em;
-            }
-        }
-
-    } @else if $family == mono {
-        @if $size {
-            @if $size > 64 {
-                letter-spacing: -0.15em;
-            } @else if $size > 24 {
-                letter-spacing: -0.1em;
-            } @else {
-                letter-spacing: -0.05em;
-            }
-        }
+    @if unit($size) == "px" {
+        font-size: rem($size);
+    } @else {
+        font-size: $size;
     }
+
+    // @if $family == sans and $uppercase == false {
+    //     @if $size {
+    //         @if $size > 72 {
+    //             letter-spacing: -0.055em;
+    //         } @else if $size > 32 {
+    //             letter-spacing: -0.04em;
+    //         } @else {
+    //             letter-spacing: -0.01em;
+    //         }
+    //     }
+
+    // } @else if $family == sans and $uppercase == true {
+    //     @if $size {
+    //         @if $size > 32 {
+    //             letter-spacing: 0;
+    //         } @else if $size > 24 {
+    //             letter-spacing: 0;
+    //         }
+    //         @else if $size > 12 {
+    //             letter-spacing: 0.03em;
+    //         } @else {
+    //             letter-spacing: 0.04em;
+    //         }
+    //     }
+
+    // } @else if $family == mono {
+    //     @if $size {
+    //         @if $size > 64 {
+    //             letter-spacing: -0.15em;
+    //         } @else if $size > 24 {
+    //             letter-spacing: -0.1em;
+    //         } @else {
+    //             letter-spacing: -0.05em;
+    //         }
+    //     }
+    // }
 }
 
 @mixin font-weight($weight) {
@@ -94,9 +98,9 @@ $font-weights: (
         @include font-size($size, $family, $uppercase);
     }
 
-    // mono only has regular
-    @if $family == mono {
-        @include font-weight(regular);
+    // title only has extrabold
+    @if $family == title {
+        @include font-weight(extrabold);
     } @else {
         @include font-weight($weight);
     }

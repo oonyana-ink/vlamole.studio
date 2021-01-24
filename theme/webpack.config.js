@@ -22,15 +22,28 @@ module.exports = {
             options: {
               sourceMap: true,
               url: false
-            },
+            }
           },
           {
             loader: 'sass-loader',
             options: {
-              sourceMap: true,
-            },
-          },
+              sourceMap: true
+            }
+          }
         ]
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              ['@babel/preset-env', { targets: 'defaults' }]
+            ],
+            plugins: ['@babel/plugin-proposal-class-properties']
+          }
+        }
       }
     ]
   },

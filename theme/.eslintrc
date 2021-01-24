@@ -3,6 +3,7 @@
     "standard"
   ],
   "ignorePatterns": ["assets/*.js"],
+  "parser": "babel-eslint",
   "rules": {
     "indent": [
       "error",

@@ -1,1 +1,18 @@
 $page-margin: 2rem;
+
+.main-content {
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
+    z-index: 10;
+}
+
+.page-slide {
+    height: 100vh;
+    position: relative;
+    width: 100vw;
+
+    &--white-bg {
+        background-color: #fff;
+    }
+}

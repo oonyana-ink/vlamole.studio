@@ -1,4 +1,6 @@
 .background {
+    // background-color: rgba($light-blue, 1);
+    background-color: #d7e1ea;
     bottom: 0;
     left: 0;
     position: fixed;
@@ -9,7 +11,9 @@
     video {
         height: 100%;
         object-fit: cover;
-        opacity: 0.3;
+        opacity: 1;
         width: 100%;
+        filter: grayscale(100%) brightness(60%) contrast(300%);
+        mix-blend-mode: overlay;
     }
 }

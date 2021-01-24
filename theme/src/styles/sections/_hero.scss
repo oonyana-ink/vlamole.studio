@@ -3,7 +3,6 @@
     justify-content: flex-end;
     position: relative;
     width: 100%;
-    z-index: 20;
 
     .grid {
         align-items: center;
@@ -22,7 +21,9 @@
 
     .subtitle {
         background-color: $light-blue;
+        // background-color: $white;
         color: #fff;
+        // color: $light-blue;
         font-size: 0.1em;
         letter-spacing: normal;
         padding: 0.5em 1.5em;

@@ -18,8 +18,10 @@
 @import "sections/footer";
 @import "sections/background";
 @import "sections/drone";
+@import "sections/page-scroller";
 @import "sections/hero";
-@import "sections/grid_overlay";
+@import "sections/intro";
+@import "sections/grid-overlay";
 
 #preview-bar-iframe {
     display: none;
