@@ -9,11 +9,11 @@
     z-index: 1;
 
     video {
+        filter: grayscale(100%) brightness(60%) contrast(300%);
         height: 100%;
+        mix-blend-mode: overlay;
         object-fit: cover;
         opacity: 1;
         width: 100%;
-        filter: grayscale(100%) brightness(60%) contrast(300%);
-        mix-blend-mode: overlay;
     }
 }

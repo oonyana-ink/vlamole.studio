@@ -8,6 +8,7 @@ case "$COMMAND" in
     echo "START DEV"
 
     themeify setup
+    themeify generate_ssl_certs
     themeify init
     themeify start
 
@@ -15,7 +16,7 @@ case "$COMMAND" in
     echo "> NPM Install"
     echo "  -----------"
     npm install
-    npm run watch &
+    # npm run webpackserver &
     npm run devserver
     ;;
 

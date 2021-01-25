@@ -51,7 +51,11 @@
         predictiveSearchShowPrice: {{ settings.predictive_search_show_price | json }},
         predictiveSearchShowVendor: {{ settings.predictive_search_show_vendor | json }}
       },
-      stylesheet: "{{ 'theme.css' | asset_url }}"
+      {% if settings.assets_host == 'cdn' %}
+        assetsURL: "{{ 'asset' | asset_url }}"
+      {% else %}
+        assetsURL: "//localhost:8383"
+      {% endif %}
     }
 
     document.documentElement.className = document.documentElement.className.replace('no-js', 'js');

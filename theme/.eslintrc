@@ -2,7 +2,7 @@
   "extends": [
     "standard"
   ],
-  "ignorePatterns": ["assets/*.js"],
+  "ignorePatterns": ["assets/*.js", "**/vendor/*.js"],
   "parser": "babel-eslint",
   "rules": {
     "indent": [

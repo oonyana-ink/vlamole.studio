@@ -11,7 +11,8 @@
 
     .title {
         @include font-family(title);
-        color: $dark-blue;
+        // color: $dark-blue;
+        color: #cf0;
         font-size: 22rem;
         letter-spacing: -0.04em;
         line-height: 0.75;

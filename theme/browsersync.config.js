@@ -16,6 +16,13 @@
  */
 
 const fs = require('fs');
+const bodyParser = require('body-parser')
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware')
+const webpackConfig = require('./webpack.config.js')
+
+const webpackCompiler = webpack(webpackConfig)
 
 const THEME_ID_FILE = '/themeify/.data/theme_id';
 const STATE = {
@@ -26,15 +33,19 @@ module.exports = {
   "ui": {
       "port": 8789
   },
-  "files": "/themeify/.data/theme_notify",
-  "watchEvents": [
-      "change"
-  ],
+  "files": "./theme/assets/*.*",
+  // "watchEvents": [
+      // "change"
+  // ],
   "watch": false,
   "ignore": [],
   "single": false,
   "watchOptions": {
       "ignoreInitial": true
+  },
+  "https": {
+    "key": "/themeify/.data/localhost.key",
+    "cert": "/themeify/.data/localhost.crt"
   },
   "server": false,
   "proxy": {
@@ -67,7 +78,22 @@ module.exports = {
       }
   },
   "port": 8383,
-  "middleware": [],
+  "middleware": [
+    webpackDevMiddleware(webpackCompiler, {
+      publicPath: webpackConfig.output.publicPath
+      // writeToDisk: (filePath) => /\.bunder\.(j|cs)s$/.test(filePath)
+    }),
+    webpackHotMiddleware(webpackCompiler),
+    bodyParser.json(),
+    {
+      "route": "/theme_change",
+      "handle": function (req, res, next) {
+        console.log(req.body)
+        res.end()
+        next()
+      }
+    }
+  ],
   // "serveStatic": [{
   //   "route": '/assets',
   //   "dir": 'assets'

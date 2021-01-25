@@ -1,5 +1,14 @@
-const { stylesheet } = window.theme
-const stylesheetParts = stylesheet.split('/')
-stylesheetParts.pop()
+const { assetsURL: themeAssetsURL } = window.theme
 
-export const assetsURL = stylesheetParts.join('/')
+console.log(themeAssetsURL)
+let assetsURL
+if (/localhost:/.test(themeAssetsURL)) {
+  assetsURL = themeAssetsURL
+} else {
+  const urlParts = themeAssetsURL.split('/')
+  urlParts.pop()
+
+  assetsURL = urlParts.join('/')
+}
+
+export { assetsURL }

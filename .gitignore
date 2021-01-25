@@ -1,7 +1,7 @@
 crypt.key
 __pycache__/
 node_modules/
-theme/assets/application.*
+theme/assets/*.bundle.*
 **/DS_Store
 _void/
 three.js-master/

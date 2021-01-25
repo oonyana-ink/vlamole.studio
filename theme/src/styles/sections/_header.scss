@@ -42,20 +42,18 @@ $menu_toggle_height: $menu_toggle_width * 0.5;
     }
 
     .breadcrumb {
-        // color: $light-blue;
-        color: rgba($white, 1);
-        // color: $dark-blue;
         background-color: $light-blue;
-        padding: 0 0.5em 0 0.2em;
+        color: $white;
         margin-left: 0.3em;
+        padding: 0 0.5em 0 0.2em;
 
         &:before {
             background-color: $dark-blue;
             content: '';
             display: inline-block;
             height: 1.15em;
-            width: 0.14em;
             transform: translateX(-0.25em) translateY(0.25em) rotate(25deg);
+            width: 0.14em;
         }
     }
 

@@ -18,10 +18,10 @@ h1 {
 
 .highlight {
     background: linear-gradient(to right, $light-blue, $light-blue) no-repeat;
-    background-size: 100% 80%;
     background-position: 50% 60%;
-    box-decoration-break: clone;
+    background-size: 100% 80%;
     -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
     color: $white;
     padding: 0 0.15em;
     position: relative;

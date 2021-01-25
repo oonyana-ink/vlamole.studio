@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "name": "Assets",
+    "settings": [
+      {
+        "type": "select",
+        "id": "assets_host",
+        "label": "Host",
+        "options": [
+          {
+            "value": "localhost",
+            "label": "Local"
+          },
+          {
+            "value": "cdn",
+            "label": "CDN"
+          }
+        ]
+      }
+    ]
+  }
+]

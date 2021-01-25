@@ -91,17 +91,17 @@ export default class Objekt {
   }
 
   positionXAxis (value) {
-    const { x, y, z } = this.model.position
+    const { y, z } = this.model.position
     this.setPosition(value, y, z)
   }
 
   positionYAxis (value) {
-    const { x, y, z } = this.model.position
+    const { x, z } = this.model.position
     this.setPosition(x, value, z)
   }
 
   positionZAxis (value) {
-    const { x, y, z } = this.model.position
+    const { x, y } = this.model.position
     this.setPosition(x, y, value)
   }
 }
