@@ -1,11 +1,48 @@
+$button-transition-duration: 140ms;
+
 .button {
     @include font(title);
-    background-color: $light-blue;
+    // background-color: $light-blue;
     color: $white;
     cursor: pointer;
     display: block;
     font-size: 1.5rem;
     line-height: 1em;
     padding: 0.75em 2em;
+    position: relative;
     text-transform: uppercase;
+    transition: color $button-transition-duration;
+
+    &:before {
+        background-color: $dark-blue;
+        content: '';
+        display: block;
+        height: 100%;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 100%;
+        z-index: -1;
+    }
+
+    &:after {
+        background-color: $light-blue;
+        content: '';
+        display: block;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: -1;
+        transition: height $button-transition-duration;
+    }
+
+    &:hover {
+        color: $light-blue;
+
+        &:after {
+            height: 0;
+        }
+    }
 }

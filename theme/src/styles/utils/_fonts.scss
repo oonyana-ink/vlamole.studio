@@ -22,8 +22,8 @@ $font-weights: (
         font-family: $family;
         font-style: $style;
         font-weight: $weight;
-        src: url('#{$filename}.woff2') format('woff2'),
-            url('#{$filename}.woff') format('woff');
+        src: var(--#{$filename}-woff2) format('woff2'),
+            var(--#{$filename}-woff) format('woff');
     }
 }
 
