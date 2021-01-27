@@ -1,16 +1,27 @@
 /* global self */
-import Scene from '../modules/scene'
 
-let scene
-console.log('hello from worker')
-self.onMessage = function (message) {
-  const data = message.data
+import Scene from '@objekts/scene-objekt'
+import Drone from '@objekts/drone-objekt'
 
-  scene = new Scene({
-    canvas: data.canvas
-  })
+const worker = self
+class Worker {
+  constructor () {
+    this.setup()
+    console.log('worker setup')
+  }
 
-  console.log(scene)
+  setup () {
+    worker.onmessage = (message) => {
+      this[message.data.cmd](message.data.payload)
+    }
+  }
+
+  start (opts) {
+    const scene = new Scene(opts)
+    const drone = new Drone()
+    scene.add(drone)
+    console.log('start', scene, drone)
+  }
 }
 
-module.hot && module.hot.accept()
+export default new Worker()

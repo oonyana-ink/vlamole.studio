@@ -1,14 +1,20 @@
 const { assetsURL: themeAssetsURL } = window.theme
 
-console.log(themeAssetsURL)
-let assetsURL
-if (/localhost:/.test(themeAssetsURL)) {
-  assetsURL = themeAssetsURL
-} else {
-  const urlParts = themeAssetsURL.split('/')
-  urlParts.pop()
+class Config {
+  get assetsURL () {
+    let assetsURL
 
-  assetsURL = urlParts.join('/')
+    if (/localhost:/.test(themeAssetsURL)) {
+      assetsURL = themeAssetsURL
+    } else {
+      const urlParts = themeAssetsURL.split('/')
+      urlParts.pop()
+      assetsURL = urlParts.join('/')
+    }
+
+    return assetsURL
+  }
 }
 
-export { assetsURL }
+const config = new Config()
+export default config

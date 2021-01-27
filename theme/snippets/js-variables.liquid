@@ -54,7 +54,7 @@
       {% if settings.assets_host == 'cdn' %}
         assetsURL: "{{ 'asset' | asset_url }}"
       {% else %}
-        assetsURL: "//localhost:8383"
+        assetsURL: "//localhost:8383/assets"
       {% endif %}
     }
 

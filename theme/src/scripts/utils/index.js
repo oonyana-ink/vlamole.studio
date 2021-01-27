@@ -1,4 +1,5 @@
-const { THREE } = window
+import * as THREE from 'three'
+
 const utils = {
   findScreenDepth (camera, renderer) {
     const { near, far } = camera

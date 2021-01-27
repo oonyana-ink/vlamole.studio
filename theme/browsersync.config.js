@@ -15,14 +15,16 @@
  |
  */
 
-const fs = require('fs');
+const fs = require('fs')
+const browserSync = require('browser-sync')
 const bodyParser = require('body-parser')
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const webpackConfig = require('./webpack.config.js')
 
-const webpackCompiler = webpack(webpackConfig)
+const mainWebpackCompiler = webpack(webpackConfig.main)
+const workerWepbackCompiler = webpack(webpackConfig.workers)
 
 const THEME_ID_FILE = '/themeify/.data/theme_id';
 const STATE = {
@@ -79,25 +81,30 @@ module.exports = {
   },
   "port": 8383,
   "middleware": [
-    webpackDevMiddleware(webpackCompiler, {
-      publicPath: webpackConfig.output.publicPath
+    webpackDevMiddleware(mainWebpackCompiler, {
+      publicPath: webpackConfig.main.output.publicPath
       // writeToDisk: (filePath) => /\.bunder\.(j|cs)s$/.test(filePath)
     }),
-    webpackHotMiddleware(webpackCompiler),
+    webpackDevMiddleware(workerWepbackCompiler, {
+      publicPath: webpackConfig.workers.output.publicPath
+    }),
+    webpackHotMiddleware(mainWebpackCompiler),
     bodyParser.json(),
     {
       "route": "/theme_change",
       "handle": function (req, res, next) {
+        let hardReload = false
+
         console.log(req.body)
         res.end()
         next()
       }
     }
   ],
-  // "serveStatic": [{
-  //   "route": '/assets',
-  //   "dir": 'assets'
-  // }],
+  "serveStatic": [{
+    "route": '/assets',
+    "dir": 'assets'
+  }],
   "ghostMode": {
       "clicks": true,
       "scroll": true,

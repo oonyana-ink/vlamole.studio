@@ -10,7 +10,7 @@
 
   <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
 
-  {% if settings.assets_host = 'cdn' %}
+  {% if settings.assets_host == 'cdn' %}
   <link rel="preload" href="{{ 'application.css' | asset_url }}" as="style">
   <link rel="preload" href="{{ 'application.js' | asset_url }}" as="script">
   {% endif %}
@@ -60,10 +60,6 @@
 </head>
 
 <body class="template-{{ request.page_type | handle }}">
-    {% if settings.enable_ajax %}
-        {% include 'cart-popup' %}
-    {% endif %}
-
     {% section 'header' %}
     {% section 'page-scroller' %}
 
