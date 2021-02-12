@@ -33,10 +33,6 @@
     "npm": {
       "service": "themeify",
       "command": "npm"
-    },
-    "themeify": {
-      "service": "themeify",
-      "command": "themeify"
     }
   },
   "plugins": {}
