@@ -21,6 +21,8 @@ export default class ScrollPosition {
   }
 
   watch () {
+    requestAnimationFrame(this.watch.bind(this))
+
     const { scrollingElement } = document
     const { scrollLeft, scrollTop } = scrollingElement
 
@@ -28,9 +30,8 @@ export default class ScrollPosition {
       this.position.x = scrollingElement.scrollLeft
       this.position.y = scrollingElement.scrollTop
       this.update()
+      console.log(this.position)
     }
-
-    requestAnimationFrame(this.watch.bind(this))
   }
 
   update () {

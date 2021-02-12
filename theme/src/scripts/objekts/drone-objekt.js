@@ -8,19 +8,23 @@ export default class DroneObjekt extends Objekt {
 
   components = {
     Antennamount: {
+      merge: true,
       position: [0, -0.25, -57],
       color: 0xbbbbbb
     },
     Coretop: {
+      merge: true,
       position: [0, 10.5, 0],
       color: 0xbbbbbb
     },
     Corebottom: {
+      merge: true,
       position: [0, -10.5, 0],
       color: 0xbbbbbb
     },
     PropguardsTop: {
       clone: true,
+      merge: true,
       position: [
         [-28.75, 12.55, 0.05],
         [28.75, 12.55, 0.05]
@@ -33,6 +37,7 @@ export default class DroneObjekt extends Objekt {
     },
     PropguardsBottom: {
       clone: true,
+      merge: true,
       position: [
         [-23.9, -11.6, 0.15],
         [23.9, -11.6, 0.15]
@@ -44,10 +49,12 @@ export default class DroneObjekt extends Objekt {
       color: 0x6cd0e0
     },
     Batteryplate: {
+      merge: true,
       position: [0, 15, 0],
       color: 0xbbbbbb
     },
     CameraBracket: {
+      merge: true,
       clone: true,
       position: [
         [9.5, 0, 54.3],
@@ -68,7 +75,6 @@ export default class DroneObjekt extends Objekt {
         [32, 0, -32]
       ],
       color: 0xbb00bb,
-      // opacity: 0.5,
       objekt: {
         Klass: PropObjekt,
         opts: {
@@ -85,8 +91,6 @@ export default class DroneObjekt extends Objekt {
         // [32, 0, -32]
       ],
       color: 0xbb00bb,
-      outline: true,
-      opacity: 0,
       objekt: {
         Klass: PropObjekt,
         opts: {
@@ -96,9 +100,15 @@ export default class DroneObjekt extends Objekt {
     }
   }
 
+  mergables = []
+
   constructor () {
     super()
     this.droneObject = true
+  }
+
+  get model () {
+
   }
 
   loaded () {
@@ -111,6 +121,7 @@ export default class DroneObjekt extends Objekt {
       console.log(child)
       this.processChild(child)
     })
+
     console.log('drone model', this.model)
   }
 
@@ -119,9 +130,9 @@ export default class DroneObjekt extends Objekt {
     this.setPosition(canvasWidth * 0.2, 0, 0)
     this.setScalePx(canvasWidth * 0.35, { saveAsOffset: true })
     this.setRotation(0, 0, 0)
-    this.model.lookAt(this.scene.camera.position)
-    this.rotateXAxis(90, 'deg')
-    // this.rotateYAxis(-40, 'deg')
+    // this.model.lookAt(this.scene.camera.position)
+    this.rotateXAxis(40, 'deg')
+    this.rotateYAxis(-40, 'deg')
   }
 
   processChild (child, cloneIndex = -1) {
@@ -142,37 +153,16 @@ export default class DroneObjekt extends Objekt {
     }
 
     child.material.roughness = 1
-    child.material.dithering = true
-    child.material.castShadow = true
-    child.material.receiveShadow = true
-    child.material.depthWrite = true
-    child.material.depthTest = true
+    // child.material.dithering = true
+    // child.material.castShadow = true
+    // child.material.receiveShadow = true
+    // child.material.depthWrite = true
+    // child.material.depthTest = true
 
     if (childMeta.color) {
       child.material.color.setHex(childMeta.color)
     }
 
-    if (childMeta.opacity !== undefined) {
-      child.material.transparent = true
-      child.material.opacity = childMeta.opacity
-    }
-
-    if (true || childMeta.outline) {
-      // child.material = new THREE.Material()
-      // child.visible = false
-      child.material.transparent = true
-      child.material.color.setHex(0xffffff)
-      child.material.wireframe = true
-      child.material.opacity = 0.5
-      child.material.side = THREE.FrontSide
-
-      if (/Bottom/i.test(child.name)) {
-        child.visible = false
-        // child.material.visible = false
-      }
-      // this.scene.addToOutlinePass(child)
-      // child.material.visible = false
-    }
 
     if (childMeta.objekt) {
       this.setupChildObjekt(child, childMeta.objekt)
@@ -191,15 +181,38 @@ export default class DroneObjekt extends Objekt {
 
   setupChildObjekt (child, objekt) {
     const childObjekt = new objekt.Klass(child, objekt.opts)
+    console.log('>>>', childObjekt)
     this.childObjekts.push(childObjekt)
   }
 
-  update (frame) {
-    const sinePeriod = Math.PI * 2 / 500
-    const sineOffset = 8 * Math.sin(frame * sinePeriod) + 10
-    const sineRotationZ = 0.0005 * Math.sin(frame * sinePeriod * 1.5)
+  generateEdgeGeometry (child) {
+    const edges = new THREE.EdgesGeometry(child.geometry, 70)
+    const lineMaterial = /propeller/i.test(child.name)
+      ? new THREE.LineDashedMaterial({
+        transparent: true,
+        dashSize: 3,
+        gapSize: 2,
+        color: 0xffffff,
+        opacity: 0.6
+      })
+      : new THREE.LineBasicMaterial({
+        linewidth: 1.25,
+        color: 0xffffff
+      })
+    const edgeLines = new THREE.LineSegments(edges, lineMaterial)
+    edgeLines.computeLineDistances()
+    edgeLines.position.set(child.position.x, child.position.y, child.position.z)
+    edgeLines.rotation.set(child.rotation.x, child.rotation.y, child.rotation.z)
+    // this.model.add(edgeLines)
+    // child.material.visible = false
+  }
 
-    super.update()
+  update (frame) {
+    // const sinePeriod = Math.PI * 2 / 500
+    // const sineOffset = 8 * Math.sin(frame * sinePeriod) + 10
+    // const sineRotationZ = 0.0005 * Math.sin(frame * sinePeriod * 1.5)
+
+    // super.update()
 
     // this.positionYAxis(sineOffset)
     // this.rotateZAxis(sineRotationZ)

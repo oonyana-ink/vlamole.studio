@@ -10,10 +10,8 @@
 
   <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
 
-  {% if settings.assets_host == 'cdn' %}
-  <link rel="preload" href="{{ 'application.css' | asset_url }}" as="style">
-  <link rel="preload" href="{{ 'application.js' | asset_url }}" as="script">
-  {% endif %}
+  <link rel="preload" href="{{ 'application.bundle.css' | asset_url }}" as="style">
+  <link rel="preload" href="{{ 'application.bundle.js' | asset_url }}" as="script">
 
   {% if canonical_url != blank  %}
     <link rel="canonical" href="{{ canonical_url }}">
@@ -50,11 +48,7 @@
   {% include 'css-variables' %}
   {% include 'js-variables' %}
   {% for stylesheet in stylesheets %}
-  {% if settings.assets_host == 'cdn' %}
-    <link rel="stylesheet" href="{{ stylesheet | asset_url }}" type="text/css">
-  {% else %}
-    <link rel="stylesheet" href="https://localhost:8383/assets/{{ stylesheet }}" type="text/css">
-  {% endif %}
+    <link rel="stylesheet" data-local-uri="/assets/{{ stylesheet }}" data-cdn-uri="{{ stylesheet | asset_url }}" type="text/css">
   {% endfor %}
   {{ content_for_header }}
 </head>
@@ -63,10 +57,11 @@
     {% section 'header' %}
     {% section 'page-scroller' %}
 
-    <main class="main-content" role="main" tabindex="-1">
+    <main class="main-content" role="main">
       {% section 'drone' %}
       {% section 'hero' %}
       {% section 'intro' %}
+      <div class='page-section' style='background: #2e2e61;'></div>
       {{ content_for_layout }}
     </main>
 
@@ -75,11 +70,23 @@
     {% section 'grid_overlay' %}
 
     {% for script in scripts %}
-    {% if settings.assets_host == 'cdn' %}
-      <script src="{{ script | asset_url }}"></script>
-    {% else %}
-      <script src="https://localhost:8383/assets/{{ script }}"></script>
-    {% endif %}
+    <script data-local-uri="/assets/{{ script }}" data-cdn-uri="{{ script | asset_url }}"></script>
     {% endfor %}
+
+    <script type="text/javascript">
+    const isLocal = /local/.test(window.location.host)
+    const uriAttrKeys = {
+      'SCRIPT': 'src',
+      'LINK': 'href'
+    }
+    console.log('!!!')
+    document.querySelectorAll('[data-local-uri]').forEach((assetEl) => {
+      console.log(assetEl.tagName, { assetEl })
+      const targetUri = isLocal ? assetEl.dataset.localUri : assetEl.dataset.cdnUri
+      const attrKey = uriAttrKeys[assetEl.tagName]
+      console.log(attrKey, targetUri)
+      assetEl[attrKey] = targetUri
+    })
+    </script>
 </body>
 </html>

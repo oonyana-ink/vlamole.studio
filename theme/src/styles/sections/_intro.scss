@@ -1,12 +1,21 @@
-.intro.page-slide {
+.intro.page-section {
+    :root {
+        --y-visibility-ratio: 0;
+        --y-position-ratio: 0;
+    }
+
     z-index: 30;
+    .content {
+        opacity: var(--y-visibility-ratio);
+    }
 
     .display-title {
         text-align: right;
-        transform: translateY(calc(-50% - var(--grid-gutter) / 2))
+        transform: translateY(calc(-50% - var(--grid-gutter) / 2)) translateX(calc(-100% + 100% * var(--y-position-ratio)));
+        transition: transform 150ms ease-out;
     }
 
     .copy-paragraph {
-        transform: translateY(calc(50% + var(--grid-gutter) / 2))
+        transform: translateY(calc(50% + var(--grid-gutter) / 2)) translateX(calc(100% + -100% * var(--y-position-ratio)))
     }
 }

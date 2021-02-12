@@ -6,6 +6,7 @@ import './grid-overlay.js'
 
 import ScrollPosition from './modules/scroll-position'
 import Parallax from './modules/parallax'
+import Sections from './modules/sections'
 import config from './config'
 
 class App {
@@ -16,10 +17,12 @@ class App {
     this.sceneCanvas = document.querySelector('.scene-canvas')
     this.scrollPosition = new ScrollPosition({ app: this })
     this.parallax = new Parallax({ app: this })
+    this.pageSections = new Sections({ app: this })
 
     this.modules = [
       this.scrollPosition,
-      this.parallax
+      this.parallax,
+      this.pageSections
     ]
   }
 

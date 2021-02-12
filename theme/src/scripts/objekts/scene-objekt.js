@@ -23,13 +23,13 @@ export default class Scene {
   options = {
     renderer: {
       alpha: true,
-      logarithmicDepthBuffer: true,
+      // logarithmicDepthBuffer: true,
       antialias: true
     },
     camera: {
       fov: 40,
-      near: 0.1,
-      far: 10000
+      near: 1,
+      far: 2000
     },
     dracoLoader: {
       decorderPath: ''
@@ -108,7 +108,7 @@ export default class Scene {
     this.setupScene()
     this.setupCamera()
     this.setupRenderer()
-    this.setupPostProcessing()
+    // this.setupPostProcessing()
 
     this.calculateScreenDepth()
 
@@ -122,10 +122,14 @@ export default class Scene {
   }
 
   get canvasBounds () {
+    const depthDivisor = 1
+    // if (this.screenDepth !== null) {
+    //   depthDivisor = 100 / this.screenDepth
+    // }
     return {
-      canvasWidth: this.canvasDimenstions.width,
-      canvasHeight: this.canvasDimenstions.height,
-      canvasDepth: this.screenDepth
+      canvasWidth: this.canvasDimenstions.width * depthDivisor,
+      canvasHeight: this.canvasDimenstions.height * depthDivisor,
+      canvasDepth: this.screenDepth && this.screenDepth * depthDivisor
     }
   }
 
@@ -137,9 +141,9 @@ export default class Scene {
     const { fov, near, far } = this.options.camera
     const { canvasWidth, canvasHeight } = this.canvasBounds
     this.camera = new THREE.PerspectiveCamera(fov, canvasWidth / canvasHeight, near, far)
-    const size = 1
-    // this.camera = new THREE.OrthographicCamera(canvasWidth / -2, canvasWidth / 2, canvasHeight / 2, canvasHeight / -2, near, far)
-    // this.camera.zoom = 0.2
+    // this.camera = new THREE.OrthographicCamera(canvasWidth / -2, canvasWidth / 2, canvasHeight / 2, canvasHeight / -2, 0, 3000)
+    // this.camera.zoom = 3.5
+    // this.cameraType = 'ortho'
     console.log('camera', this.camera)
     // this.scene.add(this.camera)
   }
@@ -150,8 +154,8 @@ export default class Scene {
     const rendererOptions = Object.assign({ canvas }, this.options.renderer)
     console.log(rendererOptions)
     this.renderer = new THREE.WebGLRenderer(rendererOptions)
-    this.renderer.shadowMap.enabled = true
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    // this.renderer.shadowMap.enabled = true
+    // this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
     this.renderer.setSize(canvasWidth, canvasHeight, false)
   }
 
@@ -315,12 +319,15 @@ export default class Scene {
   }
 
   calculateScreenDepth () {
+    // if (this.cameraType === 'ortho') {
+    //   return this.screenDepth = 300
+    // }
     this.screenDepth = utils.findScreenDepth(this.camera, this.renderer)
     console.log('screenDepth', this.screenDepth)
   }
 
   render () {
-    // this.camera.updateProjectionMatrix()
+    this.camera.updateProjectionMatrix()
     this.renderer.render(this.scene, this.camera)
     // this.postprocessing.composer.render()
   }

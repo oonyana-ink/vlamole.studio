@@ -33,9 +33,9 @@ $button-transition-duration: 140ms;
         left: 0;
         position: absolute;
         top: 0;
+        transition: height $button-transition-duration;
         width: 100%;
         z-index: -1;
-        transition: height $button-transition-duration;
     }
 
     &:hover {

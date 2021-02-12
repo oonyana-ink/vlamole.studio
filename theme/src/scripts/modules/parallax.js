@@ -1,12 +1,11 @@
 export default class Parallax {
-  $els = []
-
   constructor ({ app }) {
     this.app = app
     this.app.onScroll(this.onScroll.bind(this))
+    this.root = document.documentElement
   }
 
   onScroll ({ x, y }) {
-    console.log('parallax', x, y)
+    this.root.style.setProperty('--scroll-y', `${y}px`)
   }
 }

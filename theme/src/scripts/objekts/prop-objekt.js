@@ -10,7 +10,7 @@ export default class PropObjekt extends Objekt {
   }
 
   update () {
-    let rotationIncrement = 0.05
+    let rotationIncrement = 0.2
     rotationIncrement = this.direction === 'cw' ? -rotationIncrement : rotationIncrement
     this.rotateYAxis(rotationIncrement)
   }

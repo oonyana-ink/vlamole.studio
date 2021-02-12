@@ -4,14 +4,14 @@ class Config {
   get assetsURL () {
     let assetsURL
 
-    if (/localhost:/.test(themeAssetsURL)) {
-      assetsURL = themeAssetsURL
+    if (/local/.test(window.location.host)) {
+      assetsURL = `//${window.location.host}/assets`
     } else {
       const urlParts = themeAssetsURL.split('/')
       urlParts.pop()
       assetsURL = urlParts.join('/')
     }
-
+    console.log({ assetsURL })
     return assetsURL
   }
 }

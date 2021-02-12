@@ -15,6 +15,10 @@ export default class Objekt {
     this.model = model
   }
 
+  get model () {
+    return this.model
+  }
+
   onLoad (gltf) {
     this.model = gltf.scene
     this.animations = gltf.animations
