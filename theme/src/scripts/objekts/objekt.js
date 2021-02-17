@@ -39,27 +39,44 @@ export default class Objekt {
   }
 
   setPosition (x, y, z) {
+    if (x instanceof Array) { [x, y, z] = x }
     const { model, offsets } = this
+    const { canvasScalar } = this.scene.canvasBounds
     const [xOffset, yOffset, zOffset] = offsets.position()
-
-    model.position.set(x + xOffset, y + yOffset, z + zOffset)
+    console.log(x, xOffset)
+    model.position.set(
+      (x + xOffset) * canvasScalar,
+      (y + yOffset) * canvasScalar,
+      (z + zOffset) * canvasScalar
+    )
   }
 
   setRotation (x, y, z) {
+    if (x instanceof Array) { [x, y, z] = x }
     const { model, offsets } = this
     const [xOffset, yOffset, zOffset] = offsets.rotation()
 
     model.rotation.set(x + xOffset, y + yOffset, z + zOffset)
   }
 
-  setScalePx (scalePx, opts) {
+  setRotationDegrees (x, y, z) {
+    if (x instanceof Array) { [x, y, z] = x }
+    const xRad = THREE.Math.degToRad(x)
+    const yRad = THREE.Math.degToRad(y)
+    const zRad = THREE.Math.degToRad(z)
+
+    this.setRotation(xRad, yRad, zRad)
+  }
+
+  setScalePx (scalePx, opts = {}) {
     const {
       saveAsOffset = false
     } = opts
+    const { canvasScalar } = this.scene.canvasBounds
     const bbox = new THREE.Box3().setFromObject(this.model)
     const sizeV = new THREE.Vector3()
     bbox.getSize(sizeV)
-    const scaledPx = scalePx / sizeV.x
+    const scaledPx = ( scalePx / sizeV.x ) * canvasScalar
     this.setScale(scaledPx)
 
     if (saveAsOffset) {
@@ -120,7 +137,7 @@ export default class Objekt {
         color
       })
       : new THREE.LineBasicMaterial({
-        linewidth: 2,
+        linewidth: 1,
         color
       })
     const edgeLines = new THREE.LineSegments(edges, lineMaterial)

@@ -20,6 +20,7 @@ export default class Scene {
   debugging = false
   screenDepth = null
   screenDepthScalar = 0.25
+  ready = false
 
   options = {
     renderer: {
@@ -106,7 +107,7 @@ export default class Scene {
     this.canvasDimensions = { width, height }
 
     this.setupScene()
-    this.setupCamera()
+    this.setupPerspectiveCamera()
     this.setupRenderer()
     // this.setupPostProcessing()
 
@@ -119,6 +120,8 @@ export default class Scene {
     this.animate()
 
     this.setupDebugging()
+
+    this.ready = true
   }
 
   get canvasBounds () {
@@ -134,14 +137,18 @@ export default class Scene {
     this.scene = new THREE.Scene()
   }
 
-  setupCamera () {
+  setupPerspectiveCamera () {
     const { fov, near, far } = this.options.camera
     const { canvasWidth, canvasHeight } = this.canvasBounds
     this.camera = new THREE.PerspectiveCamera(fov, canvasWidth / canvasHeight, near, far)
-    // this.camera = new THREE.OrthographicCamera(canvasWidth / -2, canvasWidth / 2, canvasHeight / 2, canvasHeight / -2, 0, 3000)
-    // this.camera.zoom = 3.5
-    // this.cameraType = 'ortho'
-    // this.scene.add(this.camera)
+  }
+
+  setupOrthographicCamera () {
+    const { canvasWidth, canvasHeight } = this.canvasBounds
+
+    this.camera = new THREE.OrthographicCamera(canvasWidth / -2, canvasWidth / 2, canvasHeight / 2, canvasHeight / -2, 0, 3000)
+    this.camera.zoom = 4.2
+    this.scene.add(this.camera)
   }
 
   setupRenderer () {
@@ -377,5 +384,18 @@ export default class Scene {
       (xhr) => objekt.onProgress(xhr),
       (error) => objekt.onLoadError(error)
     )
+  }
+
+  set (opts) {
+    console.log('set scene', opts)
+    Object.entries(opts).forEach(([optKey, optValue]) => {
+      optKey = utils.capitalize(optKey)
+      this[`set${optKey}`](optValue)
+    })
+  }
+
+  setCamera (type) {
+    this.scene.remove(this.camera)
+    this[`setup${utils.capitalize(type)}Camera`]()
   }
 }

@@ -7,6 +7,7 @@ import './grid-overlay.js'
 import ScrollPosition from './modules/scroll-position'
 import Parallax from './modules/parallax'
 import Sections from './modules/sections'
+import SceneProxy from './modules/scene-proxy'
 import config from './config'
 
 class App {
@@ -29,6 +30,7 @@ class App {
   start () {
     this.startSceneWorker()
     this.modules.forEach(module => module.start && module.start())
+    this.sceneProxy = new SceneProxy({ worker: this.worker })
     // this.worker.postMessage({
     //   canvas: this.sceneCanvas
     // }, [this.sceneCanvas])

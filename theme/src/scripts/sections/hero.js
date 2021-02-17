@@ -3,11 +3,20 @@ export const hero = {
     backgroundVideo: '.background-video'
   },
 
-  onEnter (section) {
-    const {
-      $els
-    } = section
+  scene: {
+    camera: 'perspective'
+  },
 
+  drone: {
+    animation: 'float',
+    material: 'default',
+    position: [window.innerWidth * 0.2, 0, 0],
+    scalePx: window.innerWidth * 0.35,
+    rotationDegrees: [40, -40, 0]
+  },
+
+  onEnter ({ $els, app }) {
+    app.sceneProxy.set({ scene: this.scene, drone: this.drone })
     $els.backgroundVideo.play()
   },
 

@@ -5,6 +5,7 @@ import PropObjekt from './prop-objekt'
 import utils from '@utils'
 
 export default class DroneObjekt extends Objekt {
+  ready = false
   filename = 'bateleur.v0.2.12.squashed.glb'
 
   components = {
@@ -103,6 +104,8 @@ export default class DroneObjekt extends Objekt {
 
   mergables = []
 
+  edgeLineModels = []
+
   constructor () {
     super()
     this.droneObject = true
@@ -115,6 +118,8 @@ export default class DroneObjekt extends Objekt {
   loaded () {
     this.processModel()
     this.setupModel()
+
+    this.ready = true
   }
 
   processModel () {
@@ -124,9 +129,9 @@ export default class DroneObjekt extends Objekt {
   }
 
   setupModel () {
-    const { canvasWidth, canvasScalar } = this.scene.canvasBounds
-    this.setPosition(canvasWidth * 0.2 * canvasScalar, 0, 0)
-    this.setScalePx(canvasWidth * 0.35 * canvasScalar, { saveAsOffset: true })
+    const { canvasWidth } = this.scene.canvasBounds
+    this.setPosition(canvasWidth * 0.2, 0, 0)
+    this.setScalePx(canvasWidth * 0.35, { saveAsOffset: true })
     this.setRotation(0, 0, 0)
     // this.model.lookAt(this.scene.camera.position)
     this.rotateXAxis(40, 'deg')
@@ -184,12 +189,51 @@ export default class DroneObjekt extends Objekt {
   }
 
   update (frame) {
+    super.update()
+    this.animation && this[`${this.animation}Animation`](frame)
+  }
+
+  set (opts) {
+    Object.entries(opts).forEach(([optKey, optValue]) => {
+      console.log('set drone', optKey, optValue)
+      this[`set${utils.capitalize(optKey)}`](optValue)
+    })
+  }
+
+  setAnimation (animation) {
+    this.animation = animation
+  }
+
+  setMaterial (material) {
+    if (!this.model) { return }
+    console.log(this.model)
+    if (material === 'edgeLines') {
+      this.model.children.forEach(child => {
+        if (/^Propeller/.test(child.name) || child.type === 'LineSegments') { return }
+        if (/Bottom/.test(child.name)) {
+          child.material.visible = false
+          return
+        }
+        const edgeLineModel = this.generateEdgeGeometry(child)
+        this.edgeLineModels.push(edgeLineModel)
+        this.model.add(edgeLineModel)
+      })
+    } else {
+      this.edgeLineModels.forEach(edgeLineModel => this.model.remove(edgeLineModel))
+      this.edgeLineModels = []
+      this.model.children.forEach(child => {
+        if (/^Propeller/.test(child.name) || child.type === 'LineSegments') { return }
+        child.material.visible = true
+      })
+    }
+  }
+
+  floatAnimation (frame) {
     const offsetMultiplier = 4
     const periodDivisor = 1000
     const sinePeriod = Math.PI * 2 / periodDivisor
     const sineOffset = offsetMultiplier * Math.sin(frame * sinePeriod) + 10
     const sineRotationZ = 0.0003 * Math.sin(frame * sinePeriod * 1.3)
-    super.update()
 
     this.positionYAxis(sineOffset)
     this.rotateZAxis(sineRotationZ)

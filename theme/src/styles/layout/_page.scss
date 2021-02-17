@@ -23,4 +23,12 @@ html {
     &--white-bg {
         background-color: #fff;
     }
+
+    &.behind-drone {
+        z-index: 10;
+    }
+
+    &.above-drone {
+        z-index: 30;
+    }
 }
