@@ -34,6 +34,10 @@ const utils = {
   visibleHeightAtZDepth (depth, camera) {
     const vFOV = camera.fov * Math.PI / 180
     return 2 * Math.tan(vFOV / 2) * Math.abs(depth)
+  },
+
+  randomInRange (min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
   }
 }
 

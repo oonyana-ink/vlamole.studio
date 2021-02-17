@@ -7,7 +7,6 @@ const worker = self
 class Worker {
   constructor () {
     this.setup()
-    console.log('worker setup')
   }
 
   setup () {
@@ -20,7 +19,6 @@ class Worker {
     const scene = new Scene(opts)
     const drone = new Drone()
     scene.add(drone)
-    console.log('start', scene, drone)
   }
 }
 

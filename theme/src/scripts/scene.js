@@ -15,7 +15,6 @@ function Scene(opts) {
   orbitControls.saveState()
 
   document.addEventListener('keydown', function(evnt) {
-    console.log(orbitControls)
     if (evnt.code === 'Escape') {
       orbitControls.reset()
       camera.position.x = 0
@@ -77,7 +76,6 @@ function Scene(opts) {
 
     setupRenderer () {
       renderer.setSize(innerWidth, innerHeight)
-      console.log(renderer)
       document.getElementById(elementID).appendChild(renderer.domElement)
     },
 
@@ -119,7 +117,6 @@ function Scene(opts) {
     },
 
     loadModel (model) {
-      console.log('>>', model)
       const loadPromise = new Promise((resolve, reject) => {
         gltfLoader.load(`${assetsURL}/${model.filename}`,
           (gltf) => resolve(gltf),
@@ -170,10 +167,6 @@ function Scene(opts) {
       // spans 2 physical pixels.
       const cssViewHeight = physicalViewHeight / renderer.getPixelRatio()
 
-      // they should match if canvas is full widht/height of the window.
-      console.log(window.innerWidth, window.innerHeight, cssViewHeight)
-
-
       const threshold = 0.0001
 
       return _findScreenDepth(near, far)
@@ -182,7 +175,7 @@ function Scene(opts) {
         const midpoint = (far - near) / 2 + near
         const midpointHeight = methods.visibleHeightAtZDepth(-midpoint, camera)
         const heightDiff = Math.abs((cssViewHeight / midpointHeight) - 1)
-        console.log(heightDiff, threshold, '|', cssViewHeight, midpointHeight)
+
         if (heightDiff <= threshold) {
           return midpoint
         }

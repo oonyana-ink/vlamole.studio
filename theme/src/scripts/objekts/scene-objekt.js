@@ -19,6 +19,7 @@ export default class Scene {
   assetsURL = null
   debugging = false
   screenDepth = null
+  screenDepthScalar = 0.25
 
   options = {
     renderer: {
@@ -79,7 +80,7 @@ export default class Scene {
     }
   }
 
-  canvasDimenstions = {
+  canvasDimensions = {
     height: 0,
     width: 0
   }
@@ -102,8 +103,7 @@ export default class Scene {
     this.$el = $el
     this.canvas = canvas
     this.assetsURL = assetsURL
-    this.canvasDimenstions = { width, height }
-    console.log('Scene:constructor', opts)
+    this.canvasDimensions = { width, height }
 
     this.setupScene()
     this.setupCamera()
@@ -122,14 +122,11 @@ export default class Scene {
   }
 
   get canvasBounds () {
-    const depthDivisor = 1
-    // if (this.screenDepth !== null) {
-    //   depthDivisor = 100 / this.screenDepth
-    // }
     return {
-      canvasWidth: this.canvasDimenstions.width * depthDivisor,
-      canvasHeight: this.canvasDimenstions.height * depthDivisor,
-      canvasDepth: this.screenDepth && this.screenDepth * depthDivisor
+      canvasWidth: this.canvasDimensions.width,
+      canvasHeight: this.canvasDimensions.height,
+      canvasDepth: this.screenDepth && this.screenDepth * this.screenDepthScalar,
+      canvasScalar: this.screenDepthScalar
     }
   }
 
@@ -144,7 +141,6 @@ export default class Scene {
     // this.camera = new THREE.OrthographicCamera(canvasWidth / -2, canvasWidth / 2, canvasHeight / 2, canvasHeight / -2, 0, 3000)
     // this.camera.zoom = 3.5
     // this.cameraType = 'ortho'
-    console.log('camera', this.camera)
     // this.scene.add(this.camera)
   }
 
@@ -152,7 +148,6 @@ export default class Scene {
     const { canvas } = this
     const { canvasWidth, canvasHeight } = this.canvasBounds
     const rendererOptions = Object.assign({ canvas }, this.options.renderer)
-    console.log(rendererOptions)
     this.renderer = new THREE.WebGLRenderer(rendererOptions)
     // this.renderer.shadowMap.enabled = true
     // this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
@@ -268,7 +263,6 @@ export default class Scene {
     const cameraMesh = new THREE.Mesh(cameraGeo, cameraMat)
 
     cameraMesh.position.z = this.camera.position.z
-    console.log('cameraMesh.position.z', cameraMesh.position.z)
 
     this.debuggingGeometry.camera = cameraMesh
 
@@ -323,7 +317,6 @@ export default class Scene {
     //   return this.screenDepth = 300
     // }
     this.screenDepth = utils.findScreenDepth(this.camera, this.renderer)
-    console.log('screenDepth', this.screenDepth)
   }
 
   render () {

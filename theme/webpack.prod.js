@@ -10,7 +10,7 @@ const mainEntries = {
 const configs = {
   main: merge(common.main, {
     entry: mainEntries,
-    mode: 'production',
+    mode: 'development',
     devtool: 'source-map',
 
     module: {

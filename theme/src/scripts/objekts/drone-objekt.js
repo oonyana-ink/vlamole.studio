@@ -2,6 +2,7 @@ import THREE from '@vendor/three.import'
 
 import Objekt from './objekt'
 import PropObjekt from './prop-objekt'
+import utils from '@utils'
 
 export default class DroneObjekt extends Objekt {
   filename = 'bateleur.v0.2.12.squashed.glb'
@@ -118,17 +119,14 @@ export default class DroneObjekt extends Objekt {
 
   processModel () {
     this.model.children.forEach(child => {
-      console.log(child)
       this.processChild(child)
     })
-
-    console.log('drone model', this.model)
   }
 
   setupModel () {
-    const { canvasWidth } = this.scene.canvasBounds
-    this.setPosition(canvasWidth * 0.2, 0, 0)
-    this.setScalePx(canvasWidth * 0.35, { saveAsOffset: true })
+    const { canvasWidth, canvasScalar } = this.scene.canvasBounds
+    this.setPosition(canvasWidth * 0.2 * canvasScalar, 0, 0)
+    this.setScalePx(canvasWidth * 0.35 * canvasScalar, { saveAsOffset: true })
     this.setRotation(0, 0, 0)
     // this.model.lookAt(this.scene.camera.position)
     this.rotateXAxis(40, 'deg')
@@ -165,7 +163,7 @@ export default class DroneObjekt extends Objekt {
 
 
     if (childMeta.objekt) {
-      this.setupChildObjekt(child, childMeta.objekt)
+      this.setupChildObjekt(child, childMeta)
     }
   }
 
@@ -179,42 +177,21 @@ export default class DroneObjekt extends Objekt {
     })
   }
 
-  setupChildObjekt (child, objekt) {
-    const childObjekt = new objekt.Klass(child, objekt.opts)
-    console.log('>>>', childObjekt)
+  setupChildObjekt (child, childMeta) {
+    const { objekt } = childMeta
+    const childObjekt = new objekt.Klass(child, Object.assign({ parent: this, meta: childMeta }, objekt.opts))
     this.childObjekts.push(childObjekt)
   }
 
-  generateEdgeGeometry (child) {
-    const edges = new THREE.EdgesGeometry(child.geometry, 70)
-    const lineMaterial = /propeller/i.test(child.name)
-      ? new THREE.LineDashedMaterial({
-        transparent: true,
-        dashSize: 3,
-        gapSize: 2,
-        color: 0xffffff,
-        opacity: 0.6
-      })
-      : new THREE.LineBasicMaterial({
-        linewidth: 1.25,
-        color: 0xffffff
-      })
-    const edgeLines = new THREE.LineSegments(edges, lineMaterial)
-    edgeLines.computeLineDistances()
-    edgeLines.position.set(child.position.x, child.position.y, child.position.z)
-    edgeLines.rotation.set(child.rotation.x, child.rotation.y, child.rotation.z)
-    // this.model.add(edgeLines)
-    // child.material.visible = false
-  }
-
   update (frame) {
-    // const sinePeriod = Math.PI * 2 / 500
-    // const sineOffset = 8 * Math.sin(frame * sinePeriod) + 10
-    // const sineRotationZ = 0.0005 * Math.sin(frame * sinePeriod * 1.5)
+    const offsetMultiplier = 4
+    const periodDivisor = 1000
+    const sinePeriod = Math.PI * 2 / periodDivisor
+    const sineOffset = offsetMultiplier * Math.sin(frame * sinePeriod) + 10
+    const sineRotationZ = 0.0003 * Math.sin(frame * sinePeriod * 1.3)
+    super.update()
 
-    // super.update()
-
-    // this.positionYAxis(sineOffset)
-    // this.rotateZAxis(sineRotationZ)
+    this.positionYAxis(sineOffset)
+    this.rotateZAxis(sineRotationZ)
   }
 }

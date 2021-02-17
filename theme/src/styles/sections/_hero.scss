@@ -16,8 +16,21 @@
         font-size: 22rem;
         letter-spacing: -0.04em;
         line-height: 0.75;
-        position: relative;
-        transform: translateX(-3%);
+        opacity: var(--y-visibility-ratio);
+        pointer-events: none;
+        position: absolute;
+        transform: translate(-3%, calc(-50% + (100vh * (1 - var(--y-visibility-ratio)))));
+        top: 50%;
+
+        .top {
+            display: inline-block;
+            transform: translateY(calc(-100% * (var(--y-position-ratio) - 1)));
+        }
+
+        .bottom {
+            display: inline-block;
+            transform: translateY(calc(100% * (var(--y-position-ratio) - 1)));
+        }
     }
 
     .subtitle {
@@ -30,6 +43,6 @@
         padding: 0.5em 1.5em;
         position: absolute;
         top: 50%;
-        transform: translate(0.58em, -50%);
+        transform: translate(calc(0.58em - (100% * (var(--y-position-ratio) - 1))), -50%);
     }
 }

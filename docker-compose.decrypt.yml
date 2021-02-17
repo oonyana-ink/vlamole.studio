@@ -1,8 +1,0 @@
-version: "3.7"
-services:
-  themeify:
-    build:
-      context: ./themeify
-    volumes:
-      - ./:/repo
-    working_dir: /repo

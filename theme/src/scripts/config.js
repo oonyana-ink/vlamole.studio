@@ -11,7 +11,6 @@ class Config {
       urlParts.pop()
       assetsURL = urlParts.join('/')
     }
-    console.log({ assetsURL })
     return assetsURL
   }
 }

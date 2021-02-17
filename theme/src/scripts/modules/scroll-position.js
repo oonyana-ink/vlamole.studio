@@ -8,6 +8,8 @@ export default class ScrollPosition {
     y: 0
   }
 
+  scrollingElement = document.querySelector('.main-content')
+
   constructor ({ app }) {
     app.onScroll = this.onScroll.bind(this)
   }
@@ -23,14 +25,13 @@ export default class ScrollPosition {
   watch () {
     requestAnimationFrame(this.watch.bind(this))
 
-    const { scrollingElement } = document
+    const { scrollingElement } = this
     const { scrollLeft, scrollTop } = scrollingElement
 
     if (scrollLeft !== this.position.x || scrollTop !== this.position.y) {
       this.position.x = scrollingElement.scrollLeft
       this.position.y = scrollingElement.scrollTop
       this.update()
-      console.log(this.position)
     }
   }
 

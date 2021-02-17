@@ -7,7 +7,8 @@ const resolve = {
     '@': path.resolve(__dirname, 'src/scripts'),
     '@objekts': path.resolve(__dirname, 'src/scripts/objekts'),
     '@vendor': path.resolve(__dirname, 'src/scripts/vendor'),
-    '@core': path.resolve(__dirname, 'src/scripts/core')
+    '@core': path.resolve(__dirname, 'src/scripts/core'),
+    '@utils': path.resolve(__dirname, 'src/scripts/utils')
   }
 }
 

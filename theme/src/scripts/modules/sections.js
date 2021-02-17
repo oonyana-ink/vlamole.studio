@@ -26,6 +26,7 @@ export default class Sections {
     this.sections = [...document.querySelectorAll(this.sectionSelector)].map(sectionEl => {
       const sectionName = sectionEl.id.replace('shopify-section-', '')
       return new Section(sectionEl, {
+        name: sectionName,
         parent: this,
         meta: sections[sectionName],
         app: this.app
@@ -35,17 +36,6 @@ export default class Sections {
 
   handleIntersection (section) {
     console.log('Sections:handleIntersection', section)
-  }
-
-  sectionBoundsUpdated (section) {
-    const yVisibilityDiff = section.bounds.top > 0
-      ? section.bounds.height - section.bounds.top
-      : section.bounds.height + section.bounds.top
-    const yPositionDiff = section.bounds.height - section.bounds.top
-
-    const yVisibilityRatio = yVisibilityDiff / window.innerHeight
-    const yPositionRatio = yPositionDiff / window.innerHeight
-    section.interpolate({ yVisibilityRatio, yPositionRatio })
   }
 
   getMidpoint () {

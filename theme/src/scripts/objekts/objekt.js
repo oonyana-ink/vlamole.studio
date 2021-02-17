@@ -109,4 +109,26 @@ export default class Objekt {
     const { x, y } = this.model.position
     this.setPosition(x, y, value)
   }
+
+  generateEdgeGeometry (child, color = 0xffffff) {
+    const edges = new THREE.EdgesGeometry(child.geometry, 60)
+    const lineMaterial = /qpropeller/i.test(child.name)
+      ? new THREE.LineDashedMaterial({
+        transparent: true,
+        dashSize: 3,
+        gapSize: 2,
+        color
+      })
+      : new THREE.LineBasicMaterial({
+        linewidth: 2,
+        color
+      })
+    const edgeLines = new THREE.LineSegments(edges, lineMaterial)
+    edgeLines.computeLineDistances()
+    edgeLines.position.set(child.position.x, child.position.y, child.position.z)
+    edgeLines.rotation.set(child.rotation.x, child.rotation.y, child.rotation.z)
+    child.material.visible = false
+
+    return edgeLines
+  }
 }

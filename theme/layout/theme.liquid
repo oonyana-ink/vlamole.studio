@@ -61,7 +61,7 @@
       {% section 'drone' %}
       {% section 'hero' %}
       {% section 'intro' %}
-      <div class='page-section' style='background: #2e2e61;'></div>
+      {% section 'specs' %}
       {{ content_for_layout }}
     </main>
 
@@ -79,12 +79,9 @@
       'SCRIPT': 'src',
       'LINK': 'href'
     }
-    console.log('!!!')
     document.querySelectorAll('[data-local-uri]').forEach((assetEl) => {
-      console.log(assetEl.tagName, { assetEl })
       const targetUri = isLocal ? assetEl.dataset.localUri : assetEl.dataset.cdnUri
       const attrKey = uriAttrKeys[assetEl.tagName]
-      console.log(attrKey, targetUri)
       assetEl[attrKey] = targetUri
     })
     </script>

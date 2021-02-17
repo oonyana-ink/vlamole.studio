@@ -9,8 +9,16 @@
       --gilroy-extrabold-webfont-woff: url({{ "gilroy-extrabold-webfont.woff2" | asset_url }})
       --gilroy-extrabold-webfont-woff2: url({{ "gilroy-extrabold-webfont.woff2" | asset_url }})
     {% else %}
-      --gilroy-extrabold-webfont-woff: url("https://localhost:8383/assets/gilroy-extrabold-webfont.woff")
-      --gilroy-extrabold-webfont-woff2: url("https://localhost:8383/assets/gilroy-extrabold-webfont.woff2")
+      --gilroy-extrabold-webfont-woff: url("/assets/gilroy-extrabold-webfont.woff")
+      --gilroy-extrabold-webfont-woff2: url("/assets/gilroy-extrabold-webfont.woff2")
     {% endif %}
+  }
+
+  @font-face {
+      font-family: 'Gilroy';
+      font-style: normal;
+      font-weight: 800;
+      src: url('{{ "gilroy-extrabold-webfont.woff2" | asset_url }}') format('woff2'),
+          url('{{ "gilroy-extrabold-webfont.woff" | asset_url }}') format('woff');
   }
 {% endstyle %}

@@ -56,5 +56,7 @@ module.exports = {
       new webpack.HotModuleReplacementPlugin()
     ]
   }),
-  workers: common.workers
+  workers: merge(common.workers, {
+    mode: 'development'
+  })
 }

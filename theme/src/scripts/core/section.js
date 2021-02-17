@@ -4,18 +4,31 @@ import { interpolate } from 'd3-interpolate'
 export default class Section {
   isIntersecting = false
   interpolator = null
+  direction = 'in'
+  currentVisibilityEndpoint = 0
+  prevYPositionRatio = 0
+
+  $els = {}
+
   bounds = {
     top: 0,
     height: 0
+  }
+
+  ratios = {
+    yVisibilityRatio: 0,
+    yPositionRatio: 0
   }
 
   constructor (el, opts = {}) {
     const {
       app,
       parent,
+      name,
       meta = false
     } = opts
 
+    this.name = name
     this.el = el
     this.app = app
     this.parent = parent
@@ -25,6 +38,7 @@ export default class Section {
 
     if (meta) {
       this.meta = meta
+      this.processMeta()
       this.setupInterpolation()
     }
   }
@@ -36,11 +50,23 @@ export default class Section {
     this.observer.observe(this.el)
   }
 
+  processMeta () {
+    if (this.meta.els) {
+      Object.entries(this.meta.els).forEach(([key, selector]) => { this.$els[key] = document.querySelector(selector) })
+    }
+  }
+
   handleIntersection (entries) {
     const [entry] = entries
-
     this.isIntersecting = entry.isIntersecting
     this.trackBounds()
+
+    if (this.isIntersecting && this.meta.onEnter) {
+      this.meta.onEnter(this)
+    } else if (!this.isIntersecting && this.meta.onLeave) {
+      this.meta.onLeave(this)
+    }
+
     this.parent.handleIntersection(this)
   }
 
@@ -57,21 +83,54 @@ export default class Section {
     }
 
     if (hasChanged) {
-      this.parent.sectionBoundsUpdated(this)
+      this.updateRatios()
     }
+  }
+
+  updateRatios () {
+    const { bounds } = this
+    const yVisibilityDiff = bounds.top > 0
+      ? bounds.height - bounds.top
+      : bounds.height + bounds.top
+    const yPositionDiff = bounds.height - bounds.top
+    const yVisibilityRatio = Math.min(1, Math.max(0, yVisibilityDiff / window.innerHeight))
+    const yPositionRatio = yPositionDiff / window.innerHeight
+
+    this.prevYPositionRatio = this.ratios.yPositionRatio
+
+    if (yPositionRatio !== 1) {
+      const movingIn = (
+        (yPositionRatio > this.prevYPositionRatio && yPositionRatio < 1) ||
+        (yPositionRatio < this.prevYPositionRatio && yPositionRatio > 1)
+      )
+      this.direction = movingIn ? 'in' : 'out'
+    }
+
+    if (this.name === 'hero') {
+      console.log(this.direction)
+    }
+    this.ratios = {
+      yVisibilityRatio,
+      yPositionRatio
+    }
+
+    this.interpolate()
   }
 
   setupInterpolation () {
     const {
       keyframes
     } = this.meta
+    if (!keyframes) { return }
     this.interpolator = interpolate(keyframes['0%'], keyframes['100%'])
   }
 
-  interpolate (ratios) {
-    const { yVisibilityRatio, yPositionRatio } = ratios
+  interpolate () {
+    const { yVisibilityRatio, yPositionRatio } = this.ratios
     this.el.style.setProperty('--y-visibility-ratio', yVisibilityRatio)
     this.el.style.setProperty('--y-position-ratio', yPositionRatio)
+
+
     // if (!this.interpolator) { return }
     // const interpolated = this.interpolator(ratio)
     // console.log(interpolated)
