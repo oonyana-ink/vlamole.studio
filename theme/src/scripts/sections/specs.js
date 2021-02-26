@@ -6,8 +6,9 @@ export const specs = {
   drone: {
     animation: null,
     material: 'edgeLines',
-    position: [0, 0, 0],
-    rotationDegrees: [90, 180, 0]
+    position: [window.innerWidth * -0.25, 0, 0],
+    rotationDegrees: [90, 180, 0],
+    scale: [1.4]
   },
 
   onEnter ({ app }) {

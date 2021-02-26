@@ -37,6 +37,7 @@ class Worker {
 
   init () {
     this.setQueue.forEach(opts => this.set(opts))
+    worker.postMessage({ ready: this.ready })
   }
 
   set (opts) {

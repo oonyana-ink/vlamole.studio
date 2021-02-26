@@ -20,6 +20,8 @@ export default class Section {
     yPositionRatio: 0
   }
 
+  meta = {}
+
   constructor (el, opts = {}) {
     const {
       app,
@@ -33,14 +35,14 @@ export default class Section {
     this.app = app
     this.parent = parent
 
-    this.setupObserver()
-    this.app.onScroll(this.trackBounds.bind(this))
-
     if (meta) {
       this.meta = meta
       this.processMeta()
       this.setupInterpolation()
     }
+
+    this.setupObserver()
+    this.app.onScroll(this.trackBounds.bind(this))
   }
 
   setupObserver () {
@@ -61,10 +63,12 @@ export default class Section {
     this.isIntersecting = entry.isIntersecting
     this.trackBounds()
 
-    if (this.isIntersecting && this.meta.onEnter) {
-      this.meta.onEnter(this)
-    } else if (!this.isIntersecting && this.meta.onLeave) {
-      this.meta.onLeave(this)
+    if (this.isIntersecting) {
+      this.el.classList.add('visible')
+      this.meta.onEnter && this.meta.onEnter(this)
+    } else {
+      this.el.classList.remove('visible')
+      this.meta.onLeave && this.meta.onLeave(this)
     }
 
     this.parent.handleIntersection(this)
@@ -106,9 +110,6 @@ export default class Section {
       this.direction = movingIn ? 'in' : 'out'
     }
 
-    if (this.name === 'hero') {
-      console.log(this.direction)
-    }
     this.ratios = {
       yVisibilityRatio,
       yPositionRatio
@@ -129,10 +130,5 @@ export default class Section {
     const { yVisibilityRatio, yPositionRatio } = this.ratios
     this.el.style.setProperty('--y-visibility-ratio', yVisibilityRatio)
     this.el.style.setProperty('--y-position-ratio', yPositionRatio)
-
-
-    // if (!this.interpolator) { return }
-    // const interpolated = this.interpolator(ratio)
-    // console.log(interpolated)
   }
 }

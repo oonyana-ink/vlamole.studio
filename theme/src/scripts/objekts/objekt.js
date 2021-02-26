@@ -1,9 +1,11 @@
 import THREE from '@vendor/three.import'
 
 export default class Objekt {
-  model = false
   animations = []
   childObjekts = []
+  models = {
+    default: null
+  }
 
   offsets = {
     position: () => [0, 0, 0],
@@ -12,15 +14,15 @@ export default class Objekt {
   }
 
   constructor (model) {
-    this.model = model
+    this.models.default = model
   }
 
   get model () {
-    return this.model
+    return this.models.default
   }
 
   onLoad (gltf) {
-    this.model = gltf.scene
+    this.models.default = gltf.scene
     this.animations = gltf.animations
     this.scene.add(this)
     this.loaded()
@@ -38,16 +40,20 @@ export default class Objekt {
     this.childObjekts.forEach(childObjekt => childObjekt.update())
   }
 
-  setPosition (x, y, z) {
+  setPosition (x, y, z, { scaled = false } = {}) {
     if (x instanceof Array) { [x, y, z] = x }
     const { model, offsets } = this
     const { canvasScalar } = this.scene.canvasBounds
     const [xOffset, yOffset, zOffset] = offsets.position()
-    console.log(x, xOffset)
+    this.position = {
+      x: x + xOffset,
+      y: y + yOffset,
+      z: z + zOffset
+    }
     model.position.set(
-      (x + xOffset) * canvasScalar,
-      (y + yOffset) * canvasScalar,
-      (z + zOffset) * canvasScalar
+      this.position.x * canvasScalar,
+      this.position.y * canvasScalar,
+      this.position.z * canvasScalar
     )
   }
 
@@ -73,10 +79,14 @@ export default class Objekt {
       saveAsOffset = false
     } = opts
     const { canvasScalar } = this.scene.canvasBounds
-    const bbox = new THREE.Box3().setFromObject(this.model)
-    const sizeV = new THREE.Vector3()
-    bbox.getSize(sizeV)
-    const scaledPx = ( scalePx / sizeV.x ) * canvasScalar
+
+    this.model.scale.set(1, 1, 1)
+    this.bbox = this.bbox || new THREE.Box3().setFromObject(this.model)
+    this.sizeV = this.sizeV || new THREE.Vector3()
+    this.bbox.getSize(this.sizeV)
+
+    const scaledPx = (scalePx / this.sizeV.x) * canvasScalar
+    console.log('>>>', scalePx, this.sizeV.x, canvasScalar, (scalePx / this.sizeV.x))
     this.setScale(scaledPx)
 
     if (saveAsOffset) {
@@ -113,38 +123,31 @@ export default class Objekt {
   }
 
   positionXAxis (value) {
-    const { y, z } = this.model.position
+    const { y, z } = this.position
     this.setPosition(value, y, z)
   }
 
   positionYAxis (value) {
-    const { x, z } = this.model.position
+    const { x, z } = this.position
     this.setPosition(x, value, z)
   }
 
   positionZAxis (value) {
-    const { x, y } = this.model.position
+    const { x, y } = this.position
     this.setPosition(x, y, value)
   }
 
   generateEdgeGeometry (child, color = 0xffffff) {
     const edges = new THREE.EdgesGeometry(child.geometry, 60)
-    const lineMaterial = /qpropeller/i.test(child.name)
-      ? new THREE.LineDashedMaterial({
-        transparent: true,
-        dashSize: 3,
-        gapSize: 2,
-        color
-      })
-      : new THREE.LineBasicMaterial({
-        linewidth: 1,
-        color
-      })
+    const lineMaterial = new THREE.LineBasicMaterial({
+      linewidth: 1,
+      color
+    })
     const edgeLines = new THREE.LineSegments(edges, lineMaterial)
+    edgeLines.name = child.name
     edgeLines.computeLineDistances()
     edgeLines.position.set(child.position.x, child.position.y, child.position.z)
     edgeLines.rotation.set(child.rotation.x, child.rotation.y, child.rotation.z)
-    child.material.visible = false
 
     return edgeLines
   }

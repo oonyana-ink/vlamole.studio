@@ -91,6 +91,7 @@ export default class Scene {
 
   models = []
   frame = 0
+  cameraType = 'perspective'
 
   constructor (opts = {}) {
     const {
@@ -147,7 +148,7 @@ export default class Scene {
     const { canvasWidth, canvasHeight } = this.canvasBounds
 
     this.camera = new THREE.OrthographicCamera(canvasWidth / -2, canvasWidth / 2, canvasHeight / 2, canvasHeight / -2, 0, 3000)
-    this.camera.zoom = 4.2
+    this.camera.zoom = 4
     this.scene.add(this.camera)
   }
 
@@ -368,6 +369,12 @@ export default class Scene {
     this.scene.add(objekt.model)
   }
 
+  remove (objekt) {
+    const objektIndex = this.models.findIndex(cachedModel => cachedModel.model.uuid === objekt.model.uuid)
+    this.models.splice(objektIndex, 1)
+    this.scene.remove(objekt.model)
+  }
+
   addModelChild (modelChild) {
     this.scene.add(modelChild)
   }
@@ -396,6 +403,7 @@ export default class Scene {
 
   setCamera (type) {
     this.scene.remove(this.camera)
+    this.cameraType = type
     this[`setup${utils.capitalize(type)}Camera`]()
   }
 }

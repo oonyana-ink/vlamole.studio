@@ -7,8 +7,8 @@ export default class PropObjekt extends Objekt {
     const { direction, parent, meta } = opts
     super(model)
     const edgeLines = this.generateEdgeGeometry(model, meta.color)
-    this.model = edgeLines
-    parent.model.add(edgeLines)
+    this.models.default = edgeLines
+    model.setToRemove = true
     this.direction = direction
   }
 

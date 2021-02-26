@@ -1,16 +1,29 @@
 export default class SceneProxy {
+  ready = false
+  setQueue = []
+
   constructor (opts) {
     const {
-      worker
+      scene,
+      drone
     } = opts
 
-    this.worker = worker
+    this.scene = scene
+    this.drone = drone
   }
 
   set (opts) {
-    this.worker.postMessage({
-      cmd: 'set',
-      payload: opts
-    })
+    if (this.ready) {
+      opts.drone && this.drone.set(opts.drone)
+      opts.scene && this.scene.set(opts.scene)
+    } else {
+      this.setQueue.push(opts)
+    }
+  }
+
+  init () {
+    console.log('scene proxy init')
+    this.ready = true
+    this.setQueue.forEach(opts => this.set(opts))
   }
 }

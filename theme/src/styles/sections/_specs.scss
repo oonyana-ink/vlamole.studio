@@ -1,3 +1,74 @@
-.specs.page-section {
-    background-color: $dark-blue;
+$border-size: 5rem;
+
+.specs {
+    &.page-section {
+        --grid-size: calc(((100vw - #{$grid-margin / 2}) / 60));
+        background-color: $dark-blue;
+        overflow: hidden;
+    }
+
+    &__grid {
+        background-image: linear-gradient(rgba($white, .1) 1px, transparent 1px), linear-gradient(90deg, rgba($white, .1) 1px, transparent 1px);
+        background-position: center center;
+        background-size: var(--grid-size) var(--grid-size);
+        border: 1px solid rgba($white, 0.1);
+        bottom: $grid-margin / 4;
+        content: '';
+        display: none;
+        left: $grid-margin / 4;
+        opacity: var(--y-visibility-ratio);
+        pointer-events: none;
+        position: fixed;
+        right: $grid-margin / 4;
+        top: $grid-margin / 4;
+    }
+
+    .grid-border {
+        border-left: 1px solid $white;
+        border-right: 1px solid $white;
+        height: $border-size;
+        position: absolute;
+        width: 100%;
+
+        &:before,
+        &:after {
+            background-color: $white;
+            content: '';
+            height: 1px;
+            position: absolute;
+            width: $border-size;
+        }
+
+        &:before {
+            left: 0;
+        }
+
+        &:after {
+            right: 0;
+        }
+
+        &--top {
+            top: 0;
+
+            &:before,
+            &:after {
+                top: 0;
+            }
+        }
+
+        &--bottom {
+            bottom: 0;
+
+            &:before,
+            &:after {
+                bottom: 0;
+            }
+        }
+    }
+
+    &.visible {
+        .specs__grid {
+            display: block;
+        }
+    }
 }

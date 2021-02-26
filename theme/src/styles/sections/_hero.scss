@@ -19,8 +19,8 @@
         opacity: var(--y-visibility-ratio);
         pointer-events: none;
         position: absolute;
-        transform: translate(-3%, calc(-50% + (100vh * (1 - var(--y-visibility-ratio)))));
         top: 50%;
+        transform: translate(-3%, calc(-50% + (100vh * (1 - var(--y-visibility-ratio)))));
 
         .top {
             display: inline-block;

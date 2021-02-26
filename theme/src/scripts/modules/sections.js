@@ -35,7 +35,7 @@ export default class Sections {
   }
 
   handleIntersection (section) {
-    console.log('Sections:handleIntersection', section)
+    // console.log('Sections:handleIntersection', section)
   }
 
   getMidpoint () {

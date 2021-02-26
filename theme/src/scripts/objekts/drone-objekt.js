@@ -103,8 +103,8 @@ export default class DroneObjekt extends Objekt {
   }
 
   mergables = []
-
-  edgeLineModels = []
+  currentModel = null
+  material = 'default'
 
   constructor () {
     super()
@@ -112,30 +112,42 @@ export default class DroneObjekt extends Objekt {
   }
 
   get model () {
-
+    const model = this.material === 'edgeLines' ? this.models.wireframe : this.models.default
+    // console.log('get model', model)
+    return model
   }
 
   loaded () {
-    this.processModel()
     this.setupModel()
+    this.processModel(this.models.default)
+    this.processModel(this.models.wireframe)
 
     this.ready = true
   }
 
-  processModel () {
-    this.model.children.forEach(child => {
+  processModel (model) {
+    model.children.forEach(child => {
+      child.parentModel = model
       this.processChild(child)
+    })
+    model.children.forEach(child => {
+      if (child.setToRemove) { model.remove(child) }
     })
   }
 
   setupModel () {
-    const { canvasWidth } = this.scene.canvasBounds
-    this.setPosition(canvasWidth * 0.2, 0, 0)
-    this.setScalePx(canvasWidth * 0.35, { saveAsOffset: true })
-    this.setRotation(0, 0, 0)
-    // this.model.lookAt(this.scene.camera.position)
-    this.rotateXAxis(40, 'deg')
-    this.rotateYAxis(-40, 'deg')
+    const { x, y, z } = this.models.default.position
+    this.models.wireframe = new THREE.Object3D() // this.models.default.clone(true)
+    this.models.wireframe.position.set(x, y, z)
+
+    this.models.default.children.forEach(child => {
+      if (!/Bottom/.test(child.name)) {
+        const childClone = child.clone()
+        childClone.name = child.name
+        const edgeLineModel = this.generateEdgeGeometry(childClone)
+        this.models.wireframe.add(edgeLineModel)
+      }
+    })
   }
 
   processChild (child, cloneIndex = -1) {
@@ -175,8 +187,10 @@ export default class DroneObjekt extends Objekt {
   cloneChild (child, childMeta) {
     childMeta.position.forEach((position, cloneIndex) => {
       if (cloneIndex > 0) {
-        child = child.clone()
-        this.model.add(child)
+        const { parentModel } = child
+        const childClone = child.clone()
+        childClone.parentModel = parentModel
+        parentModel.add(childClone)
       }
       this.processChild(child, cloneIndex)
     })
@@ -185,6 +199,7 @@ export default class DroneObjekt extends Objekt {
   setupChildObjekt (child, childMeta) {
     const { objekt } = childMeta
     const childObjekt = new objekt.Klass(child, Object.assign({ parent: this, meta: childMeta }, objekt.opts))
+    child.parentModel.add(childObjekt.model)
     this.childObjekts.push(childObjekt)
   }
 
@@ -195,7 +210,6 @@ export default class DroneObjekt extends Objekt {
 
   set (opts) {
     Object.entries(opts).forEach(([optKey, optValue]) => {
-      console.log('set drone', optKey, optValue)
       this[`set${utils.capitalize(optKey)}`](optValue)
     })
   }
@@ -206,25 +220,10 @@ export default class DroneObjekt extends Objekt {
 
   setMaterial (material) {
     if (!this.model) { return }
-    console.log(this.model)
-    if (material === 'edgeLines') {
-      this.model.children.forEach(child => {
-        if (/^Propeller/.test(child.name) || child.type === 'LineSegments') { return }
-        if (/Bottom/.test(child.name)) {
-          child.material.visible = false
-          return
-        }
-        const edgeLineModel = this.generateEdgeGeometry(child)
-        this.edgeLineModels.push(edgeLineModel)
-        this.model.add(edgeLineModel)
-      })
-    } else {
-      this.edgeLineModels.forEach(edgeLineModel => this.model.remove(edgeLineModel))
-      this.edgeLineModels = []
-      this.model.children.forEach(child => {
-        if (/^Propeller/.test(child.name) || child.type === 'LineSegments') { return }
-        child.material.visible = true
-      })
+    if (material !== this.material) {
+      this.scene.remove(this)
+      this.material = material
+      this.scene.add(this)
     }
   }
 
