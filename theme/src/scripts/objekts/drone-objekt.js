@@ -3,6 +3,7 @@ import THREE from '@vendor/three.import'
 import Objekt from './objekt'
 import PropObjekt from './prop-objekt'
 import utils from '@utils'
+import Drone from '../models/drone'
 
 export default class DroneObjekt extends Objekt {
   ready = false
@@ -25,20 +26,25 @@ export default class DroneObjekt extends Objekt {
       color: 0xbbbbbb
     },
     PropguardsTop: {
-      clone: true,
-      merge: true,
-      position: [
-        [-28.75, 12.55, 0.05],
-        [28.75, 12.55, 0.05]
+      clone: [
+        {
+          position: [-28.75, 12.55, 0.05],
+          rotation: [0, 0, 0],
+          material: {
+            color: 0x6cd0e0
+          }
+        },
+        {
+          position: [28.75, 12.55, 0.05],
+          rotation: [0, THREE.Math.degToRad(180), 0],
+          material: {
+            color: 0x6cd0e0
+          }
+        }
       ],
-      rotation: [
-        [0, 0, 0],
-        [0, THREE.Math.degToRad(180), 0]
-      ],
-      color: 0x6cd0e0
     },
     PropguardsBottom: {
-      clone: true,
+      // clone: true,
       merge: true,
       position: [
         [-23.9, -11.6, 0.15],
@@ -69,7 +75,7 @@ export default class DroneObjekt extends Objekt {
       color: 0xbbbbbb
     },
     PropellerCCW: {
-      clone: true,
+      // clone: true,
       position: [
         [-32, 0, 32],
         // [32, 0, 32],
@@ -85,7 +91,7 @@ export default class DroneObjekt extends Objekt {
       }
     },
     PropellerCW: {
-      clone: true,
+      // clone: true,
       position: [
         // [-32, 0, 32],
         [32, 0, 32],
@@ -106,23 +112,26 @@ export default class DroneObjekt extends Objekt {
   currentModel = null
   material = 'default'
 
-  constructor () {
-    super()
-    this.droneObject = true
+  constructor (opts = {}) {
+    const {
+      wireframe = false
+    } = opts
+
+    super(opts)
+    this.wireframe = wireframe
   }
 
-  get model () {
-    const model = this.material === 'edgeLines' ? this.models.wireframe : this.models.default
-    // console.log('get model', model)
-    return model
+  get material () {
+
   }
 
-  loaded () {
-    this.setupModel()
-    this.processModel(this.models.default)
-    this.processModel(this.models.wireframe)
-
+  onLoad (payload) {
+    super.onLoad(payload)
+    console.log('drone:onLoad', payload)
+    this.droneModel = new Drone(payload.scene)
+    this.processModel(this.model)
     this.ready = true
+    return this
   }
 
   processModel (model) {
@@ -135,23 +144,36 @@ export default class DroneObjekt extends Objekt {
     })
   }
 
-  setupModel () {
+  setupWireframeModel () {
     const { x, y, z } = this.models.default.position
     this.models.wireframe = new THREE.Object3D() // this.models.default.clone(true)
     this.models.wireframe.position.set(x, y, z)
 
     this.models.default.children.forEach(child => {
       if (!/Bottom/.test(child.name)) {
-        const childClone = child.clone()
+        const childClone = child.clone(true)
         childClone.name = child.name
-        const edgeLineModel = this.generateEdgeGeometry(childClone)
-        this.models.wireframe.add(edgeLineModel)
+        if (childClone.type !== 'LineSegments') {
+          const edgeLineModel = this.generateEdgeGeometry(childClone)
+          this.models.wireframe.add(edgeLineModel)
+        } else {
+          if (/^Propeller/.test(child.name)) {
+            const existingChild = this.models.wireframe.children.findIndex(modelChild => modelChild.name === child.name)
+            if (existingChild < 0) {
+              this.models.wireframe.add(childClone)
+            }
+          } else {
+            this.models.wireframe.add(childClone)
+          }
+        }
       }
     })
   }
 
   processChild (child, cloneIndex = -1) {
+    const { parentModel } = child
     const childMeta = this.components[child.name]
+    const { wireframe } = this
     if (childMeta.clone && cloneIndex < 0) {
       this.cloneChild(child, childMeta)
       return
@@ -167,17 +189,18 @@ export default class DroneObjekt extends Objekt {
       child.rotation.set.apply(child.rotation, childRotation)
     }
 
-    child.material.roughness = 1
-    // child.material.dithering = true
-    // child.material.castShadow = true
-    // child.material.receiveShadow = true
-    // child.material.depthWrite = true
-    // child.material.depthTest = true
+    if (wireframe) {
+      parentModel.remove(child)
+      child = this.generateEdgeGeometry(child)
+      child.parentModel = parentModel
+      parentModel.add(child)
+    } else {
+      child.material.roughness = 1
 
-    if (childMeta.color) {
-      child.material.color.setHex(childMeta.color)
+      if (childMeta.color) {
+        child.material.color.setHex(childMeta.color)
+      }
     }
-
 
     if (childMeta.objekt) {
       this.setupChildObjekt(child, childMeta)
@@ -191,8 +214,10 @@ export default class DroneObjekt extends Objekt {
         const childClone = child.clone()
         childClone.parentModel = parentModel
         parentModel.add(childClone)
+        this.processChild(childClone, cloneIndex)
+      } else {
+        this.processChild(child, cloneIndex)
       }
-      this.processChild(child, cloneIndex)
     })
   }
 

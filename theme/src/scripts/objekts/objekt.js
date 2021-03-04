@@ -1,6 +1,15 @@
 import THREE from '@vendor/three.import'
 
 export default class Objekt {
+  _priv = {
+    gltf: null,
+    animations: null,
+    models: {
+      default: null
+    },
+    group: null
+  }
+
   animations = []
   childObjekts = []
   models = {
@@ -13,19 +22,25 @@ export default class Objekt {
     scale: 1
   }
 
-  constructor (model) {
-    this.models.default = model
+  constructor ({ model }) {
+    this.setModel(model)
   }
 
   get model () {
-    return this.models.default
+    return this._priv.models.default
+  }
+
+  setModel (model) {
+    this._priv.models.default = model
   }
 
   onLoad (gltf) {
-    this.models.default = gltf.scene
-    this.animations = gltf.animations
-    this.scene.add(this)
-    this.loaded()
+    const { _priv } = this
+    _priv.gltf = gltf
+    _priv.models.default = gltf.scene.clone()
+    _priv.animations = gltf.animations
+    this.loaded = true
+    return this
   }
 
   onProgress () {
@@ -86,7 +101,6 @@ export default class Objekt {
     this.bbox.getSize(this.sizeV)
 
     const scaledPx = (scalePx / this.sizeV.x) * canvasScalar
-    console.log('>>>', scalePx, this.sizeV.x, canvasScalar, (scalePx / this.sizeV.x))
     this.setScale(scaledPx)
 
     if (saveAsOffset) {

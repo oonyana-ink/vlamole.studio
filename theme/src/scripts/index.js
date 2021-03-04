@@ -8,53 +8,69 @@ import Parallax from './modules/parallax'
 import Sections from './modules/sections'
 import SceneProxy from './modules/scene-proxy'
 import config from './config'
-import Scene from '@objekts/scene-objekt'
-import Drone from '@objekts/drone-objekt'
+import { Scene } from './scene'
+import { Drone } from './models'
 
 class App {
   modules = []
   test = 'ping!'
+  models = {
+    drone: null,
+    wireframe: null
+  }
 
   constructor () {
     this.sceneCanvas = document.querySelector('.scene-canvas')
     this.scrollPosition = new ScrollPosition({ app: this })
     this.parallax = new Parallax({ app: this })
-    this.pageSections = new Sections({ app: this })
+    // this.pageSections = new Sections({ app: this })
 
     this.modules = [
       this.scrollPosition,
-      this.parallax,
-      this.pageSections
+      this.parallax
+      // this.pageSections
     ]
+
+    this.waitForTHREE()
   }
 
   start () {
     this.modules.forEach(module => module.start && module.start())
     this.scene = new Scene({
       canvas: this.sceneCanvas,
-      assetsURL: config.assetsURL,
-      width: this.sceneCanvas.clientWidth,
-      height: this.sceneCanvas.clientHeight,
       pixelRatio: window.devicePixelRatio
     })
     this.drone = new Drone()
+    // this.wireframe = new Drone({ wireframe: true })
+
     this.scene.add(this.drone)
 
-    this.sceneProxy = new SceneProxy({ scene: this.scene, drone: this.drone })
-    this.waitUntilReady()
+    // this.scene.load(this.drone)
+    // this.scene.load(this.wireframe)
+
+    // this.sceneProxy = new SceneProxy({ scene: this.scene, drone: this.drone })
+    // this.waitUntilReady()
     // this.worker.postMessage({
     //   canvas: this.sceneCanvas
     // }, [this.sceneCanvas])
     // this.scene.add(this.drone)
   }
 
-  waitUntilReady () {
-    this.ready = this.scene.ready && this.drone.ready
-    console.log('ready', this.ready)
-    if (!this.ready) {
-      setTimeout(() => { this.waitUntilReady() }, 500)
+  // waitUntilReady () {
+  //   this.ready = this.scene.ready && this.drone.ready
+  //   console.log('ready', this.ready)
+  //   if (!this.ready) {
+  //     setTimeout(() => { this.waitUntilReady() }, 500)
+  //   } else {
+  //     this.sceneProxy.init()
+  //   }
+  // }
+
+  waitForTHREE () {
+    if (!window.THREE) {
+      setTimeout(() => { this.waitForTHREE() }, 250)
     } else {
-      this.sceneProxy.init()
+      this.start()
     }
   }
 
@@ -80,7 +96,6 @@ class App {
 }
 
 const app = new App()
-app.start()
 
 // if (module.hot) {
 //   module.hot.dispose(() => app.terminateSceneWorker())

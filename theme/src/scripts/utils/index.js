@@ -8,7 +8,9 @@ const utils = {
     renderer.getDrawingBufferSize(rendererDimensions)
 
     const cssViewHeight = rendererDimensions.y / renderer.getPixelRatio()
-    const threshold = 0.0001
+    const threshold = 0.01
+
+    console.log('cssViewHeight', rendererDimensions)
 
     return _findScreenDepth(near, far)
 

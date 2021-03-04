@@ -14,9 +14,12 @@
       {
         "max": 2
       }
-    ]
-  },
-  "plugins": [
-    "vue"
-  ]
+    ],
+    "globals": {
+      "THREE": "readonly"
+    }
+  }
+  // "plugins": [
+  //   "vue"
+  // ]
 }

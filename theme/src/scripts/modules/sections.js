@@ -15,7 +15,6 @@ export default class Sections {
     } = opts
 
     this.app = app
-    this.getMidpoint()
   }
 
   start () {
@@ -36,12 +35,5 @@ export default class Sections {
 
   handleIntersection (section) {
     // console.log('Sections:handleIntersection', section)
-  }
-
-  getMidpoint () {
-    this.midpoint = {
-      x: window.innerWidth / 2,
-      y: window.innerHeight / 2
-    }
   }
 }

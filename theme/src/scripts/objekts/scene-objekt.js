@@ -86,6 +86,8 @@ export default class Scene {
     width: 0
   }
 
+  gltfObjects = {}
+
   postprocessing = {}
   outlineTargets = []
 
@@ -358,13 +360,15 @@ export default class Scene {
     this.update()
   }
 
-  add (objekt) {
-    objekt.scene = this
-
-    if (objekt.filename && !objekt.model) {
+  load (objekt) {
+    if (objekt.filename && !objekt.loaded) {
       return this.loadObjekt(objekt)
     }
+    this.add(objekt)
+  }
 
+  add (objekt) {
+    objekt.scene = this
     this.models.push(objekt)
     this.scene.add(objekt.model)
   }
@@ -385,12 +389,45 @@ export default class Scene {
   }
 
   loadObjekt (objekt) {
-    this.gltfLoader.load(
-      `${this.assetsURL}/${objekt.filename}`,
-      (gltf) => objekt.onLoad(gltf),
-      (xhr) => objekt.onProgress(xhr),
-      (error) => objekt.onLoadError(error)
-    )
+    const { filename } = objekt
+    const gltfObject = this.gltfObjects[filename] || {
+      status: '',
+      loader: null,
+      loaded: false,
+      callbacks: []
+    }
+
+    if (gltfObject.loader) {
+      if (!gltfObject.loaded) {
+        gltfObject.callbacks.push(objekt.onLoad.bind(objekt))
+      } else {
+        this.processLoadedObjekt(objekt.onLoad, gltfObject.payload)
+      }
+    } else {
+      gltfObject.status = 'loading'
+      gltfObject.loader = this.gltfLoader.load(
+        `${this.assetsURL}/${filename}`,
+        (gltf) => {
+          gltfObject.loaded = true
+          gltfObject.payload = gltf
+          gltfObject.callbacks.forEach(onLoad => this.processLoadedObjekt(onLoad, gltfObject.payload))
+        },
+        (xhr) => {
+          console.log(xhr)
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+
+      this.gltfObjects[filename] = gltfObject
+    }
+    gltfObject.callbacks.push(objekt.onLoad.bind(objekt))
+  }
+
+  processLoadedObjekt (onLoad, payload) {
+    const objekt = onLoad(payload)
+    this.add(objekt)
   }
 
   set (opts) {
