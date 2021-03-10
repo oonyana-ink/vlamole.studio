@@ -70,17 +70,6 @@
     {% section 'footer' %}
     {% section 'grid_overlay' %}
 
-    <div style='
-      position: fixed;
-      z-index: 200;
-      top: 50%;
-      left: 50%;
-      width: 200px;
-      height: 200px;
-      transform: translate(-50%, -50%);
-      border: 1px solid #fff;
-    '></div>
-
     {% for script in scripts %}
     <script data-local-uri="/assets/{{ script }}" data-cdn-uri="{{ script | asset_url }}"></script>
     {% endfor %}

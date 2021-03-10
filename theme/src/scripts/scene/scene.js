@@ -31,19 +31,19 @@ export class Scene {
 
     this.scene = new THREE.Scene()
     this.renderer = new THREE.WebGLRenderer(this.configs.renderer)
-    this.lights = new Lights({ scene: this })
     this.cameras = new Cameras({ scene: this })
     this.renderer.setSize(this.width, this.height)
 
     this._calcDepth()
 
+    this.lights = new Lights({ scene: this })
     this.activeCamera.position.z = this.pxDepth
 
     this.render()
   }
 
   get pxDepth () {
-    return  this._depth / this.scalar
+    return this._depth / this.scalar
   }
 
   get scalar () {
@@ -80,6 +80,10 @@ export class Scene {
     }
 
     this.render()
+  }
+
+  addLight (light) {
+    this.scene.add(light)
   }
 
   _calcDepth () {

@@ -3,22 +3,22 @@ export default class Lights {
     {
       Type: THREE.PointLight,
       color: 0xffffff,
-      intensity: 0.7,
-      position: ({ canvasWidth, canvasHeight, canvasDepth }) => [canvasWidth * 0.5, canvasHeight * 1, canvasDepth],
+      intensity: 1,
+      position: [-0.5, 0.5, 1],
       debugColor: 0xff0000 // Red
     },
     {
       Type: THREE.PointLight,
       color: 0xffffff,
       intensity: 0.5,
-      position: ({ canvasHeight, canvasDepth }) => [0, -canvasHeight, -canvasDepth * 0.5],
+      position: [-0.5, 0, -1],
       debugColor: 0x00ff00 // Green
     },
     {
       Type: THREE.PointLight,
       color: 0xffffff,
-      intensity: 0.5,
-      position: ({ canvasWidth, canvasHeight, canvasDepth }) => [-canvasDepth, -canvasHeight * 0, canvasDepth * 0.5],
+      intensity: 0.75,
+      position: [0.5, 0.25, 1],
       debugColor: 0x0000ff // Blue
     },
     {
@@ -29,7 +29,39 @@ export default class Lights {
     }
   ]
 
-  constructor () {
+  lights = []
 
+  constructor ({ scene }) {
+    this.scene = scene
+    this.configs.forEach(lightConf => {
+      const {
+        Type,
+        position,
+        color = 0xffffff,
+        debugColor,
+        intensity = 1
+      } = lightConf
+      const light = new Type(color)
+
+      light.intensity = intensity
+      position && this.positionLight(light, position)
+
+      this.lights.push(light)
+      this.scene.addLight(light)
+    })
+  }
+
+  positionLight (light, position) {
+    const [x, y, z] = position
+    console.log(light, position, [
+      this.scene.width * x,
+      this.scene.height * y,
+      this.scene.pxDepth * z
+    ])
+    light.position.set(
+      this.scene.width * x,
+      this.scene.height * y,
+      this.scene.pxDepth * z
+    )
   }
 }

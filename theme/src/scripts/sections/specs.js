@@ -12,6 +12,6 @@ export const specs = {
   },
 
   onEnter ({ app }) {
-    app.sceneProxy.set({ scene: this.scene, drone: this.drone })
+    // app.sceneProxy.set({ scene: this.scene, drone: this.drone })
   }
 }

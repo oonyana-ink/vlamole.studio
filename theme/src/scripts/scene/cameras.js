@@ -4,7 +4,7 @@ export default class Cameras {
 
   configs = {
     perspectiveCamera: {
-      fov: 40,
+      fov: 50,
       near: 1,
       far: 2000
     }

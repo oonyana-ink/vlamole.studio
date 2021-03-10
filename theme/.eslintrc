@@ -14,10 +14,11 @@
       {
         "max": 2
       }
-    ],
-    "globals": {
-      "THREE": "readonly"
-    }
+    ]
+  },
+  "globals": {
+    "THREE": "readonly",
+    "requestAnimationFrame": "readonly"
   }
   // "plugins": [
   //   "vue"

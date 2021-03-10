@@ -16,7 +16,7 @@ export const hero = {
   },
 
   onEnter ({ $els, app }) {
-    app.sceneProxy.set({ scene: this.scene, drone: this.drone })
+    // app.sceneProxy.set({ scene: this.scene, drone: this.drone })
     $els.backgroundVideo.play()
   },
 

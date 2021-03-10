@@ -51,7 +51,7 @@ export default class Model {
       __boundsCache.bounds = new THREE.Vector3()
     }
 
-    if (!__boundsCache.timestamp || now - __boundsCache.timestamp > __boundsCache.lifetime ) {
+    if (!__boundsCache.timestamp || now - __boundsCache.timestamp > __boundsCache.lifetime) {
       const bbox = new THREE.Box3().setFromObject(this.object3D)
       bbox.getSize(__boundsCache.bounds)
       __boundsCache.timestamp = now
@@ -95,6 +95,10 @@ export default class Model {
   set size (size) {
     let xSize, ySize, zSize
 
+    if (typeof size === 'function') {
+      size = size()
+    }
+
     if (size instanceof Array) {
       [xSize, ySize, zSize] = size
     } else if (typeof size === 'number') {
@@ -112,6 +116,13 @@ export default class Model {
     const zScale = zSize ? zSize / zBounds : xScale
 
     this.scale = [xScale, yScale, zScale]
+  }
+
+  set position (position) {
+    const [xPos, yPos, zPos] = this._processXYZ(position, { current: this.object3D.position, scaled: true })
+
+    console.log(position, xPos, yPos, zPos, '<<<')
+    this.object3D.position.set(xPos, yPos, zPos)
   }
 
   processObject3D (object3D) {
@@ -160,9 +171,14 @@ export default class Model {
   }
 
   set3DProperty(key, x, y, z) {
+    if (x instanceof Function) {
+      [x, y, z] = x()
+    }
     if (x instanceof Array) {
       [x, y, z] = x
     }
+
+    console.log(this.name, key, x, y, z)
 
     this.object3D[key].set(
       this._castValue(x),
@@ -182,21 +198,21 @@ export default class Model {
     Object.assign(this.meta, meta)
   }
 
-
-
   applyMeta () {
     Object.entries(this.meta).forEach(([key, value]) => {
       switch (key) {
-        case 'isClone':
-          this.isClone = value
-          break
-        case 'position':
-        case 'rotation':
-          this.set3DProperty(key, value)
-          break
-        case 'size':
-          this.size = value
-          break
+      case 'isClone':
+        this.isClone = value
+        break
+      case 'position':
+        this.position = value
+        break
+      case 'rotation':
+        this.set3DProperty(key, value)
+        break
+      case 'size':
+        this.size = value
+        break
       }
     })
   }
@@ -233,6 +249,39 @@ export default class Model {
     }
 
     return value
+  }
+
+  _processXYZ (x, y, z, opts) {
+    if (x instanceof Object && y instanceof Object) {
+      opts = y
+    }
+
+    const { current, scaled } = opts
+    const scalar = scaled && this.scene ? this.scene.scalar : 1
+
+    let _x = current ? current.x * scalar : x
+    let _y = current ? current.y * scalar : y
+    let _z = current ? current.z * scalar : z
+
+    if (x instanceof Function) {
+      x = x()
+    }
+
+    if (x instanceof Array) {
+      _x = x[0] || _x
+      _y = x[1] || _y
+      _z = x[2] || _z
+    } else if (x instanceof Object) {
+      _x = x.x || _x
+      _y = x.y || _y
+      _z = x.z || _z
+    }
+
+    return [
+      _x / scalar,
+      _y / scalar,
+      _z / scalar
+    ]
   }
 
   static getByName (name) {

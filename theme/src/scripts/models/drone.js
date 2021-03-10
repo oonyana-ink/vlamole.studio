@@ -1,11 +1,13 @@
 import Model from './model'
+import grid from '../layout/grid'
 
 export class Drone extends Model {
   name = 'Drone'
 
   meta = {
-    rotation: ['90deg', 0, 0],
-    size: [200]
+    rotation: ['40deg', '-40deg', 0],
+    position: () => [grid.columnsWidth(3), 0, 0],
+    size: () => [grid.columnsWidth(6)]
   }
 
   components = {
@@ -87,7 +89,7 @@ export class Drone extends Model {
       clone: [
         {
           position: [-32, 0, 32],
-          material: {
+        material: {
             color: 0xbb00bb
           }
         },
@@ -138,5 +140,16 @@ export class Drone extends Model {
     const modelMeta = this.components[child.name]
     child.modelMeta = modelMeta
     return child
+  }
+
+  floatAnimation (frame) {
+    const offsetMultiplier = 4
+    const periodDivisor = 1000
+    const sinePeriod = Math.PI * 2 / periodDivisor
+    const sineOffset = offsetMultiplier * Math.sin(frame * sinePeriod) + 10
+    const sineRotationZ = 0.0003 * Math.sin(frame * sinePeriod * 1.3)
+
+    this.position = { y: sineOffset }
+    this.rotation = { z: sineRotationZ }
   }
 }
