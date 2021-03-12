@@ -58,7 +58,6 @@ loader.load(`${assetsURL}/bateleur.v0.2.6.glb?cbust=${Date.now()}`, function (gl
   modelScene.position.set(75, 15, 0)
   modelScene.children.forEach(child => {
     child.material.dithering = true
-    console.log(child)
 
     if (/^Propguards/.test(child.name)) {
       child.material.color.setHex(0x86CFE2)
@@ -73,9 +72,7 @@ loader.load(`${assetsURL}/bateleur.v0.2.6.glb?cbust=${Date.now()}`, function (gl
   props.loaded = true
   scene.add(gltf.scene)
 }, function (xhr) {
-  console.log((xhr.loaded / xhr.total * 100) + '% loaded')
 }, function (error) {
-  console.log('error', error)
 })
 
 

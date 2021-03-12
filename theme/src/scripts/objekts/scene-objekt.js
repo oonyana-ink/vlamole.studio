@@ -413,10 +413,8 @@ export default class Scene {
           gltfObject.callbacks.forEach(onLoad => this.processLoadedObjekt(onLoad, gltfObject.payload))
         },
         (xhr) => {
-          console.log(xhr)
         },
         (error) => {
-          console.log(error)
         }
       )
 
@@ -431,7 +429,6 @@ export default class Scene {
   }
 
   set (opts) {
-    console.log('set scene', opts)
     Object.entries(opts).forEach(([optKey, optValue]) => {
       optKey = utils.capitalize(optKey)
       this[`set${optKey}`](optValue)

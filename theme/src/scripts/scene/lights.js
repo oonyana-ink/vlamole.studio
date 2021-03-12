@@ -53,11 +53,6 @@ export default class Lights {
 
   positionLight (light, position) {
     const [x, y, z] = position
-    console.log(light, position, [
-      this.scene.width * x,
-      this.scene.height * y,
-      this.scene.pxDepth * z
-    ])
     light.position.set(
       this.scene.width * x,
       this.scene.height * y,

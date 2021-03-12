@@ -44,11 +44,9 @@ export default class Objekt {
   }
 
   onProgress () {
-    console.log('onProgress')
   }
 
   onLoadError (error) {
-    console.log('onLoadError', error)
   }
 
   update () {

@@ -5,10 +5,12 @@ const __MODELS__ = []
 
 export default class Model {
   name = null
+  container
   object3D = null
   geometry = null
   material = null
   mesh = null
+  transformTarget = null
 
   state = {
     loading: false,
@@ -19,6 +21,10 @@ export default class Model {
 
   children = []
   callbacks = []
+
+  __size = {
+    x: 1, y: 1, z: 1
+  }
 
   __boundsCache = {
     bounds: null,
@@ -35,9 +41,9 @@ export default class Model {
       }
       this.state.loading = true
       __LOADER__.loadModel(filename)
-        .then(gltf => this.processObject3D(gltf.scene))
+        .then(gltf => this.init(gltf.scene))
     } else if (object3D) {
-      this.processObject3D(object3D)
+      this.init(object3D)
     }
 
     __MODELS__.push(this)
@@ -52,7 +58,7 @@ export default class Model {
     }
 
     if (!__boundsCache.timestamp || now - __boundsCache.timestamp > __boundsCache.lifetime) {
-      const bbox = new THREE.Box3().setFromObject(this.object3D)
+      const bbox = new THREE.Box3().setFromObject(this.model)
       bbox.getSize(__boundsCache.bounds)
       __boundsCache.timestamp = now
     }
@@ -72,7 +78,11 @@ export default class Model {
   }
 
   get model () {
-    return this.object3D
+    return this.transformTarget || this.container || this.object3D
+  }
+
+  get scale () {
+    return this.model.scale
   }
 
   set scale (scale) {
@@ -84,32 +94,34 @@ export default class Model {
     } else if (typeof scale === 'number') {
       xScale = scale
     } else {
-      throw "Model[set scale] Only accepts arrays and numbers"
+      throw new Error('Model[set scale] Only accepts arrays and numbers')
     }
 
     yScale = yScale || xScale
     zScale = zScale || xScale
-    this.object3D.scale.set(xScale / sceneScalar, yScale / sceneScalar, zScale / sceneScalar)
+    this.model.scale.set(xScale / sceneScalar, yScale / sceneScalar, zScale / sceneScalar)
+  }
+
+  get size () {
+    return this.__size
   }
 
   set size (size) {
-    let xSize, ySize, zSize
-
-    if (typeof size === 'function') {
-      size = size()
-    }
-
-    if (size instanceof Array) {
-      [xSize, ySize, zSize] = size
-    } else if (typeof size === 'number') {
-      xSize = size
-    }
+    const [xSize, ySize, zSize] = this._processXYZ(size)
 
     const {
       x: xBounds,
       y: yBounds,
       z: zBounds
     } = this.boundingBox
+
+    this.__size = {
+      x: xSize,
+      y: ySize,
+      z: zSize
+    }
+
+    console.log(size, this.__size)
 
     const xScale = xSize / xBounds
     const yScale = ySize ? ySize / yBounds : xScale
@@ -118,11 +130,47 @@ export default class Model {
     this.scale = [xScale, yScale, zScale]
   }
 
-  set position (position) {
-    const [xPos, yPos, zPos] = this._processXYZ(position, { current: this.object3D.position, scaled: true })
+  get position () {
+    return this.model.position
+  }
 
-    console.log(position, xPos, yPos, zPos, '<<<')
-    this.object3D.position.set(xPos, yPos, zPos)
+  set position (position) {
+    const [xPos, yPos, zPos] = this._processXYZ(position, { current: this.model.position, scaled: true })
+    this.model.position.set(xPos, yPos, zPos)
+  }
+
+  get rotation () {
+    return this.model.rotation
+  }
+
+  set rotation (rotation) {
+    const [xRotation, yRotation, zRotation] = this._processXYZ(rotation, { current: this.model.rotation })
+    this.model.rotation.set(xRotation, yRotation, zRotation)
+  }
+
+  init (object3D) {
+    if (object3D.modelMeta) {
+      this.setMeta(object3D.modelMeta)
+    }
+
+    if (this.meta.wireframe) {
+      object3D = this.generateWireframe(object3D)
+    }
+
+    this.processObject3D(object3D)
+    this.processChildren(this.object3D.children)
+    this._ensureChildrenAreAdded()
+
+    if (this.meta.useContainer) {
+      this.container = new THREE.Group()
+      this.container.add(this.object3D)
+    }
+    this.applyMeta()
+
+    this.state.loading = false
+    this.state.loaded = true
+    this.executeCallbacks()
+    this.loaded()
   }
 
   processObject3D (object3D) {
@@ -134,25 +182,22 @@ export default class Model {
       this.material = object3D.material
       this.mesh = object3D
     }
+  }
 
-    if (object3D.modelMeta) {
-      this.setMeta(object3D.modelMeta)
-    }
-    this.processChildren(object3D.children)
-    this.applyMeta()
-
-    this.state.loading = false
-    this.state.loaded = true
-    this.executeCallbacks()
-    this.loaded()
+  generateWireframe (object3D) {
+    const geometry = new THREE.EdgesGeometry(object3D.geometry, 10)
+    const material = new THREE.LineBasicMaterial({
+      linewidth: 1,
+      color: 0xff00ff
+    })
+    const lineSegments = new THREE.LineSegments(geometry, material)
+    lineSegments.computeLineDistances()
+    return lineSegments
   }
 
   processChildren (children) {
     children.forEach(child => this._processChild(child))
   }
-
-  loaded () {}
-  addedToScene () {}
 
   onLoad (callback) {
     this.callbacks.push(callback)
@@ -167,10 +212,10 @@ export default class Model {
   }
 
   set (key, value) {
-    this.object3D[key].set(value)
+    this.model[key].set(value)
   }
 
-  set3DProperty(key, x, y, z) {
+  set3DProperty (key, x, y, z) {
     if (x instanceof Function) {
       [x, y, z] = x()
     }
@@ -178,9 +223,7 @@ export default class Model {
       [x, y, z] = x
     }
 
-    console.log(this.name, key, x, y, z)
-
-    this.object3D[key].set(
+    this.model[key].set(
       this._castValue(x),
       this._castValue(y),
       this._castValue(z)
@@ -188,10 +231,15 @@ export default class Model {
   }
 
   add (model) {
-    this.children.push(model)
-    if (model.isClone) {
-      this.model.add(model.model)
+    if (!this.children.includes(model)) {
+      this.children.add(model)
     }
+    this.object3D.add(model.model)
+  }
+
+  isChild (possibleChild) {
+    const childIndex = this.children.findIndex(child => child === possibleChild)
+    return childIndex > -1
   }
 
   setMeta (meta) {
@@ -208,7 +256,7 @@ export default class Model {
         this.position = value
         break
       case 'rotation':
-        this.set3DProperty(key, value)
+        this.rotation = value
         break
       case 'size':
         this.size = value
@@ -217,8 +265,15 @@ export default class Model {
     })
   }
 
+  _update (frame) {
+    if (!this.isLoading) {
+      this.update(frame)
+      this.children.forEach(child => child._update(frame))
+    }
+  }
+
   _processChild (child) {
-    const { modelMeta } = child
+    const { modelMeta = {} } = child
 
     if (modelMeta.clone) {
       this._cloneChild(child)
@@ -227,7 +282,8 @@ export default class Model {
 
     const ModelClass = modelMeta.class ? modelMeta.class : Model
     const childModel = new ModelClass(child)
-    this.add(childModel)
+
+    this.children.push(childModel)
   }
 
   _cloneChild (child) {
@@ -243,6 +299,10 @@ export default class Model {
     })
   }
 
+  _ensureChildrenAreAdded () {
+    this.children.forEach(child => this.add(child))
+  }
+
   _castValue (value) {
     if (typeof value === 'string') {
       value = /deg$/.test(value) && THREE.Math.degToRad(parseFloat(value))
@@ -251,13 +311,16 @@ export default class Model {
     return value
   }
 
-  _processXYZ (x, y, z, opts) {
+  _processXYZ (x, y, z, opts = {}) {
     if (x instanceof Object && y instanceof Object) {
       opts = y
     }
 
     const { current, scaled } = opts
     const scalar = scaled && this.scene ? this.scene.scalar : 1
+    const _value = function (value, fallback) {
+      return value === undefined ? fallback : value
+    }
 
     let _x = current ? current.x * scalar : x
     let _y = current ? current.y * scalar : y
@@ -265,17 +328,22 @@ export default class Model {
 
     if (x instanceof Function) {
       x = x()
+      console.log('---->', x)
     }
 
     if (x instanceof Array) {
-      _x = x[0] || _x
-      _y = x[1] || _y
-      _z = x[2] || _z
+      _x = _value(x[0], _x)
+      _y = _value(x[1], _y)
+      _z = _value(x[2], _z)
     } else if (x instanceof Object) {
-      _x = x.x || _x
-      _y = x.y || _y
-      _z = x.z || _z
+      _x = _value(x.x, _x)
+      _y = _value(x.y, _y)
+      _z = _value(x.z, _z)
     }
+
+    _x = this._castValue(_x)
+    _y = this._castValue(_y)
+    _z = this._castValue(_z)
 
     return [
       _x / scalar,
@@ -283,6 +351,11 @@ export default class Model {
       _z / scalar
     ]
   }
+
+  // NOOPs
+  loaded () {}
+  addedToScene () {}
+  update () {}
 
   static getByName (name) {
     return __MODELS__.find(model => model.name === name)

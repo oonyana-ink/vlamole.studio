@@ -19,6 +19,8 @@ export class Scene {
     }
   }
 
+  frame = 0
+
   __models = []
 
   constructor ({
@@ -63,7 +65,9 @@ export class Scene {
   }
 
   render () {
+    this.frame += 1
     this.renderer.render(this.scene, this.activeCamera)
+    this.__models.forEach(model => model._update(this.frame))
     requestAnimationFrame(() => this.render())
   }
 

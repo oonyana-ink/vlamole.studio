@@ -10,8 +10,6 @@ const utils = {
     const cssViewHeight = rendererDimensions.y / renderer.getPixelRatio()
     const threshold = 0.01
 
-    console.log('cssViewHeight', rendererDimensions)
-
     return _findScreenDepth(near, far)
 
     function _findScreenDepth (near, far) {

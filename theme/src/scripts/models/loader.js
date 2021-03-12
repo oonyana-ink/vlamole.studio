@@ -5,7 +5,6 @@ export default class Loader {
   assetsURL = config.assetsURL
 
   constructor () {
-    console.log(window.THREE)
     this.gltfLoader = new THREE.GLTFLoader()
     this.dracoLoader = new THREE.DRACOLoader()
     this.dracoLoader.setDecoderPath(`${this.assetsURL}/`)
@@ -18,7 +17,7 @@ export default class Loader {
       this.gltfLoader.load(
         `${this.assetsURL}/${filename}`,
         (gltf) => resolve(gltf),
-        (xhr) => console.log(filename, '::', ( xhr.loaded / xhr.total * 100 ) + '% loaded' ),
+        (xhr) => console.log('Loader:loadModel', filename, '::', (xhr.loaded / xhr.total * 100) + '% loaded'),
         (error) => reject(error)
       )
     })

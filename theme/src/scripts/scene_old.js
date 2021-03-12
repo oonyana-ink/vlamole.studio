@@ -128,11 +128,9 @@ function Scene(opts) {
     },
 
     loadModelProgress (xhr) {
-      console.log('Scene:loadModelProgress', (xhr.loaded / xhr.total * 100) + '%')
     },
 
     loadModelError (error) {
-      console.log('Scene:loadModelError', error)
       return error
     },
 

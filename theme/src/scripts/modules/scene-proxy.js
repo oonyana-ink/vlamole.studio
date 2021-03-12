@@ -22,7 +22,6 @@ export default class SceneProxy {
   }
 
   init () {
-    console.log('scene proxy init')
     this.ready = true
     this.setQueue.forEach(opts => this.set(opts))
   }

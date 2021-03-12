@@ -127,7 +127,6 @@ export default class DroneObjekt extends Objekt {
 
   onLoad (payload) {
     super.onLoad(payload)
-    console.log('drone:onLoad', payload)
     this.droneModel = new Drone(payload.scene)
     this.processModel(this.model)
     this.ready = true
