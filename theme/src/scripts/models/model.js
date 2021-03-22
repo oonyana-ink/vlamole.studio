@@ -5,11 +5,11 @@ const __MODELS__ = []
 
 export default class Model {
   name = null
-  container
+  container = null
   object3D = null
-  geometry = null
-  material = null
-  mesh = null
+  _geometry = null
+  _material = null
+  _mesh = null
   transformTarget = null
 
   state = {
@@ -121,8 +121,6 @@ export default class Model {
       z: zSize
     }
 
-    console.log(size, this.__size)
-
     const xScale = xSize / xBounds
     const yScale = ySize ? ySize / yBounds : xScale
     const zScale = zSize ? zSize / zBounds : xScale
@@ -146,6 +144,27 @@ export default class Model {
   set rotation (rotation) {
     const [xRotation, yRotation, zRotation] = this._processXYZ(rotation, { current: this.model.rotation })
     this.model.rotation.set(xRotation, yRotation, zRotation)
+  }
+
+  get material () {
+    return this._material
+  }
+
+  set material (material) {
+    if (material.class) {
+      const MaterialClass = material.class
+      this._material = new MaterialClass()
+      this._mesh.material = this._material
+      delete material.class
+    }
+
+    Object.entries(material).forEach(([key, value]) => {
+      if (this._material[key].set) {
+        this._material[key].set(value)
+      } else {
+        this._material[key] = value
+      }
+    })
   }
 
   init (object3D) {
@@ -178,9 +197,9 @@ export default class Model {
     this.name = this.name || object3D.name
 
     if (/^mesh$/i.test(object3D.type)) {
-      this.geometry = object3D.geometry
-      this.material = object3D.material
-      this.mesh = object3D
+      this._geometry = object3D.geometry
+      this._material = object3D.material
+      this._mesh = object3D
     }
   }
 
@@ -261,6 +280,9 @@ export default class Model {
       case 'size':
         this.size = value
         break
+      case 'material':
+        this.material = value
+        break
       }
     })
   }
@@ -328,7 +350,6 @@ export default class Model {
 
     if (x instanceof Function) {
       x = x()
-      console.log('---->', x)
     }
 
     if (x instanceof Array) {

@@ -22,7 +22,7 @@ export class Drone extends Model {
 
   constructor () {
     super(undefined, {
-      filename: 'bateleur.v0.3.1.4.squashed.glb'
+      filename: 'bateleur.v0.3.1.6.squashed.glb'
     })
   }
 
@@ -49,10 +49,11 @@ export class Drone extends Model {
     const sinePeriod = Math.PI * 2 / periodDivisor
     const sineOffset = offsetMultiplier * Math.sin(frame * sinePeriod) + 10
     const sineRotationZ = 0.02 * Math.sin(frame * sinePeriod * 1.3)
-
+    const sineRotationX = 0.01 * Math.sin(frame * sinePeriod * 1.5)
     this.transformTarget = this.object3D
+
     this.position = { y: sineOffset }
-    this.rotation = { z: sineRotationZ }
+    this.rotation = { z: sineRotationZ, x: sineRotationX }
     this.transformTarget = null
   }
 
@@ -67,7 +68,11 @@ export class Drone extends Model {
         DRONE_DIMENSIONS.heightCoreInner / -2,
         60.7
       ],
-      color: 0xbbbbbb
+      material: {
+        class: THREE.MeshPhongMaterial,
+        color: 0xbbbbbb,
+        flatShading: true
+      }
     },
     CoreTop: {
       merge: true,
@@ -76,7 +81,11 @@ export class Drone extends Model {
         DRONE_DIMENSIONS.heightCoreInner / 2,
         0
       ],
-      color: 0xbbbbbb
+      material: {
+        class: THREE.MeshPhongMaterial,
+        color: 0xbbbbbb,
+        flatShading: true
+      }
     },
     CoreBottom: {
       merge: true,
@@ -85,7 +94,11 @@ export class Drone extends Model {
         DRONE_DIMENSIONS.heightCoreInner / -2 - DRONE_DIMENSIONS.thicknessCore,
         0
       ],
-      color: 0xbbbbbb
+      material: {
+        class: THREE.MeshPhongMaterial,
+        color: 0xbbbbbb,
+        flatShading: true
+      }
     },
     PropguardTop: {
       clone: [
@@ -97,7 +110,9 @@ export class Drone extends Model {
           ],
           rotation: [0, 0, 0],
           material: {
-            color: 0x6cd0e0
+            class: THREE.MeshPhongMaterial,
+            color: 0x6cd0e0,
+            flatShading: true
           }
         },
         {
@@ -108,7 +123,9 @@ export class Drone extends Model {
           ],
           rotation: [0, '180deg', 0],
           material: {
-            color: 0x6cd0e0
+            class: THREE.MeshPhongMaterial,
+            color: 0x6cd0e0,
+            flatShading: true
           }
         }
       ]
@@ -123,7 +140,9 @@ export class Drone extends Model {
           ],
           rotation: [0, 0, 0],
           material: {
-            color: 0x6cd0e0
+            class: THREE.MeshPhongMaterial,
+            color: 0x6cd0e0,
+            flatShading: true
           }
         },
         {
@@ -134,7 +153,9 @@ export class Drone extends Model {
           ],
           rotation: [0, '180deg', 0],
           material: {
-            color: 0x6cd0e0
+            class: THREE.MeshPhongMaterial,
+            color: 0x6cd0e0,
+            flatShading: true
           }
         }
       ]
@@ -146,7 +167,11 @@ export class Drone extends Model {
         DRONE_DIMENSIONS.heightCoreInner / 2 + DRONE_DIMENSIONS.thicknessCore + DRONE_DIMENSIONS.thicknessPropguard,
         0
       ],
-      color: 0xbbbbbb
+      material: {
+        class: THREE.MeshPhongMaterial,
+        color: 0xbbbbbb,
+        flatShading: true
+      }
     },
     CameraBracket: {
       clone: [
@@ -158,7 +183,9 @@ export class Drone extends Model {
           ],
           rotation: [0, 0, 0],
           material: {
-            color: 0xbbbbbb
+            class: THREE.MeshPhongMaterial,
+            color: 0x6cd0e0,
+            flatShading: true
           }
         },
         {
@@ -169,7 +196,9 @@ export class Drone extends Model {
           ],
           rotation: [0, 0, '180deg'],
           material: {
-            color: 0xbbbbbb
+            class: THREE.MeshPhongMaterial,
+            color: 0x6cd0e0,
+            flatShading: true
           }
         }
       ]
@@ -179,7 +208,7 @@ export class Drone extends Model {
       position: [
         0,
         0,
-        -55
+        -54
       ],
       rotation: ['110deg', 0, 0]
     },
@@ -250,14 +279,24 @@ export class Drone extends Model {
             -25,
             0,
             0
-          ]
+          ],
+          material: {
+            class: THREE.MeshPhongMaterial,
+            color: 0xbbbbbb,
+            flatShading: true
+          }
         },
         {
           position: [
             25,
             0,
             0
-          ]
+          ],
+          material: {
+            class: THREE.MeshPhongMaterial,
+            color: 0xbbbbbb,
+            flatShading: true
+          }
         }
       ]
     },
@@ -266,7 +305,12 @@ export class Drone extends Model {
         0,
         DRONE_DIMENSIONS.heightCoreInner / 2,
         0
-      ]
+      ],
+      material: {
+        class: THREE.MeshPhongMaterial,
+        color: 0xbbbbbb,
+        flatShading: true
+      }
     }
   }
 }
