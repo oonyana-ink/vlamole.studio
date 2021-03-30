@@ -4,9 +4,22 @@
         --y-position-ratio: 0;
     }
 
-    z-index: 30;
+    &::after {
+        background-color: $white;
+        content: '';
+        display: block;
+        height: 100%;
+        position: relative;
+        transform: translateY(-100%);
+        width: 100%;
+        z-index: 15;
+    }
+
+    // z-index: 30;
     .content {
-        opacity: var(--y-visibility-ratio);
+        // opacity: var(--y-visibility-ratio);
+        position: relative;
+        z-index: 30;
     }
 
     .display-title {

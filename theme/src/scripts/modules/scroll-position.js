@@ -31,6 +31,7 @@ export default class ScrollPosition {
     if (scrollLeft !== this.position.x || scrollTop !== this.position.y) {
       this.position.x = scrollingElement.scrollLeft
       this.position.y = scrollingElement.scrollTop
+
       this.update()
     }
   }

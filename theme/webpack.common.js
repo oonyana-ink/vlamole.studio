@@ -1,18 +1,31 @@
 const path = require('path')
 const StylelintPlugin = require('stylelint-webpack-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin')
+const { VueLoaderPlugin } = require('vue-loader')
 
 const resolve = {
   alias: {
     '@': path.resolve(__dirname, 'src/scripts'),
-    '@objekts': path.resolve(__dirname, 'src/scripts/objekts'),
-    '@vendor': path.resolve(__dirname, 'src/scripts/vendor'),
+    '@styles': path.resolve(__dirname, 'src/styles'),
     '@core': path.resolve(__dirname, 'src/scripts/core'),
-    '@utils': path.resolve(__dirname, 'src/scripts/utils')
+    '@components': path.resolve(__dirname, 'src/scripts/components'),
+    '@composables': path.resolve(__dirname, 'src/scripts/composables'),
+    '@modules': path.resolve(__dirname, 'src/scripts/modules'),
+    '@mixins': path.resolve(__dirname, 'src/scripts/mixins'),
+    '@sections': path.resolve(__dirname, 'src/scripts/sections'),
+    '@utils': path.resolve(__dirname, 'src/scripts/utils'),
+    '@svgs': path.resolve(__dirname, 'src/svgs')
   }
 }
 
 const rules = {
+  vueCompiler: {
+    test: /\.vue$/,
+    use: [
+      { loader: 'vue-loader' },
+      { loader: 'vue-svg-inline-loader' }
+    ]
+  },
   babelCompiler: {
     test: /\.js$/,
     exclude: /node_modules/,
@@ -30,7 +43,8 @@ const rules = {
 
 const mainPlugins = [
   new StylelintPlugin({}),
-  new ESLintPlugin({})
+  new ESLintPlugin({}),
+  new VueLoaderPlugin()
 ]
 
 module.exports = {
@@ -44,7 +58,10 @@ module.exports = {
     },
 
     module: {
-      rules: [rules.babelCompiler]
+      rules: [
+        rules.vueCompiler,
+        rules.babelCompiler
+      ]
     },
 
     plugins: mainPlugins

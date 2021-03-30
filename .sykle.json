@@ -33,6 +33,10 @@
     "npm": {
       "service": "themeify",
       "command": "npm"
+    },
+    "vue": {
+      "service": "themeify",
+      "command": "vue"
     }
   },
   "plugins": {}

@@ -1,0 +1,11 @@
+.main-content {
+    > section,
+    .section-background {
+        height: 100vh;
+    }
+
+    > section.section {
+        position: absolute;
+        overflow: hidden;
+    }
+}

@@ -1,0 +1,3 @@
+@function faux-fixed ($offset: 0%) {
+    @return translateY(calc(#{$offset} + (100vh * (var(--y-position-ratio) - 1))))
+}

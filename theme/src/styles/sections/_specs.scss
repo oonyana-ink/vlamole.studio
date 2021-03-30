@@ -1,10 +1,268 @@
 $border-size: 5rem;
 
+body[incoming-section='specs'] {
+    --hud-color: #{$white};
+
+    .drone {
+        transform: translateY(calc(-5% * var(--incoming-y-visibility-ratio)));
+    }
+}
+body[outgoing-section='specs'] {
+    .drone {
+        transform: translateY(calc(-5% * var(--outgoing-y-visibility-ratio)));
+    }
+}
+
 .specs {
+    font-family: font-family(mono);
+    font-weight: 300;
+
     &.page-section {
         --grid-size: calc(((100vw - #{$grid-margin / 2}) / 60));
         background-color: $dark-blue;
         overflow: hidden;
+        position: relative;
+    }
+
+    .data-table {
+        $data-table-border: 1px solid rgba($white, 0.6);
+        color: $white;
+        border: $data-table-border;
+        font-size: 0.75rem;
+        transform: translateY(calc(100vh * (var(--y-position-ratio) - 1)));
+        opacity: calc(0.9 * var(--y-visibility-ratio));
+        text-transform: uppercase;
+        z-index: 10;
+
+        .row {
+            border-bottom: $data-table-border;
+            display: flex;
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+
+        .col {
+            text-align: center;
+            flex-grow: 1;
+            border-right: $data-table-border;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+
+            &.no-grow {
+                flex-grow: 0;
+            }
+
+            label {
+                @include font-weight(regular);
+                border-bottom: $data-table-border;
+                padding: 0.25em;
+            }
+
+            .value {
+                @include font-weight(medium);
+                padding: 0.25em;
+            }
+        }
+    }
+
+    &__header {
+        position: absolute;
+        top: $grid-margin * 0.25;
+        right: $grid-margin;
+
+        &.data-table {
+            .col {
+                label {
+                    font-size: 0.8em;
+                }
+
+                .value {
+                    padding: 0.25em 1em;
+                }
+            }
+        }
+    }
+
+    &__footer {
+        position: absolute;
+        bottom: $grid-margin * 0.5;
+        left: $grid-margin;
+        width: grid-width(10);
+
+        &.data-table {
+            .col {
+                justify-content: center;
+
+                label {
+                    position: absolute;
+                    border: none;
+                    top: 0;
+                    left: 0;
+                    font-size: 0.65rem;
+                    padding: 0.5em;
+                }
+
+                .value {
+                    padding: 0.3em 0.5em;
+                    font-size: 1rem;
+                }
+            }
+        }
+
+        svg {
+            height: 2rem;
+            fill: $white;
+            width: auto;
+            margin: 0 0.25rem;
+        }
+    }
+
+    &__decoration {
+        $dimension-color: #66f7ff;
+        height: grid-width(5);
+        // opacity: 0.4;
+        pointer-events: none;
+        position: relative;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, calc(-50% + (100vh * (var(--y-position-ratio) - 1))));
+        width: grid-width(5);
+        z-index: 40;
+
+        .dimension {
+            background-color: $dimension-color;
+            background-clip: padding-box;
+            border-top: 2px solid rgba($dark-blue, 0.75);
+            border-bottom: 2px solid rgba($dark-blue, 0.75);
+            height: 2px;
+            opacity: var(--y-visibility-ratio);
+            position: absolute;
+            z-index: 0;
+
+            label {
+                @include font-weight(medium);
+                display: block;
+                color: $dark-blue;
+                font-size: 0.75rem;
+                position: absolute;
+                white-space: nowrap;
+                top: 50%;
+                left: 50%;
+                padding: 0.3em 0.5em;
+                background-color: $dimension-color;
+                transform: translate(-50%, -50%);
+                text-transform: uppercase;
+
+                span {
+                    font-size: 0.55rem;
+                }
+            }
+
+            &:before,
+            &:after {
+                background-color: $dimension-color;
+                background-clip: padding-box;
+                // box-shadow: 1px 2px 0px $dark-blue;s
+                content: '';
+                height: 1rem;
+                position: absolute;
+                top: 0;
+                transform: translateY(-50%);
+                width: 2px;
+                z-index: -2;
+            }
+
+            &:before {
+                border-left: 3px solid rgba($dark-blue, 0.75);
+                left: -3px;
+            }
+
+            &:after {
+                border-right: 3px solid rgba($dark-blue, 0.75);
+                right: -3px;
+            }
+
+
+            &.x-axis {
+                bottom: -0.5rem;
+                left: 50%;
+                transform: translateX(-50%);
+                width: calc((100% - 2rem) * var(--y-visibility-ratio));
+            }
+
+            &.y-axis {
+                left: -0.5rem;
+                top: 50%;
+                transform: translateX(-50%) rotate(-90deg);
+                width: calc((100% - 2rem) * var(--y-visibility-ratio));
+            }
+
+            &.wheelbase {
+                left: 48%;
+                top: 52%;
+                width: calc(72% * var(--y-visibility-ratio));
+                transform: translate(-50%, -50%) rotate(45deg);
+            }
+
+            &.prop-size {
+                width: calc(40% * var(--y-visibility-ratio));
+                right: -0.5rem;
+                top: 24.25%;
+                transform: translateX(50%) rotate(90deg);
+            }
+
+            &.camera-size {
+                left: 50%;
+                top: 2%;
+                transform: translate(-50%, -50%);
+                width: 10%;
+
+                label {
+                    top: -1.5rem;
+                }
+            }
+
+            &.whoop-pattern {
+                top: 58%;
+                left: 42%;
+                width: 20%;
+                transform: translate(-50%, -50%) rotate(45deg);
+
+                label {
+                    transform-origin: right center;
+                    transform: translate(-100%, 0%) rotate(-45deg);
+                }
+            }
+
+            &.micro-pattern {
+                top: 50%;
+                left: 53%;
+                width: 15%;
+                transform: rotate(90deg);
+
+                label {
+                    top: -1.5rem;
+                    transform-origin: left center;
+                    transform: translate(0, 40%) rotate(-90deg);
+                }
+            }
+
+            &.motor-pattern {
+                top: 72%;
+                left: 79%;
+                width: 6%;
+                transform: translate(-50%, -50%) rotate(45deg);
+
+                label {
+                    top: -2rem;
+                    transform-origin: left center;
+                    transform: translate(0, 40%) rotate(-45deg);
+                }
+            }
+        }
     }
 
     &__grid {
@@ -12,15 +270,15 @@ $border-size: 5rem;
         background-position: center center;
         background-size: var(--grid-size) var(--grid-size);
         border: 1px solid rgba($white, 0.1);
-        bottom: $grid-margin / 4;
+        bottom: $grid-margin * 0.5;
         content: '';
         display: none;
-        left: $grid-margin / 4;
+        left: $grid-margin;
         opacity: var(--y-visibility-ratio);
         pointer-events: none;
         position: fixed;
-        right: $grid-margin / 4;
-        top: $grid-margin / 4;
+        right: $grid-margin;
+        top: $grid-margin * 0.25;
     }
 
     .grid-border {
@@ -29,6 +287,7 @@ $border-size: 5rem;
         height: $border-size;
         position: absolute;
         width: 100%;
+        display: none;
 
         &:before,
         &:after {
@@ -67,8 +326,22 @@ $border-size: 5rem;
     }
 
     &.visible {
-        .specs__grid {
-            display: block;
+        .specs {
+            &__grid,
+            &__decoration {
+                display: block;
+            }
+            &__table {
+                display: flex;
+            }
         }
+    }
+
+    .specs_block {
+
+    }
+
+    .spec {
+        color: $white;
     }
 }

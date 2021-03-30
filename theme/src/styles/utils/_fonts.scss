@@ -1,9 +1,17 @@
 // FONT VARIABLES
 ///////////////////////////////////////////////////////////
-$font-name-sans: 'Cabin';
-$font-name-title: 'Gilroy';
-$font-family-sans: '#{$font-name-sans}', Helvetica Neue, Helvetica, Arial, sans-serif;
-$font-family-title: '#{$font-name-title}', Helvetica Neue, Helvetica, Arial, sans-serif;
+@use "sass:map";
+
+$font-names: (
+    'sans': 'Cabin',
+    'title': 'Gilroy',
+    'mono': 'IBM Plex Mono'
+);
+$font-fallbacks: (
+    'sans': 'Helvetica Neue, Helvetica, Arial, sans-serif',
+    'title': 'Helvetica Neue, Helvetica, Arial, sans-serif',
+    'mono': 'monospace'
+);
 $font-weights: (
     light: 300,
     regular: 400,
@@ -27,12 +35,8 @@ $font-weights: (
     }
 }
 
-@mixin font-family($family) {
-    @if $family == title {
-        font-family: $font-family-title;
-    } @else {
-        font-family: $font-family-sans;
-    }
+@function font-family($family) {
+    @return map.get($font-names,  $family), map.get($font-fallbacks, $family);
 }
 
 @mixin font-size($size, $family: sans, $uppercase: false) {
@@ -92,7 +96,7 @@ $font-weights: (
 }
 
 @mixin font($family, $weight: regular, $size: null, $line-height: null, $uppercase: false) {
-    @include font-family($family);
+    font-family: font-family($family);
 
     @if $size {
         @include font-size($size, $family, $uppercase);

@@ -10,7 +10,6 @@ export default class Model {
   _geometry = null
   _material = null
   _mesh = null
-  transformTarget = null
 
   state = {
     loading: false,
@@ -20,7 +19,8 @@ export default class Model {
   meta = {}
 
   children = []
-  callbacks = []
+  loadCallbacks = []
+  initCallbacks = []
 
   __size = {
     x: 1, y: 1, z: 1
@@ -31,6 +31,7 @@ export default class Model {
     timestamp: null,
     lifetime: 100
   }
+
 
   constructor (object3D, {
     filename = null
@@ -54,19 +55,21 @@ export default class Model {
     const now = Date.now()
 
     if (!__boundsCache.bounds) {
-      __boundsCache.bounds = new THREE.Vector3()
+      __boundsCache.bounds = this._getBounds(this.model)
     }
 
-    if (!__boundsCache.timestamp || now - __boundsCache.timestamp > __boundsCache.lifetime) {
-      const bbox = new THREE.Box3().setFromObject(this.model)
-      bbox.getSize(__boundsCache.bounds)
-      __boundsCache.timestamp = now
-    }
+    // if (!__boundsCache.timestamp || now - __boundsCache.timestamp > __boundsCache.lifetime) {
+    //   const bbox = new THREE.Box3().setFromObject(this.model)
+    //   bbox.getSize(__boundsCache.bounds)
+    //   __boundsCache.timestamp = now
+    // }
 
     const { x, y, z } = __boundsCache.bounds
 
     return {
-      x, y, z,
+      x,
+      y,
+      z,
       width: x,
       height: y,
       depth: z
@@ -103,7 +106,7 @@ export default class Model {
   }
 
   get size () {
-    return this.__size
+    return [this.__size.x]
   }
 
   set size (size) {
@@ -115,11 +118,7 @@ export default class Model {
       z: zBounds
     } = this.boundingBox
 
-    this.__size = {
-      x: xSize,
-      y: ySize,
-      z: zSize
-    }
+    this.__size = new THREE.Vector3(xSize, ySize, zSize)
 
     const xScale = xSize / xBounds
     const yScale = ySize ? ySize / yBounds : xScale
@@ -129,7 +128,7 @@ export default class Model {
   }
 
   get position () {
-    return this.model.position
+    return this.model.position.clone().multiplyScalar(this.scene.scalar)
   }
 
   set position (position) {
@@ -144,6 +143,23 @@ export default class Model {
   set rotation (rotation) {
     const [xRotation, yRotation, zRotation] = this._processXYZ(rotation, { current: this.model.rotation })
     this.model.rotation.set(xRotation, yRotation, zRotation)
+  }
+
+  get rotationDegrees () {
+    return {
+      x: THREE.MathUtils.radToDeg(this.rotation.x),
+      y: THREE.MathUtils.radToDeg(this.rotation.y),
+      z: THREE.MathUtils.radToDeg(this.rotation.z)
+    }
+  }
+
+  set rotationDegrees (rotationDegrees) {
+    const [xRotation, yRotation, zRotation] = this._processXYZ(rotationDegrees, { current: this.rotationDegrees })
+    this.rotation = [
+      THREE.MathUtils.degToRad(xRotation),
+      THREE.MathUtils.degToRad(yRotation),
+      THREE.MathUtils.degToRad(zRotation)
+    ]
   }
 
   get material () {
@@ -165,6 +181,18 @@ export default class Model {
         this._material[key] = value
       }
     })
+  }
+
+  get transformTarget () {
+    return this._transformTarget
+  }
+
+  set transformTarget (target) {
+    this._transformTarget = typeof target === 'string'
+      ? target === 'default'
+        ? null
+        : this[target]
+      : target
   }
 
   init (object3D) {
@@ -195,20 +223,22 @@ export default class Model {
   processObject3D (object3D) {
     this.object3D = object3D
     this.name = this.name || object3D.name
-
-    if (/^mesh$/i.test(object3D.type)) {
-      this._geometry = object3D.geometry
-      this._material = object3D.material
-      this._mesh = object3D
-    }
+    this._geometry = object3D.geometry
+    this._material = object3D.material
+    this._mesh = object3D
   }
 
-  generateWireframe (object3D) {
-    const geometry = new THREE.EdgesGeometry(object3D.geometry, 10)
-    const material = new THREE.LineBasicMaterial({
+  generateWireframe (object3D, opts = {}) {
+    if (object3D.type === 'LineSegments') { return object3D.clone() }
+
+    const {
+      material: materialOpts = {}
+    } = opts
+    const geometry = new THREE.EdgesGeometry(object3D.geometry, 30)
+    const material = new THREE.LineBasicMaterial(Object.assign({
       linewidth: 1,
       color: 0xff00ff
-    })
+    }, materialOpts))
     const lineSegments = new THREE.LineSegments(geometry, material)
     lineSegments.computeLineDistances()
     return lineSegments
@@ -219,19 +249,32 @@ export default class Model {
   }
 
   onLoad (callback) {
-    this.callbacks.push(callback)
+    this.loadCallbacks.push(callback)
     if (this.state.loaded) {
       this.executeCallbacks()
     }
   }
 
   executeCallbacks () {
-    this.callbacks.forEach(callback => callback.call(this))
-    this.callbacks = []
+    while (this.initCallbacks.length > 0) {
+      const initCallback = this.initCallbacks.shift()
+      initCallback(this)
+    }
+
+    while (this.loadCallbacks.length > 0) {
+      const loadCallback = this.loadCallbacks.shift()
+      loadCallback(this)
+    }
   }
 
   set (key, value) {
-    this.model[key].set(value)
+    if (key instanceof Object) {
+      return Object.entries(key).forEach(([key, value]) => this.set(key, value))
+    }
+
+    if (this[key]) {
+      this[key] = value
+    }
   }
 
   set3DProperty (key, x, y, z) {
@@ -285,6 +328,39 @@ export default class Model {
         break
       }
     })
+  }
+
+  onInit (callback) {
+    this.initCallbacks.push(callback)
+  }
+
+  getArraysInObject (keys) {
+    const arrayObject = {}
+    keys.forEach(key => {
+      if (key in this) {
+        arrayObject[key] = this[key].toArray ? this[key].toArray() : this[key]
+        if (key === 'rotation') {
+          arrayObject[key][0] = `${THREE.MathUtils.radToDeg(arrayObject[key][0])}deg`
+          arrayObject[key][1] = `${THREE.MathUtils.radToDeg(arrayObject[key][1])}deg`
+          arrayObject[key][2] = `${THREE.MathUtils.radToDeg(arrayObject[key][2])}deg`
+        }
+      }
+    })
+    return arrayObject
+  }
+
+  interpolate (interpolations, ratio) {
+    Object.entries(interpolations).forEach(([key, interpolation]) => {
+      try {
+        this[`${key}Interpolator`](interpolation, ratio)
+      } catch (e) {
+        console.error(`Unable to execute ${key}Interpolator`, e)
+      }
+    })
+  }
+
+  setState (state) {
+    Object.assign(this.state, state)
   }
 
   _update (frame) {
@@ -349,7 +425,7 @@ export default class Model {
     let _z = current ? current.z * scalar : z
 
     if (x instanceof Function) {
-      x = x()
+      x = x(this)
     }
 
     if (x instanceof Array) {
@@ -371,6 +447,13 @@ export default class Model {
       _y / scalar,
       _z / scalar
     ]
+  }
+
+  _getBounds (object3D) {
+    const bbox = new THREE.Box3().setFromObject(object3D)
+    const bounds = new THREE.Vector3()
+    bbox.getSize(bounds)
+    return bounds
   }
 
   // NOOPs

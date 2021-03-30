@@ -2,6 +2,7 @@
 @import "utils/fonts";
 @import "utils/grid";
 @import "utils/responsive";
+@import "utils/mixins-n-functions";
 
 @import "core/reset";
 @import "core/colors";
@@ -11,8 +12,11 @@
 @import "core/controls";
 @import "core/icons";
 
+@import "components/all";
+
 @import "modules/parallax";
 
+@import "layout/main";
 @import "layout/page";
 @import "layout/grid";
 
@@ -24,6 +28,7 @@
 @import "sections/hero";
 @import "sections/intro";
 @import "sections/specs";
+@import "sections/printable";
 @import "sections/grid-overlay";
 
 

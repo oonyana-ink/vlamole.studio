@@ -1,12 +1,15 @@
 /* global IntersectionObserver */
 import { interpolate } from 'd3-interpolate'
+import { easeCubicInOut } from 'd3-ease'
 
 export default class Section {
-  isIntersecting = false
   interpolator = null
   direction = 'in'
   currentVisibilityEndpoint = 0
   prevYPositionRatio = 0
+  _isIntersecting = false
+  _isIncoming = false
+  _isGrowing = false
 
   $els = {}
 
@@ -17,10 +20,11 @@ export default class Section {
 
   ratios = {
     yVisibilityRatio: 0,
-    yPositionRatio: 0
+    yPositionRatio: 0,
+    prevYVisibilityRatio: 0
   }
 
-  meta = {}
+  _meta = {}
 
   constructor (el, opts = {}) {
     const {
@@ -34,35 +38,63 @@ export default class Section {
     this.el = el
     this.app = app
     this.parent = parent
+    this.el.section = this
 
     if (meta) {
-      this.meta = meta
-      this.processMeta()
+      this._meta = meta
+    }
+
+    this.trackOffset(this.app.scroll.position)
+    this.trackBounds({ force: true })
+  }
+
+  set isIntersecting (isIntersecting) {
+    const hasChanged = this._isIntersecting !== isIntersecting
+    if (!hasChanged) { return }
+    this._isIntersecting = isIntersecting
+    this.handleIntersection()
+    this.parent.updateActiveSections()
+  }
+
+  get isIntersecting () {
+    return this._isIntersecting
+  }
+
+  set isIncoming (isIncoming) {
+    const hasChanged = this._isIncoming !== isIncoming
+    if (!hasChanged) { return }
+    this._isIncoming = isIncoming
+    if (this._isIncoming) {
       this.setupInterpolation()
-    }
-
-    this.setupObserver()
-    this.app.onScroll(this.trackBounds.bind(this))
-  }
-
-  setupObserver () {
-    this.observer = new IntersectionObserver(this.handleIntersection.bind(this), {
-      threshold: 0.01
-    })
-    this.observer.observe(this.el)
-  }
-
-  processMeta () {
-    if (this.meta.els) {
-      Object.entries(this.meta.els).forEach(([key, selector]) => { this.$els[key] = document.querySelector(selector) })
+    } else {
+      this.removeInterpolation()
     }
   }
 
-  handleIntersection (entries) {
-    const [entry] = entries
-    this.isIntersecting = entry.isIntersecting
-    this.trackBounds()
+  get isIncoming () {
+    return this._isIncoming
+  }
 
+  set isGrowing (isGrowing) {
+    const hasChanged = this._isGrowing !== isGrowing
+    if (!hasChanged) { return }
+    this._isGrowing = isGrowing
+    this.parent.updateSectionDesignations()
+  }
+
+  get isGrowing () {
+    return this._isGrowing
+  }
+
+  get meta () {
+    return this._processMeta()
+  }
+
+  start () {
+    if (this.ratios.yVisibilityRatio > 0.5) { this.setAsFirst() }
+  }
+
+  handleIntersection () {
     if (this.isIntersecting) {
       this.el.classList.add('visible')
       this.meta.onEnter && this.meta.onEnter(this)
@@ -70,12 +102,21 @@ export default class Section {
       this.el.classList.remove('visible')
       this.meta.onLeave && this.meta.onLeave(this)
     }
-
-    this.parent.handleIntersection(this)
   }
 
-  trackBounds () {
-    if (!this.isIntersecting) { return }
+  trackOffset (scroll) {
+    const { el } = this
+    const { offsetTop, offsetHeight } = el
+    const { innerHeight } = window
+    const scrollTop = scroll.y
+    const scrollBottom = scrollTop + innerHeight
+    const offsetBottom = offsetTop + offsetHeight
+    this.isIntersecting = scrollBottom > offsetTop && scrollTop < offsetBottom
+  }
+
+  trackBounds ({ force = false } = {}) {
+
+    if (!this.isIntersecting && !force) { return }
 
     const boundingRect = this.el.getBoundingClientRect()
     let key
@@ -100,35 +141,104 @@ export default class Section {
     const yVisibilityRatio = Math.min(1, Math.max(0, yVisibilityDiff / window.innerHeight))
     const yPositionRatio = yPositionDiff / window.innerHeight
 
-    this.prevYPositionRatio = this.ratios.yPositionRatio
-
-    if (yPositionRatio !== 1) {
-      const movingIn = (
-        (yPositionRatio > this.prevYPositionRatio && yPositionRatio < 1) ||
-        (yPositionRatio < this.prevYPositionRatio && yPositionRatio > 1)
-      )
-      this.direction = movingIn ? 'in' : 'out'
-    }
-
+    this.isGrowing = yVisibilityRatio > this.ratios.prevYVisibilityRatio
     this.ratios = {
       yVisibilityRatio,
-      yPositionRatio
+      yPositionRatio,
+      prevYVisibilityRatio: yVisibilityRatio
     }
 
-    this.interpolate()
+    this.el.style.setProperty('--y-visibility-ratio', yVisibilityRatio)
+    this.el.style.setProperty('--y-visibility-percent', Math.ceil(yVisibilityRatio * 100))
+    this.el.style.setProperty('--y-position-ratio', yPositionRatio)
+    if (this.isIncoming) {
+      document.body.setAttribute('incoming-section', this.name)
+      document.body.style.setProperty('--incoming-y-visibility-ratio', yVisibilityRatio)
+    } else {
+      document.body.setAttribute('outgoing-section', this.name)
+      document.body.style.setProperty('--outgoing-y-visibility-ratio', yVisibilityRatio)
+    }
   }
 
   setupInterpolation () {
     const {
-      keyframes
+      drone: droneMeta
     } = this.meta
-    if (!keyframes) { return }
-    this.interpolator = interpolate(keyframes['0%'], keyframes['100%'])
+    const {
+      drone: droneModel
+    } = this.app
+
+    const metaKeys = Object.keys(droneMeta)
+    const vectorKeys = metaKeys.filter(key => ['rotation', 'position'].includes(key))
+    const vectors = droneModel.getArraysInObject(vectorKeys)
+    const otherKeys = []
+    const metaVectors = {}
+    let state = null
+
+    metaKeys.forEach(key => {
+      if (vectorKeys.includes(key)) {
+        metaVectors[key] = droneMeta[key]
+      } else if (key === 'state') {
+        state = droneMeta.state
+      } else {
+        otherKeys.push(key)
+      }
+    })
+
+    if (state) {
+      droneModel.setState(state)
+    }
+
+
+    this.interpolator = {
+      exec: interpolate(vectors, metaVectors),
+      otherKeys
+    }
   }
 
-  interpolate () {
-    const { yVisibilityRatio, yPositionRatio } = this.ratios
-    this.el.style.setProperty('--y-visibility-ratio', yVisibilityRatio)
-    this.el.style.setProperty('--y-position-ratio', yPositionRatio)
+  removeInterpolation () {
+    this.interpolator = false
+  }
+
+  interpolate (outgoingSection) {
+    const { interpolator } = this
+    if (!outgoingSection || !interpolator) { return }
+    const { drone } = this.app
+    const { yVisibilityRatio } = this.ratios
+    const { drone: incomingDroneMeta } = this.meta
+    const { drone: outgoingDroneMeta } = outgoingSection.meta
+
+    const otherInterpolations = {}
+    interpolator.otherKeys.forEach((key) => {
+      otherInterpolations[key] = {
+        from: outgoingDroneMeta[key],
+        to: incomingDroneMeta[key]
+      }
+    })
+
+    if (interpolator) {
+      const easedRatio = easeCubicInOut(yVisibilityRatio)
+      drone.set(interpolator.exec(easedRatio))
+      drone.interpolate(otherInterpolations, easedRatio)
+    }
+
+    // this.parent.updateSectionDesignations()
+  }
+
+  setAsFirst () {
+    this.trackBounds()
+    this.app.drone.set(this.meta.drone)
+  }
+
+  _processMeta () {
+    const processedMeta = {
+      drone: {}
+    }
+    if (this._meta.drone) {
+      Object.entries(this._meta.drone).forEach(([key, value]) => {
+        processedMeta.drone[key] = value instanceof Function ? value(this) : value
+      })
+    }
+    return processedMeta
   }
 }

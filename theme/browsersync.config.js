@@ -93,11 +93,13 @@ module.exports = {
     {
       "route": "/theme_change",
       "handle": function (req, res, next) {
-        let hardReload = false
-
-        console.log(req.body)
+        let hardReload = !!req.body.files.find(file => /\.(liquid|js)$/.test(file))
+        if (hardReload) {
+          browserSync.instances.forEach(instance => instance.reload())
+        } else {
+          next()
+        }
         res.end()
-        next()
       }
     }
   ],

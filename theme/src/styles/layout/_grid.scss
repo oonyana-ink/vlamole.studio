@@ -9,6 +9,14 @@ $gutter: 1rem;
     --column-width: calc((100vw - #{$grid-margin * 2} - (#{$column-count - 1} * var(--grid-gutter))) / #{$column-count});
 }
 
+@function grid-width($cols) {
+    @return calc((var(--column-width) * #{$cols}) + (var(--grid-gutter) * #{$cols - 1}));
+}
+
+@function grid-offset($cols) {
+    @return calc(var(--column-width) * #{$cols} + (var(--grid-gutter) * #{$cols}));
+}
+
 .grid {
     @include flex(
         $justify: flex-start
@@ -35,11 +43,11 @@ $gutter: 1rem;
 
         @for $i from 1 through $column-count {
             &--#{$i} {
-                width: calc((var(--column-width) * #{$i}) + (var(--grid-gutter) * #{$i - 1}));
+                width: grid-width($i);
             }
 
             &--offset-#{$i} {
-                margin-left: calc(var(--column-width) * #{$i} + (var(--grid-gutter) * #{$i}));
+                margin-left: grid-offset($i);
             }
         }
     }

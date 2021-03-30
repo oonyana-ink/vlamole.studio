@@ -1,14 +1,14 @@
+import grid from '../layout/grid'
+
 export const specs = {
   scene: {
     camera: 'orthographic'
   },
 
   drone: {
-    animation: null,
-    material: 'edgeLines',
-    position: [window.innerWidth * -0.25, 0, 0],
-    rotationDegrees: [90, 180, 0],
-    scale: [1.4]
+    appearance: 'wireframe',
+    position: [0, 0, 0],
+    rotation: ['90deg', '360deg', '0deg']
   },
 
   onEnter ({ app }) {

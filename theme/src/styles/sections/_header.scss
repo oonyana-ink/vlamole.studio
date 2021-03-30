@@ -1,6 +1,16 @@
 $menu_toggle_width: 1.5rem;
 $menu_toggle_height: $menu_toggle_width * 0.5;
 
+@mixin hud-color($prop) {
+    #{$prop}: var(--hud-color);
+    transition: $prop 600ms;
+}
+
+
+body {
+    --hud-color: #{$dark-blue};
+}
+
 .header {
     left: 0;
     padding: $page-margin;
@@ -27,14 +37,14 @@ $menu_toggle_height: $menu_toggle_width * 0.5;
             width: auto;
 
             path {
-                fill: $dark-blue;
+                @include hud-color(fill);
             }
         }
     }
 
     .logotype {
         @include font(title);
-        color: $dark-blue;
+        @include hud-color(color);
         font-size: 1rem;
         margin-left: 0.6rem;
         transform: translateY(-50%) rotate(90deg);
@@ -48,7 +58,7 @@ $menu_toggle_height: $menu_toggle_width * 0.5;
         padding: 0 0.5em 0 0.2em;
 
         &:before {
-            background-color: $dark-blue;
+            @include hud-color(background-color);
             content: '';
             display: inline-block;
             height: 1.15em;
@@ -63,7 +73,7 @@ $menu_toggle_height: $menu_toggle_width * 0.5;
         width: $menu_toggle_width;
 
         &:before {
-            background-color: $dark-blue;
+            @include hud-color(background-color);
             content: '';
             display: none;
             height: 2px;
@@ -74,8 +84,9 @@ $menu_toggle_height: $menu_toggle_width * 0.5;
         }
 
         &:after {
-            border-bottom: 2px solid $dark-blue;
-            border-top: 2px solid $dark-blue;
+            @include hud-color(border-color);
+            border-style: solid;
+            border-width: 2px 0 2px;
             box-sizing: border-box;
             content: '';
             display: block;
@@ -88,5 +99,11 @@ $menu_toggle_height: $menu_toggle_width * 0.5;
 
     .cart {
         margin-top: 1rem;
+
+        svg {
+            path {
+                @include hud-color(fill);
+            }
+        }
     }
 }

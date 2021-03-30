@@ -14,10 +14,16 @@
 
     .social-icon {
         margin-top: 1rem;
+
+        svg {
+            path {
+                @include hud-color(fill);
+            }
+        }
     }
 
     .small-print {
-        color: $dark-blue;
+        @include hud-color(color);
         margin-top: 1rem;
     }
 }

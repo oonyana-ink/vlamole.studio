@@ -1,6 +1,7 @@
 $page-margin: 2rem;
 
-html {
+html, body {
+    height: 100%;
     overflow: hidden;
 }
 
@@ -9,14 +10,13 @@ html {
     overflow-x: hidden;
     overflow-y: scroll;
     position: relative;
-    scroll-snap-type: y mandatory;
+    // scroll-snap-type: y;
     width: 100%;
     z-index: 10;
 }
 
 .page-section {
     height: 100vh;
-    position: relative;
     scroll-snap-align: start;
     width: 100vw;
 

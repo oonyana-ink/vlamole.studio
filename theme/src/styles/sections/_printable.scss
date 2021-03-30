@@ -1,0 +1,14 @@
+.printable.page-section {
+    background-color: $white;
+    position: relative;
+
+    .hotend {
+        width: 14vw;
+        height: 14vw;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #ccc;
+    }
+}

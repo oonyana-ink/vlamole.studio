@@ -21,7 +21,8 @@ export class Scene {
 
   frame = 0
 
-  __models = []
+  _models = []
+  readyCallbacks = []
 
   constructor ({
     $el,
@@ -35,17 +36,22 @@ export class Scene {
     this.renderer = new THREE.WebGLRenderer(this.configs.renderer)
     this.cameras = new Cameras({ scene: this })
     this.renderer.setSize(this.width, this.height)
+    this.renderer.localClippingEnabled = true
 
     this._calcDepth()
 
     this.lights = new Lights({ scene: this })
     this.activeCamera.position.z = this.pxDepth
 
-    this.render()
+    // this.render()
   }
 
   get pxDepth () {
     return this._depth / this.scalar
+  }
+
+  get depth () {
+    return this._depth
   }
 
   get scalar () {
@@ -67,23 +73,43 @@ export class Scene {
   render () {
     this.frame += 1
     this.renderer.render(this.scene, this.activeCamera)
-    this.__models.forEach(model => model._update(this.frame))
+    this._models.forEach(model => model._update(this.frame))
     requestAnimationFrame(() => this.render())
   }
 
   add (model) {
     model.scene = this
-    this.__models.push(model)
-    console.log('Scene:add', model, model.isLoading)
+    this._models.push(model)
     if (model.isLoading) {
       model.onLoad(() => {
+        console.log('onLoad!!!')
         this.scene.add(model.model)
+        this.checkIfReady()
       })
     } else {
       this.scene.add(model.model)
+      this.checkIfReady()
     }
+  }
 
+  checkIfReady () {
+    const isReady = this._models.filter(model => model.isLoading).length === 0
+    if (isReady) {
+      this.ready()
+    }
+  }
+
+  ready () {
     this.render()
+    console.log('READY!')
+    while (this.readyCallbacks.length > 0) {
+      const readyCallback = this.readyCallbacks.shift()
+      readyCallback(this)
+    }
+  }
+
+  onReady (callback) {
+    this.readyCallbacks.push(callback)
   }
 
   addLight (light) {
@@ -92,5 +118,18 @@ export class Scene {
 
   _calcDepth () {
     this._depth = utils.findScreenDepth(this.activeCamera, this.renderer)
+  }
+
+  fog (renderFog) {
+    const { position } = this.cameras.activeCamera
+    const drone = this._models.find(model => model.name === 'Drone')
+    const { height } = drone.boundingBox
+    const droneHeight = height / this.scalar
+    if (!this.scene.fog && renderFog) {
+      console.log('FOG!', droneHeight / 2)
+      this.scene.fog = new THREE.Fog(0x2e2e61, position.z - droneHeight / 2, position.z + droneHeight * 0.3)
+    } else if (this.scene.fog && !renderFog) {
+      this.scene.fog = null
+    }
   }
 }

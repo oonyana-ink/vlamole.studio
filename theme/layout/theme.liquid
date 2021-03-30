@@ -54,20 +54,18 @@
 </head>
 
 <body class="template-{{ request.page_type | handle }}">
-    {% section 'header' %}
-    {% section 'page-scroller' %}
+    {% comment %} {% section 'header' %} {% endcomment %}
 
-    <main class="main-content" role="main">
-      {% section 'drone' %}
+    <main id='App' class="main-content" role="main">
+      {% comment %} {% section 'drone' %}
       {% section 'hero' %}
       {% section 'intro' %}
       {% section 'specs' %}
-      <section class='page-section page-section--white-bg above-drone'></section>
-      {{ content_for_layout }}
+      {% section 'printable' %}
+      {{ content_for_layout }} {% endcomment %}
     </main>
 
-    {% section 'background' %}
-    {% section 'footer' %}
+    {% comment %} {% section 'footer' %} {% endcomment %}
     {% section 'grid_overlay' %}
 
     {% for script in scripts %}

@@ -1,0 +1,13 @@
+.stage {
+    height: 100%;
+    left: 0;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    width: 100%;
+
+    canvas {
+        height: 100%;
+        width: 100%;
+    }
+}

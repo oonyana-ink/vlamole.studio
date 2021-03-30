@@ -10,19 +10,76 @@ const DRONE_DIMENSIONS = {
   thicknessCore: 3
 }
 
+const COLORS = {
+  core: 0x2E2E61,
+  aux: 0x6CD0E0,
+  wireframe: 0xFB5902
+}
+
 export class Drone extends Model {
   name = 'Drone'
 
+  appearance = 'shaded'
+  appearanceRatio = 1
+  appearances = {
+    shaded: {
+      visible: true,
+      ratio: 1,
+      inScene: true
+    },
+    wireframe: {
+      visible: false,
+      ratio: 0,
+      inScene: false
+    }
+  }
+
   meta = {
-    rotation: ['40deg', '140deg', 0],
-    position: () => [grid.columnsWidth(3), 0, 0],
-    size: () => [grid.columnsWidth(6)],
+    // rotation: ['40deg', '140deg', 0],
+    // position: () => [grid.columnsWidth(3), 0, 0],
+    // size: () => [grid.columnsWidth(6)],
     useContainer: true
   }
 
   constructor () {
     super(undefined, {
       filename: 'bateleur.v0.3.1.6.squashed.glb'
+    })
+
+    this.setState({
+      float: true
+    })
+  }
+
+  loaded () {
+    this.createWireframe()
+  }
+
+  createWireframe () {
+    this.wireframe = new THREE.Group()
+    this.wireframe.copy(this.object3D, false)
+    this.object3D.children.forEach(child => {
+      if ([
+        // 'AntennaMount',
+        'CoreBottom',
+        // 'PropguardBottom',
+        // 'BatteryPlate',
+        // 'CameraBracket',
+        // 'RXBracket',
+        'Standoff',
+        'PropellerCW',
+        'PropellerCCW',
+        'Camera'
+      ].includes(child.name) || child.type === 'LineSegments') { return }
+      const childWireframe = this.generateWireframe(child)
+
+      childWireframe.rotation.set(child.rotation.x, child.rotation.y, child.rotation.z)
+      childWireframe.position.set(child.position.x, child.position.y, child.position.z)
+      childWireframe.material.transparent = true
+      childWireframe.material.opacity = 0
+      childWireframe.material.color.set(0xffffff)
+
+      this.wireframe.add(childWireframe)
     })
   }
 
@@ -44,17 +101,89 @@ export class Drone extends Model {
   }
 
   floatAnimation (frame) {
-    const offsetMultiplier = 10
+    if (!this.state.float) { return this.resetAnimation() }
+    const { wireframe } = this.appearances
+
+    const offsetMultiplier = wireframe.inScene ? 5 : 10
     const periodDivisor = 600
     const sinePeriod = Math.PI * 2 / periodDivisor
     const sineOffset = offsetMultiplier * Math.sin(frame * sinePeriod) + 10
-    const sineRotationZ = 0.02 * Math.sin(frame * sinePeriod * 1.3)
-    const sineRotationX = 0.01 * Math.sin(frame * sinePeriod * 1.5)
-    this.transformTarget = this.object3D
+    const sineRotationZ = (wireframe.inScene ? 0.05 : 0.02) * Math.sin(frame * sinePeriod * 1.3)
+    const sineRotationX = (wireframe.inScene ? 0.05 : 0.01) * Math.sin(frame * sinePeriod * 1.5)
 
+    this.transformTarget = 'object3D'
     this.position = { y: sineOffset }
     this.rotation = { z: sineRotationZ, x: sineRotationX }
-    this.transformTarget = null
+
+    if (this.appearances.wireframe.inScene) {
+      this.wireframe.position.copy(this.transformTarget.position)
+      this.wireframe.rotation.copy(this.transformTarget.rotation)
+    }
+    this.transformTarget = 'default'
+  }
+
+  resetAnimation () {
+    this.transformTarget = 'object3D'
+    this.position.y = 0;
+    this.rotation = { z: 0, x: 0 }
+    this.transformTarget = 'default'
+  }
+
+  appearanceInterpolator (interpolation, ratio) {
+    const { from, to } = interpolation
+    if (from === to) { return }
+    const ratioMax = 0.8
+    const ratioMin = 0.2
+    ratio = Math.min(ratioMax, Math.max(ratioMin, ratio))
+
+    this.appearances[from].ratio = 1 - ratio
+    this.appearances[to].ratio = ratio
+
+    Object.entries(this.appearances).forEach(([appearanceKey, appearanceState]) => {
+      appearanceState.visible = appearanceState.ratio > ratioMin
+      if (!appearanceState.visible) {
+        this.removeAppearance(appearanceKey)
+      } else {
+        this.addAppearance(appearanceKey)
+      }
+    })
+    if (this.appearances.wireframe.ratio >= ratioMax) {
+      this.scene.fog(true)
+    } else if (this.appearances.wireframe.ratio < ratioMax) {
+      this.scene.fog(false)
+    }
+
+    this.fadeChildren(this.wireframe, 'wireframe')
+    this.fadeChildren(this.object3D, 'shaded')
+  }
+
+  fadeChildren (parent, appearanceKey) {
+    let opacity = this.appearances[appearanceKey].ratio
+    opacity = THREE.MathUtils.mapLinear(opacity, 0.25, 0.75, 0, 1)
+    parent.children.forEach(child => {
+      if (appearanceKey === 'shaded' && child.type === 'LineSegments') { return }
+      child.material.transparent = true
+      child.material.opacity = opacity
+    })
+  }
+
+  removeAppearance (appearanceKey) {
+    if (!this.appearances[appearanceKey].inScene || appearanceKey === 'shaded') { return }
+    const appearanceObject = appearanceKey === 'wireframe' ? this.wireframe : this.object3D
+    this.appearances[appearanceKey].inScene = false
+    this.container.remove(appearanceObject)
+  }
+
+  addAppearance (appearanceKey) {
+    // console.log('addAppearance', appearanceKey)
+    if (this.appearances[appearanceKey].inScene) { return }
+    const appearanceObject = appearanceKey === 'wireframe' ? this.wireframe : this.object3D
+    this.appearances[appearanceKey].inScene = true
+    this.container.add(appearanceObject)
+  }
+
+  sizeInterpolator (size) {
+
   }
 
   update (frame) {
@@ -70,7 +199,7 @@ export class Drone extends Model {
       ],
       material: {
         class: THREE.MeshPhongMaterial,
-        color: 0xbbbbbb,
+        color: COLORS.aux,
         flatShading: true
       }
     },
@@ -83,7 +212,7 @@ export class Drone extends Model {
       ],
       material: {
         class: THREE.MeshPhongMaterial,
-        color: 0xbbbbbb,
+        color: COLORS.core,
         flatShading: true
       }
     },
@@ -96,7 +225,7 @@ export class Drone extends Model {
       ],
       material: {
         class: THREE.MeshPhongMaterial,
-        color: 0xbbbbbb,
+        color: COLORS.core,
         flatShading: true
       }
     },
@@ -111,7 +240,7 @@ export class Drone extends Model {
           rotation: [0, 0, 0],
           material: {
             class: THREE.MeshPhongMaterial,
-            color: 0x6cd0e0,
+            color: COLORS.aux,
             flatShading: true
           }
         },
@@ -124,7 +253,7 @@ export class Drone extends Model {
           rotation: [0, '180deg', 0],
           material: {
             class: THREE.MeshPhongMaterial,
-            color: 0x6cd0e0,
+            color: COLORS.aux,
             flatShading: true
           }
         }
@@ -141,7 +270,7 @@ export class Drone extends Model {
           rotation: [0, 0, 0],
           material: {
             class: THREE.MeshPhongMaterial,
-            color: 0x6cd0e0,
+            color: COLORS.aux,
             flatShading: true
           }
         },
@@ -154,7 +283,7 @@ export class Drone extends Model {
           rotation: [0, '180deg', 0],
           material: {
             class: THREE.MeshPhongMaterial,
-            color: 0x6cd0e0,
+            color: COLORS.aux,
             flatShading: true
           }
         }
@@ -169,7 +298,7 @@ export class Drone extends Model {
       ],
       material: {
         class: THREE.MeshPhongMaterial,
-        color: 0xbbbbbb,
+        color: COLORS.core,
         flatShading: true
       }
     },
@@ -184,7 +313,7 @@ export class Drone extends Model {
           rotation: [0, 0, 0],
           material: {
             class: THREE.MeshPhongMaterial,
-            color: 0x6cd0e0,
+            color: COLORS.aux,
             flatShading: true
           }
         },
@@ -197,7 +326,7 @@ export class Drone extends Model {
           rotation: [0, 0, '180deg'],
           material: {
             class: THREE.MeshPhongMaterial,
-            color: 0x6cd0e0,
+            color: COLORS.aux,
             flatShading: true
           }
         }
@@ -210,6 +339,9 @@ export class Drone extends Model {
         0,
         -54
       ],
+      material: {
+        color: COLORS.wireframe
+      },
       rotation: ['110deg', 0, 0]
     },
     PropellerCCW: {
@@ -224,7 +356,7 @@ export class Drone extends Model {
             DRONE_DIMENSIONS.widthZAxis / 2
           ],
           material: {
-            color: 0xbb00bb
+            color: COLORS.wireframe
           }
         },
         {
@@ -237,7 +369,7 @@ export class Drone extends Model {
             DRONE_DIMENSIONS.widthZAxis / -2
           ],
           material: {
-            color: 0xbb00bb
+            color: COLORS.wireframe
           }
         }
       ]
@@ -254,7 +386,7 @@ export class Drone extends Model {
             DRONE_DIMENSIONS.widthZAxis / 2
           ],
           material: {
-            color: 0xbb00bb
+            color: COLORS.wireframe
           }
         },
         {
@@ -267,7 +399,7 @@ export class Drone extends Model {
             DRONE_DIMENSIONS.widthZAxis / -2
           ],
           material: {
-            color: 0xbb00bb
+            color: COLORS.wireframe
           }
         }
       ]
@@ -282,7 +414,7 @@ export class Drone extends Model {
           ],
           material: {
             class: THREE.MeshPhongMaterial,
-            color: 0xbbbbbb,
+            color: COLORS.core,
             flatShading: true
           }
         },
@@ -294,7 +426,7 @@ export class Drone extends Model {
           ],
           material: {
             class: THREE.MeshPhongMaterial,
-            color: 0xbbbbbb,
+            color: COLORS.core,
             flatShading: true
           }
         }
@@ -308,7 +440,7 @@ export class Drone extends Model {
       ],
       material: {
         class: THREE.MeshPhongMaterial,
-        color: 0xbbbbbb,
+        color: COLORS.aux,
         flatShading: true
       }
     }

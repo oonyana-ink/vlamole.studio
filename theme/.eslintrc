@@ -1,6 +1,7 @@
 {
   "extends": [
-    "standard"
+    "standard",
+    "plugin:vue/vue3-recommended"
   ],
   "ignorePatterns": ["assets/*.js", "**/vendor/**/*.js"],
   "parser": "babel-eslint",
@@ -19,8 +20,15 @@
   "globals": {
     "THREE": "readonly",
     "requestAnimationFrame": "readonly"
-  }
-  // "plugins": [
-  //   "vue"
-  // ]
+  },
+  "plugins": [
+    "import",
+    "vue"
+  ],
+  "overrides": [
+    {
+      "files": ["*.vue"],
+      "parser": "vue-eslint-parser"
+    }
+  ]
 }
