@@ -1,3 +1,4 @@
+import { watch } from 'vue'
 import Loader from './loader'
 
 let __LOADER__ = null
@@ -13,7 +14,8 @@ export default class Model {
 
   state = {
     loading: false,
-    loaded: false
+    loaded: false,
+    store: null
   }
 
   meta = {}
@@ -216,8 +218,16 @@ export default class Model {
 
     this.state.loading = false
     this.state.loaded = true
+
     this.executeCallbacks()
     this.loaded()
+  }
+
+  attachStore (store) {
+    this.state.store = store
+    console.log(this.state.store)
+    watch(() => this.state.store.updated, this.updateFromStore.bind(this))
+    this.updateFromStore()
   }
 
   processObject3D (object3D) {
@@ -361,6 +371,12 @@ export default class Model {
 
   setState (state) {
     Object.assign(this.state, state)
+  }
+
+  updateFromStore () {
+    this.position = this.state.store.position
+    this.rotation = this.state.store.rotation
+    this.size = this.state.store.size
   }
 
   _update (frame) {

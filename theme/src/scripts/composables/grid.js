@@ -49,7 +49,7 @@ class Grid {
 
   gridWidth ({ cols }) {
     if (!this.grids[cols]) {
-      this.grids[cols] = ref(this.columnsWidth(cols))
+      this.grids[cols] = this.columnsWidth(cols)
     }
 
     return this.grids[cols]

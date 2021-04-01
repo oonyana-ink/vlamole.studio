@@ -43,29 +43,12 @@
 import { inject, watch } from 'vue'
 import sectionMixin from '@mixins/section'
 import { hero as heroSection } from '@sections/hero'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Hero',
   mixins: [sectionMixin],
   inject: ['grid', 'gridWidth'],
-
-  setup () {
-    const gridWidth = inject('gridWidth')
-    console.log('>>>>', gridWidth)
-    const stage = {
-      drone: {
-        appearance: 'shaded',
-        rotation: ['40deg', '140deg', '0deg'],
-        position: [gridWidth(3), 0, 0.15],
-        size: [gridWidth(6)]
-      }
-    }
-    return {
-      config: {
-        stage
-      }
-    }
-  },
 
   data () {
     return {
@@ -74,19 +57,24 @@ export default {
   },
 
   computed: {
-    drone () {
-      return {
+    ...mapState({
+      droneState: 'drone',
+      sceneState: 'scene'
+    }),
 
+    config () {
+      const { depth: sceneDepth } = this.sceneState
+      return {
+        stage: {
+          drone: {
+            appearance: 'shaded',
+            rotation: ['40deg', '140deg', '0deg'],
+            position: [this.gridWidth({ cols: 3 }), 0, 0],
+            size: [this.gridWidth({ cols: 6 })]
+          }
+        }
       }
     }
-  },
-
-  watch: {
-    gridColWidth: function () { console.log('>>>', this.gridColWidth) }
-  },
-
-  mounted () {
-    this.$registerSection({ test: 'ping' })
   }
 }
 </script>

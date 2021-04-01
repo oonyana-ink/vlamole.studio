@@ -27,10 +27,18 @@ import sectionMixin from '@mixins/section'
 export default {
   name: 'Intro',
   mixins: [sectionMixin],
-
-  setup () {
-    return {
-      config: {}
+  inject: ['grid', 'gridWidth'],
+  computed: {
+    config () {
+      return {
+        stage: {
+          drone: {
+            appearance: 'shaded',
+            position: [this.gridWidth({ cols: -2 }), window.innerHeight * -0.2, 0],
+            rotation: ['-30deg', '220deg', '10deg']
+          }
+        }
+      }
     }
   }
 }

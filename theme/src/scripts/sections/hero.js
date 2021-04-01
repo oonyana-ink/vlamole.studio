@@ -32,14 +32,12 @@ export const hero = {
   },
 
   onEnter ({ $els, app }) {
-    console.log('hero.onEnter')
 
     // app.sceneProxy.set({ scene: this.scene, drone: this.drone })
     $els.backgroundVideo.play()
   },
 
   onLeave ({ $els }) {
-    console.log('hero:onLeave')
     $els.backgroundVideo.pause()
   }
 }

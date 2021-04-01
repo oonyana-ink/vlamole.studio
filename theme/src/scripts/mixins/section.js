@@ -47,8 +47,8 @@ export default {
       return {
         top: top + 'px',
         left: left + 'px',
-        '--y-visiblity-ratio': yVisibilityRatio,
-        '--y-visiblity-percent': Math.ceil(yVisibilityRatio * 100),
+        '--y-visibility-ratio': yVisibilityRatio,
+        '--y-visibility-percent': Math.ceil(yVisibilityRatio * 100),
         '--y-position-ratio': yPositionRatio
       }
     },
@@ -59,8 +59,8 @@ export default {
         yPositionRatio
       } = this
       return {
-        '--y-visiblity-ratio': yVisibilityRatio,
-        '--y-visiblity-percent': Math.ceil(yVisibilityRatio * 100),
+        '--y-visibility-ratio': yVisibilityRatio,
+        '--y-visibility-percent': Math.ceil(yVisibilityRatio * 100),
         '--y-position-ratio': yPositionRatio
       }
     },
@@ -79,7 +79,6 @@ export default {
     yPositionRatio () {
       const { bounds } = this
       const yPositionDiff = bounds.height - bounds.top
-      console.log(this.name, { bounds, yPositionDiff })
       const yPositionRatio = yPositionDiff / window.innerHeight
       return yPositionRatio
     }
@@ -98,6 +97,8 @@ export default {
   },
 
   created () {
+    this.afterMountCallbacks = []
+    console.log('created')
     watch(this.scrollPosition, this.handleScroll)
     this.$registerSection(this)
   },
@@ -107,9 +108,14 @@ export default {
     this.getPosition()
     this.trackOffset()
     this.trackBounds({ force: true })
+    this.afterMountCallbacks.forEach(callback => callback())
   },
 
   methods: {
+    afterMount (callback) {
+      this.afterMountCallbacks.push(callback)
+    },
+
     getPosition () {
       const { background: el } = this.$refs
       this.top = el.offsetTop

@@ -69,7 +69,6 @@ export default class Sections {
 
   updateActiveSections () {
     this.activeSections = this.sections.filter(section => section.isIntersecting)
-    console.log('[', this.activeSections.map(section => section.name).join(', '), ']')
     this.updateSectionDesignations()
   }
 

@@ -3,11 +3,19 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { Scene } from '@/scene'
 import { Drone } from '@/models'
 export default {
   setup () {
 
+  },
+
+  computed: {
+    ...mapState({
+      droneState: 'drone',
+      sceneState: 'scene'
+    })
   },
 
   mounted () {
@@ -16,11 +24,15 @@ export default {
 
   methods: {
     init () {
+      console.log('>>', this.sceneState)
       this.scene = new Scene({
         canvas: this.$refs.primaryCanvas,
-        pixelRation: window.devicePixelRatio
+        pixelRation: window.devicePixelRatio,
+        storeState: this.sceneState
       })
-      this.drone = new Drone()
+      this.drone = new Drone(null, {
+        storeState: this.droneState
+      })
       this.scene.add(this.drone)
     },
 

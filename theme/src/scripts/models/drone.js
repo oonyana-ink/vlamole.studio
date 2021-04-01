@@ -129,13 +129,12 @@ export class Drone extends Model {
     this.transformTarget = 'default'
   }
 
-  appearanceInterpolator (interpolation, ratio) {
-    const { from, to } = interpolation
+  appearanceInterpolator ({ from, to, ratio }) {
     if (from === to) { return }
     const ratioMax = 0.8
     const ratioMin = 0.2
     ratio = Math.min(ratioMax, Math.max(ratioMin, ratio))
-
+    console.log({ from, to })
     this.appearances[from].ratio = 1 - ratio
     this.appearances[to].ratio = ratio
 
@@ -175,7 +174,6 @@ export class Drone extends Model {
   }
 
   addAppearance (appearanceKey) {
-    // console.log('addAppearance', appearanceKey)
     if (this.appearances[appearanceKey].inScene) { return }
     const appearanceObject = appearanceKey === 'wireframe' ? this.wireframe : this.object3D
     this.appearances[appearanceKey].inScene = true
@@ -188,6 +186,14 @@ export class Drone extends Model {
 
   update (frame) {
     this.floatAnimation(frame)
+  }
+
+  updateFromStore () {
+    const {
+      appearanceTransition
+    } = this.state.store
+    super.updateFromStore()
+    this.appearanceInterpolator(appearanceTransition)
   }
 
   components = {

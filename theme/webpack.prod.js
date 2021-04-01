@@ -48,5 +48,4 @@ const configs = {
   })
 }
 
-console.log(process.env.TARGET)
 module.exports = configs[process.env.TARGET]

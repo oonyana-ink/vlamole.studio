@@ -11,6 +11,10 @@ export class Scene {
   cameras = null
   lights = null
 
+  state = {
+    store: null
+  }
+
   configs = {
     scalar: 2,
     renderer: {
@@ -24,26 +28,8 @@ export class Scene {
   _models = []
   readyCallbacks = []
 
-  constructor ({
-    $el,
-    canvas
-  }) {
-    this.$el = $el
-    this.canvas = canvas
-    this.configs.renderer.canvas = canvas
-
+  constructor () {
     this.scene = new THREE.Scene()
-    this.renderer = new THREE.WebGLRenderer(this.configs.renderer)
-    this.cameras = new Cameras({ scene: this })
-    this.renderer.setSize(this.width, this.height)
-    this.renderer.localClippingEnabled = true
-
-    this._calcDepth()
-
-    this.lights = new Lights({ scene: this })
-    this.activeCamera.position.z = this.pxDepth
-
-    // this.render()
   }
 
   get pxDepth () {
@@ -70,6 +56,23 @@ export class Scene {
     return this.cameras.activeCamera
   }
 
+  mount (canvas) {
+    this.canvas = canvas
+    this.configs.renderer.canvas = canvas
+    this.renderer = new THREE.WebGLRenderer(this.configs.renderer)
+    this.cameras = new Cameras({ scene: this })
+    this.renderer.setSize(this.width, this.height)
+
+    this._calcDepth()
+
+    this.lights = new Lights({ scene: this })
+    this.activeCamera.position.z = this.pxDepth
+  }
+
+  attachStore (store) {
+    this.state.store = store
+  }
+
   render () {
     this.frame += 1
     this.renderer.render(this.scene, this.activeCamera)
@@ -82,7 +85,6 @@ export class Scene {
     this._models.push(model)
     if (model.isLoading) {
       model.onLoad(() => {
-        console.log('onLoad!!!')
         this.scene.add(model.model)
         this.checkIfReady()
       })
@@ -101,7 +103,6 @@ export class Scene {
 
   ready () {
     this.render()
-    console.log('READY!')
     while (this.readyCallbacks.length > 0) {
       const readyCallback = this.readyCallbacks.shift()
       readyCallback(this)
@@ -118,6 +119,7 @@ export class Scene {
 
   _calcDepth () {
     this._depth = utils.findScreenDepth(this.activeCamera, this.renderer)
+    this.state.store.depth = this._depth
   }
 
   fog (renderFog) {
@@ -126,7 +128,6 @@ export class Scene {
     const { height } = drone.boundingBox
     const droneHeight = height / this.scalar
     if (!this.scene.fog && renderFog) {
-      console.log('FOG!', droneHeight / 2)
       this.scene.fog = new THREE.Fog(0x2e2e61, position.z - droneHeight / 2, position.z + droneHeight * 0.3)
     } else if (this.scene.fog && !renderFog) {
       this.scene.fog = null

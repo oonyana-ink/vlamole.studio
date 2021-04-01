@@ -33,10 +33,6 @@ class ScrollTracker {
       this.position.y = scrollingElement.scrollTop
     }
   }
-
-  onScroll (callback) {
-    console.log('onScroll', this, callback)
-  }
 }
 
 export default {

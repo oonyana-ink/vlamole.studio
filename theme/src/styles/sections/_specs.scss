@@ -1,28 +1,25 @@
 $border-size: 5rem;
 
-body[incoming-section='specs'] {
-    --hud-color: #{$white};
+// body[incoming-section='specs'] {
+//     --hud-color: #{$white};
 
-    .drone {
-        transform: translateY(calc(-5% * var(--incoming-y-visibility-ratio)));
-    }
-}
-body[outgoing-section='specs'] {
-    .drone {
-        transform: translateY(calc(-5% * var(--outgoing-y-visibility-ratio)));
-    }
-}
+//     .drone {
+//         transform: translateY(calc(-5% * var(--incoming-y-visibility-ratio)));
+//     }
+// }
+// body[outgoing-section='specs'] {
+//     .drone {
+//         transform: translateY(calc(-5% * var(--outgoing-y-visibility-ratio)));
+//     }
+// }
 
 .specs {
     font-family: font-family(mono);
     font-weight: 300;
-
-    &.page-section {
-        --grid-size: calc(((100vw - #{$grid-margin / 2}) / 60));
-        background-color: $dark-blue;
-        overflow: hidden;
-        position: relative;
-    }
+    justify-content: flex-end;
+    overflow: hidden;
+    width: 100%;
+    z-index: 10;
 
     .data-table {
         $data-table-border: 1px solid rgba($white, 0.6);
@@ -265,65 +262,73 @@ body[outgoing-section='specs'] {
         }
     }
 
-    &__grid {
-        background-image: linear-gradient(rgba($white, .1) 1px, transparent 1px), linear-gradient(90deg, rgba($white, .1) 1px, transparent 1px);
-        background-position: center center;
-        background-size: var(--grid-size) var(--grid-size);
-        border: 1px solid rgba($white, 0.1);
-        bottom: $grid-margin * 0.5;
-        content: '';
-        display: none;
-        left: $grid-margin;
-        opacity: var(--y-visibility-ratio);
-        pointer-events: none;
-        position: fixed;
-        right: $grid-margin;
-        top: $grid-margin * 0.25;
-    }
+    &__background {
+        --grid-size: calc(((100vw - #{$grid-margin / 2}) / 60));
+        background-color: $dark-blue;
+        position: relative;
 
-    .grid-border {
-        border-left: 1px solid $white;
-        border-right: 1px solid $white;
-        height: $border-size;
-        position: absolute;
-        width: 100%;
-        display: none;
-
-        &:before,
-        &:after {
-            background-color: $white;
+        .specs-grid {
+            background-image: linear-gradient(rgba($white, .1) 1px, transparent 1px), linear-gradient(90deg, rgba($white, .1) 1px, transparent 1px);
+            background-position: center center;
+            background-size: var(--grid-size) var(--grid-size);
+            border: 1px solid rgba($white, 0.1);
+            bottom: $grid-margin * 0.5;
             content: '';
-            height: 1px;
+            left: $grid-margin;
+            opacity: var(--y-visibility-ratio);
+            pointer-events: none;
             position: absolute;
-            width: $border-size;
+            right: $grid-margin;
+            top: $grid-margin * 0.25;
+            transform: translateY(calc(100vh * (var(--y-position-ratio) - 1)));
         }
 
-        &:before {
-            left: 0;
-        }
-
-        &:after {
-            right: 0;
-        }
-
-        &--top {
-            top: 0;
+        .grid-border {
+            border-left: 1px solid $white;
+            border-right: 1px solid $white;
+            height: $border-size;
+            position: absolute;
+            width: 100%;
+            display: none;
 
             &:before,
             &:after {
-                top: 0;
+                background-color: $white;
+                content: '';
+                height: 1px;
+                position: absolute;
+                width: $border-size;
             }
-        }
 
-        &--bottom {
-            bottom: 0;
+            &:before {
+                left: 0;
+            }
 
-            &:before,
             &:after {
+                right: 0;
+            }
+
+            &--top {
+                top: 0;
+
+                &:before,
+                &:after {
+                    top: 0;
+                }
+            }
+
+            &--bottom {
                 bottom: 0;
+
+                &:before,
+                &:after {
+                    bottom: 0;
+                }
             }
         }
     }
+
+
 
     &.visible {
         .specs {
