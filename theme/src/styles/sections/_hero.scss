@@ -48,12 +48,12 @@
     .subtitle {
         background-color: $light-blue;
         color: #fff;
-        font-size: 0.1em;
+        font-size: 0.09em;
         letter-spacing: normal;
-        padding: 0.5em 1.5em;
+        padding: 0.5em 2em 0.5em 1.5em;
         position: absolute;
         top: 50%;
-        transform: translate(0.58em, -50%);
+        transform: translate(0.65em, -50%);
     }
 
     &__background {

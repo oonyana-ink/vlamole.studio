@@ -134,7 +134,6 @@ export class Drone extends Model {
     const ratioMax = 0.8
     const ratioMin = 0.2
     ratio = Math.min(ratioMax, Math.max(ratioMin, ratio))
-    console.log({ from, to })
     this.appearances[from].ratio = 1 - ratio
     this.appearances[to].ratio = ratio
 

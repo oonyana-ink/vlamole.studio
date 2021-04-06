@@ -10,7 +10,7 @@
         <div class='title'>
           <span class='top'>BATE</span><br/><span class='bottom'>LEUR</span>
           <div class="subtitle" parallax='2'>
-            THE IMMORTAL WHOOP FRAME
+            THE IMMORTAL CINEWHOOP FRAME
           </div>
         </div>
       </div>
@@ -40,36 +40,21 @@
 </template>
 
 <script>
-import { inject, watch } from 'vue'
 import sectionMixin from '@mixins/section'
-import { hero as heroSection } from '@sections/hero'
-import { mapState } from 'vuex'
 
 export default {
   name: 'Hero',
   mixins: [sectionMixin],
   inject: ['grid', 'gridWidth'],
 
-  data () {
-    return {
-      gridColWidth: 0
-    }
-  },
-
   computed: {
-    ...mapState({
-      droneState: 'drone',
-      sceneState: 'scene'
-    }),
-
     config () {
-      const { depth: sceneDepth } = this.sceneState
       return {
         stage: {
           drone: {
             appearance: 'shaded',
             rotation: ['40deg', '140deg', '0deg'],
-            position: [this.gridWidth({ cols: 3 }), 0, 0],
+            position: [this.gridWidth({ cols: 2.5 }), 0, 0],
             size: [this.gridWidth({ cols: 6 })]
           }
         }

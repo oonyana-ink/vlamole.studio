@@ -67,10 +67,18 @@ export default {
 
     yVisibilityRatio () {
       const { bounds } = this
-      const yVisibilityDiff = bounds.top > 0
-        ? bounds.height - bounds.top
-        : bounds.height + bounds.top
-      const yVisibilityRatio = Math.min(1, Math.max(0, yVisibilityDiff / window.innerHeight))
+      const { innerHeight: windowHeight } = window
+      const { top: sectionTop, bottom: sectionBottom, height: sectionHeight } = bounds
+      const currentlyVisible = sectionTop >= windowHeight || sectionBottom <= 0
+        ? 0
+        : sectionTop > 0
+          ? sectionBottom < windowHeight
+            ? sectionHeight
+            : windowHeight - sectionTop
+          : sectionBottom > windowHeight
+            ? windowHeight
+            : sectionBottom
+      const yVisibilityRatio = Math.min(1, Math.max(0, currentlyVisible / windowHeight))
       this.isGrowing = this.prevYVisibilityRatio < yVisibilityRatio
       this.prevYVisibilityRatio = yVisibilityRatio
       return yVisibilityRatio
@@ -78,7 +86,10 @@ export default {
 
     yPositionRatio () {
       const { bounds } = this
-      const yPositionDiff = bounds.height - bounds.top
+      if (this.name === "Intro") {
+        console.log((window.innerHeight - bounds.top) / window.innerHeight, this.name)
+      }
+      const yPositionDiff = window.innerHeight - bounds.top
       const yPositionRatio = yPositionDiff / window.innerHeight
       return yPositionRatio
     }
@@ -89,16 +100,11 @@ export default {
       if (isIntersecting) {
         this.trackBounds()
       }
-    },
-
-    isGrowing (isGrowing) {
-      this.setStage()
     }
   },
 
   created () {
     this.afterMountCallbacks = []
-    console.log('created')
     watch(this.scrollPosition, this.handleScroll)
     this.$registerSection(this)
   },
@@ -149,10 +155,6 @@ export default {
       }
 
       this.bounds = newBounds
-    },
-
-    setStage () {
-      console.log(this.config.stage)
     }
   }
 

@@ -45,7 +45,6 @@ class Sections {
   }
 
   updateSections (section) {
-    console.log('updateSections')
     this.sections.forEach(section => {
       if (section.unwatch) { section.unwatch() }
       section.unwatch = null
@@ -95,7 +94,6 @@ class Sections {
   }
 
   interpolateSections () {
-    console.log('-')
     const {
       yVisibilityRatio,
       config: incomingConfig

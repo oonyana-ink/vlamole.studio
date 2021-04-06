@@ -4,6 +4,7 @@ import scrollTracker from '@composables/scroll-tracker'
 import grid from '@composables/grid'
 import sections from '@composables/sections'
 import store from './store'
+import './grid-overlay.js'
 
 const app = createApp(App)
 
@@ -13,3 +14,4 @@ app.use(grid)
 app.use(sections, { store })
 
 app.mount('#App')
+console.log('index.js', app)
