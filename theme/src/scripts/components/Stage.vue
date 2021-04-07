@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import { onMounted } from 'vue'
 import { mapState } from 'vuex'
 import { Scene } from '@/scene'
 import { Drone } from '@/models'
@@ -42,7 +41,6 @@ export default {
       this.scene.mount(this.$refs.primaryCanvas)
       this.scene.add(this.drone)
       this.scene.onReady(() => {
-        console.log('scene ready!')
         this.onReadyCallbacks.forEach(callback => callback())
       })
     },

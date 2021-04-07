@@ -11,7 +11,7 @@ const DRONE_DIMENSIONS = {
 }
 
 const COLORS = {
-  core: 0x2E2E61,
+  core: 0x989898,
   aux: 0x6CD0E0,
   wireframe: 0xFB5902
 }

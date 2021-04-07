@@ -81,14 +81,20 @@ export default {
       const yVisibilityRatio = Math.min(1, Math.max(0, currentlyVisible / windowHeight))
       this.isGrowing = this.prevYVisibilityRatio < yVisibilityRatio
       this.prevYVisibilityRatio = yVisibilityRatio
+
+      if (this.isGrowing) {
+        document.body.setAttribute('incoming-section', this.name.toLowerCase())
+        document.body.style.setProperty('--incoming-y-visibility-ratio', yVisibilityRatio)
+      } else {
+        document.body.setAttribute('outgoing-section', this.name.toLowerCase())
+        document.body.style.setProperty('--outgoing-y-visibility-ratio', yVisibilityRatio)
+      }
+
       return yVisibilityRatio
     },
 
     yPositionRatio () {
       const { bounds } = this
-      if (this.name === "Intro") {
-        console.log((window.innerHeight - bounds.top) / window.innerHeight, this.name)
-      }
       const yPositionDiff = window.innerHeight - bounds.top
       const yPositionRatio = yPositionDiff / window.innerHeight
       return yPositionRatio

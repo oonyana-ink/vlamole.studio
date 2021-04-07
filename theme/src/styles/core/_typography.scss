@@ -2,8 +2,8 @@ html {
     @include font(sans, $weight: regular);
     @include responsive(font-size, (
         default:  100%,
-        full-xl:  110%,
-        full-xxl: 130%,
+        // full-xl:  110%,
+        // full-xxl: 130%,
 
         tablet: 87.5%, // 16px --> 14px
         phone: 87.5%  // 16px --> 14px
@@ -11,10 +11,14 @@ html {
     color: $black;
 }
 
-h1 {
-    @include font(title, $size: 1rem * 5, $line-height: 0.9);
-    color: $dark-blue;
+@for $i from 1 through 5 {
+    h#{$i} {
+        @include font(title, $size: 1rem * (6 - $i), $line-height: 0.9);
+        color: $dark-blue;
+        margin-bottom: 1rem;
+    }
 }
+
 
 .highlight {
     background: linear-gradient(to right, $light-blue, $light-blue) no-repeat;

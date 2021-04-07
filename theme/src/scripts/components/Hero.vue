@@ -24,6 +24,7 @@
       :style="sectionBackgroundStyles"
     >
       <video
+        v-if="isIntersecting"
         class="background-video"
         playsinline
         autoplay

@@ -1,17 +1,17 @@
 $border-size: 5rem;
 
-// body[incoming-section='specs'] {
-//     --hud-color: #{$white};
+body[incoming-section='specs'] {
+    --hud-color: #{$white};
 
-//     .drone {
-//         transform: translateY(calc(-5% * var(--incoming-y-visibility-ratio)));
-//     }
-// }
-// body[outgoing-section='specs'] {
-//     .drone {
-//         transform: translateY(calc(-5% * var(--outgoing-y-visibility-ratio)));
-//     }
-// }
+    .primary-canvas {
+        transform: translateY(calc(-5% * var(--incoming-y-visibility-ratio)));
+    }
+}
+body[outgoing-section='specs'] {
+    .primary-canvas {
+        transform: translateY(calc(-5% * var(--outgoing-y-visibility-ratio)));
+    }
+}
 
 .specs {
     font-family: font-family(mono);
@@ -21,12 +21,21 @@ $border-size: 5rem;
     width: 100%;
     z-index: 30;
 
+    &.section {
+        height: 150vh;
+    }
+
+    &__content {
+        height: 100vh;
+        position: relative;
+        transform: faux-fixed();
+    }
+
     .data-table {
         $data-table-border: 1px solid rgba($white, 0.6);
         color: $white;
         border: $data-table-border;
         font-size: 0.75rem;
-        transform: translateY(calc(100vh * (var(--y-position-ratio) - 1)));
         opacity: calc(0.9 * var(--y-visibility-ratio));
         text-transform: uppercase;
         z-index: 10;
@@ -83,6 +92,22 @@ $border-size: 5rem;
         }
     }
 
+    &__copy {
+        box-sizing: border-box;
+        color: $white;
+        left: $grid-margin;
+        opacity: var(--y-visibility-ratio);
+        padding: 0 2rem;
+        position: absolute;
+        text-align: justify;
+        top: $grid-margin * 0.5;
+        width: grid-width($cols: 3);
+
+        p {
+            font-size: 0.95rem;
+        }
+    }
+
     &__footer {
         position: absolute;
         bottom: $grid-margin * 0.5;
@@ -123,9 +148,9 @@ $border-size: 5rem;
         // opacity: 0.4;
         pointer-events: none;
         position: relative;
-        top: 45%;
+        top: 45vh;
         left: 50%;
-        transform: translate(-50%, calc(-50% + (100vh * (var(--y-position-ratio) - 1))));
+        transform: translate(-50%, -50%);
         width: grid-width(5);
         z-index: 40;
 
@@ -212,7 +237,7 @@ $border-size: 5rem;
             }
 
             &.camera-size {
-                left: 50%;
+                left: 51%;
                 top: 2%;
                 transform: translate(-50%, -50%);
                 width: 10%;
@@ -267,20 +292,24 @@ $border-size: 5rem;
         background-color: $dark-blue;
         position: relative;
 
+        &.section-background {
+            height: 150vh;
+        }
+
         .specs-grid {
             background-image: linear-gradient(rgba($white, .1) 1px, transparent 1px), linear-gradient(90deg, rgba($white, .1) 1px, transparent 1px);
             background-position: center center;
             background-size: var(--grid-size) var(--grid-size);
             border: 1px solid rgba($white, 0.1);
-            bottom: $grid-margin * 0.5;
             content: '';
+            height: calc(100vh - #{$grid-margin * 0.75});
             left: $grid-margin;
             opacity: var(--y-visibility-ratio);
             pointer-events: none;
             position: absolute;
             right: $grid-margin;
             top: $grid-margin * 0.25;
-            transform: translateY(calc(100vh * (var(--y-position-ratio) - 1)));
+            transform: faux-fixed();
         }
 
         .grid-border {

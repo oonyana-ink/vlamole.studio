@@ -1,3 +1,0 @@
-@mixin grid-column($count) {
-    width: calc(var(--column-width) * #{$count});
-}

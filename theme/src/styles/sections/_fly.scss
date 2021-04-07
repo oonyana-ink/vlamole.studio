@@ -1,0 +1,113 @@
+.fly {
+    &.section {
+        height: 150vh;
+    }
+
+    .grid {
+        box-sizing: border-box;
+        height: 100%;
+    }
+    .content {
+        align-items: center;
+        display: flex;
+        height: 80vh;
+        opacity: var(--y-visibility-ratio);
+        transform: faux-fixed();
+    }
+    .section__copy {
+        margin: 0 grid-offset($cols: 1);
+        width: grid-width($cols: 4);
+
+        h3 {
+            text-transform: uppercase;
+            transform: translateX(-2rem);
+        }
+    }
+
+    .blackbox-sim {
+        border: 1px solid $black;
+        height: grid-width($cols: 3);
+        margin: 0 grid-offset($cols: 1);
+        position: relative;
+        width: grid-width($cols: 4);
+
+        label {
+            display: block;
+            font-family: font-family(mono);
+            font-weight: font-weight(medium);
+            font-size: 0.75rem;
+            padding: 0.5em;
+            text-transform: uppercase;
+
+            &.key {
+                bottom: 0;
+                position: absolute;
+                right: 0;
+
+                span {
+                    display: inline-block;
+                    padding-left: 1rem;
+                    position: relative;
+
+                    &:before {
+                        background-color: currentColor;
+                        border-radius: 50%;
+                        content: '';
+                        height: 4px;
+                        left: 0.5rem;
+                        position: absolute;
+                        top: 50%;
+                        transform: translate(0%, -50%);
+                        width: 4px;
+                    }
+
+                    &.dark-blue {
+                        color: $dark-blue;
+                    }
+
+                    &.blue {
+                        color: $light-blue;
+                    }
+
+                    &.orange {
+                        color: $orange;
+                    }
+                }
+            }
+        }
+
+        .canvas-container {
+            bottom:0;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+    }
+
+    &__background {
+        // background-color: $white;
+        background-color: rgba($grey, 0.35);
+        overflow: hidden;
+        position: relative;
+
+        &.section-background {
+            height: 150vh;
+        }
+    }
+
+    &__background-title {
+        // bottom: -5%;
+        color: rgba($white, 0.75);
+        font-family: font-family(title);
+        font-size: 100vh;
+        left: 50%;
+        letter-spacing: -0.05em;
+        line-height: 0.72em;
+        opacity: var(--y-visibility-ratio);
+        position: absolute;
+        text-transform: uppercase;
+        top: 50vh;
+        transform: translateX(-50%) faux-fixed($offset: "-35% * var(--y-position-ratio)");
+    }
+}

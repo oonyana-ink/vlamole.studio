@@ -57,7 +57,7 @@
               class="timeline__point"
               data-index="2"
             >
-              <label>Fail</label>
+              <label>Crash</label>
             </div>
           </div>
           <div
@@ -148,7 +148,7 @@
               class="timeline__point"
               data-index="11"
             >
-              <label>Fail</label>
+              <label>Repeat</label>
             </div>
           </div>
           <div class="timeline__span repeat">

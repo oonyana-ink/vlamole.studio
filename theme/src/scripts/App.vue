@@ -5,6 +5,8 @@
   <Hero />
   <Intro />
   <Specs />
+  <Fly />
+  <Crash />
 </template>
 
 <script>
@@ -15,6 +17,8 @@ import Stage from '@components/Stage.vue'
 import Hero from '@components/Hero.vue'
 import Intro from '@components/Intro.vue'
 import Specs from '@components/Specs.vue'
+import Fly from '@components/Fly.vue'
+import Crash from '@components/Crash.vue'
 
 export default {
   components: {
@@ -22,7 +26,9 @@ export default {
     Stage,
     Hero,
     Intro,
-    Specs
+    Specs,
+    Fly,
+    Crash
   }
 }
 </script>

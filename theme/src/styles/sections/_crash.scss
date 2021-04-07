@@ -1,0 +1,34 @@
+body[incoming-section='crash'] {
+    .primary-canvas {
+        transform: translateX(calc(25% * var(--incoming-y-visibility-ratio)));
+    }
+}
+body[outgoing-section='crash'] {
+    .primary-canvas {
+        transform: translateX(calc(25% * var(--outgoing-y-visibility-ratio)));
+    }
+}
+
+.crash {
+    &__background {
+        background-color: $light-blue;
+        position: relative;
+        overflow: hidden;
+
+        &:before {
+            background: radial-gradient(circle at 75%, lighten($light-blue, 35%), $light-blue 50%);
+            content: '';
+            height: 100vh;
+            left: 50%;
+            opacity: var(--y-visibility-ratio);
+            position: absolute;
+            top: 0;
+            width: 100vw;
+            transform: translateX(-50%) faux-fixed();
+        }
+
+        &.section-background {
+            height: 150vh;
+        }
+    }
+}

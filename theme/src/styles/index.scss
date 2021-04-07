@@ -1,6 +1,5 @@
 @import "utils/css_wrappers";
 @import "utils/fonts";
-@import "utils/grid";
 @import "utils/responsive";
 @import "utils/mixins-n-functions";
 
@@ -28,7 +27,8 @@
 @import "sections/hero";
 @import "sections/intro";
 @import "sections/specs";
-@import "sections/printable";
+@import "sections/fly";
+@import "sections/crash";
 @import "sections/grid-overlay";
 
 
