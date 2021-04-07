@@ -236,41 +236,41 @@ $section-height: 250vh;
                 white-space: nowrap;
             }
 
-            .strike {
-                position: relative;
-
-                &:before {
-                    bottom: 80%;
-                    color: $orange;
-                    content: attr(replace);
-                    font-family: font-family(hand);
-                    font-size: 0.8em;
-                    opacity: 0;
-                    position: absolute;
-                    transform: translateY(-50%);
-                    transition: opacity 200ms, transform 200ms ease-out;
-                    transition-delay: calc(var(--transition-delay) + 300ms);
-                }
-
-                &:after {
-                    background-color: $orange;
-                    content: '';
-                    height: 0.3em;
-                    left: -0.2em;
-                    opacity: 0.9;
-                    position: absolute;
-                    right: calc(100% + 0.2em);
-                    top: 50%;
-                    transform: translateY(-30%);
-                    transition: right 200ms ease-out;
-                    transition-delay: var(--transition-delay);
-                }
-            }
-
             @for $i from 0 through 11 {
                 &[data-index="#{$i}"] {
                     --transition-delay: #{$i * 100}ms;
                 }
+            }
+        }
+
+        .strike {
+            position: relative;
+
+            &:before {
+                bottom: 80%;
+                color: $orange;
+                content: attr(replace);
+                font-family: font-family(hand);
+                font-size: 0.8em;
+                opacity: 0;
+                position: absolute;
+                transform: translateY(-50%);
+                transition: opacity 200ms, transform 200ms ease-out;
+                transition-delay: calc(var(--transition-delay) + 300ms);
+            }
+
+            &:after {
+                background-color: $orange;
+                content: '';
+                height: 0.3em;
+                left: -0.2em;
+                opacity: 0.9;
+                position: absolute;
+                right: calc(100% + 0.2em);
+                top: 50%;
+                transform: translateY(-30%);
+                transition: right 200ms ease-out;
+                transition-delay: var(--transition-delay);
             }
         }
 
@@ -327,22 +327,20 @@ $section-height: 250vh;
                 @extend %extend-down;
             }
 
-            &__point {
-                .strike {
-                    &:before {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-
-                    &:after {
-                        right: -0.2em;
-                    }
-                }
-            }
-
             &__no-wait {
                 opacity: 1;
                 transform: translate(-50%, 9rem) rotate(-5deg);
+            }
+        }
+
+        .strike {
+            &:before {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            &:after {
+                right: -0.2em;
             }
         }
     }

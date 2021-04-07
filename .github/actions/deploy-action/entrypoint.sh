@@ -6,4 +6,4 @@ cd ./theme
 git-crypt unlock /tmp/git-crypt-key
 npm install
 npm run build:app
-theme deploy --env=$BRANCH
+theme deploy --env=$BRANCH --allow-live
