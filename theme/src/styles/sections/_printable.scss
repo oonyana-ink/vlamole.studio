@@ -3,12 +3,12 @@
     position: relative;
 
     .hotend {
-        width: 14vw;
+        background-color: #ccc;
         height: 14vw;
+        left: 50%;
         position: absolute;
         top: 50%;
-        left: 50%;
         transform: translate(-50%, -50%);
-        background-color: #ccc;
+        width: 14vw;
     }
 }

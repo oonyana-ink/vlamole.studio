@@ -54,17 +54,10 @@ export default class Model {
 
   get boundingBox () {
     const { __boundsCache } = this
-    const now = Date.now()
 
     if (!__boundsCache.bounds) {
       __boundsCache.bounds = this._getBounds(this.model)
     }
-
-    // if (!__boundsCache.timestamp || now - __boundsCache.timestamp > __boundsCache.lifetime) {
-    //   const bbox = new THREE.Box3().setFromObject(this.model)
-    //   bbox.getSize(__boundsCache.bounds)
-    //   __boundsCache.timestamp = now
-    // }
 
     const { x, y, z } = __boundsCache.bounds
 

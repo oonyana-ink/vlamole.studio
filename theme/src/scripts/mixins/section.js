@@ -33,7 +33,7 @@ export default {
         yVisibilityRatio
       } = this
       return {
-        visible: yVisibilityRatio > 0,
+        visible: yVisibilityRatio > 0
       }
     },
 
@@ -116,7 +116,6 @@ export default {
   },
 
   mounted () {
-    // this.trackOffset()
     this.getPosition()
     this.trackOffset()
     this.trackBounds({ force: true })

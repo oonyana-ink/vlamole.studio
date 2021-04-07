@@ -34,8 +34,8 @@
         label {
             display: block;
             font-family: font-family(mono);
-            font-weight: font-weight(medium);
             font-size: 0.75rem;
+            font-weight: font-weight(medium);
             padding: 0.5em;
             text-transform: uppercase;
 
@@ -43,41 +43,41 @@
                 bottom: 0;
                 position: absolute;
                 right: 0;
+            }
+        }
 
-                span {
-                    display: inline-block;
-                    padding-left: 1rem;
-                    position: relative;
+        span {
+            display: inline-block;
+            padding-left: 1rem;
+            position: relative;
 
-                    &:before {
-                        background-color: currentColor;
-                        border-radius: 50%;
-                        content: '';
-                        height: 4px;
-                        left: 0.5rem;
-                        position: absolute;
-                        top: 50%;
-                        transform: translate(0%, -50%);
-                        width: 4px;
-                    }
+            &:before {
+                background-color: currentColor;
+                border-radius: 50%;
+                content: '';
+                height: 4px;
+                left: 0.5rem;
+                position: absolute;
+                top: 50%;
+                transform: translate(0%, -50%);
+                width: 4px;
+            }
 
-                    &.dark-blue {
-                        color: $dark-blue;
-                    }
+            &.dark-blue {
+                color: $dark-blue;
+            }
 
-                    &.blue {
-                        color: $light-blue;
-                    }
+            &.blue {
+                color: $light-blue;
+            }
 
-                    &.orange {
-                        color: $orange;
-                    }
-                }
+            &.orange {
+                color: $orange;
             }
         }
 
         .canvas-container {
-            bottom:0;
+            bottom: 0;
             left: 0;
             position: absolute;
             right: 0;

@@ -1,4 +1,3 @@
-import { interpolate } from 'd3-interpolate'
 import { easeCubicInOut } from 'd3-ease'
 import { watch } from 'vue'
 
@@ -62,24 +61,8 @@ class Sections {
     if (!this.incomingSection || !this.outgoingSection) { return }
 
     const {
-      incomingSection,
-      // outgoingSection
+      incomingSection
     } = this
-    // const {
-    //   config: incomingConfig
-    // } = incomingSection
-    // const {
-    //   config: outgoingConfig
-    // } = outgoingSection
-
-    // console.log({ incomingConfig, outgoingConfig })
-
-    // incomingSection.interpolators = Object.keys(incomingConfig.stage).map(key => {
-    //   return {
-    //     key,
-    //     interpolator: interpolate(outgoingConfig.stage[key], incomingConfig.stage[key])
-    //   }
-    // })
 
     incomingSection.unwatch = watch([
       () => incomingSection.yVisibilityRatio

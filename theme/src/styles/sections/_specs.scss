@@ -33,8 +33,8 @@ body[outgoing-section='specs'] {
 
     .data-table {
         $data-table-border: 1px solid rgba($white, 0.6);
-        color: $white;
         border: $data-table-border;
+        color: $white;
         font-size: 0.75rem;
         opacity: calc(0.9 * var(--y-visibility-ratio));
         text-transform: uppercase;
@@ -50,12 +50,12 @@ body[outgoing-section='specs'] {
         }
 
         .col {
-            text-align: center;
-            flex-grow: 1;
             border-right: $data-table-border;
             display: flex;
             flex-direction: column;
+            flex-grow: 1;
             position: relative;
+            text-align: center;
 
             &.no-grow {
                 flex-grow: 0;
@@ -76,8 +76,8 @@ body[outgoing-section='specs'] {
 
     &__header {
         position: absolute;
-        top: $grid-margin * 0.25;
         right: $grid-margin;
+        top: $grid-margin * 0.25;
 
         &.data-table {
             .col {
@@ -109,9 +109,9 @@ body[outgoing-section='specs'] {
     }
 
     &__footer {
-        position: absolute;
         bottom: $grid-margin * 0.5;
         left: $grid-margin;
+        position: absolute;
         width: grid-width(10);
 
         &.data-table {
@@ -119,46 +119,45 @@ body[outgoing-section='specs'] {
                 justify-content: center;
 
                 label {
-                    position: absolute;
                     border: none;
-                    top: 0;
-                    left: 0;
                     font-size: 0.65rem;
+                    left: 0;
                     padding: 0.5em;
+                    position: absolute;
+                    top: 0;
                 }
 
                 .value {
-                    padding: 0.3em 0.5em;
                     font-size: 1rem;
+                    padding: 0.3em 0.5em;
                 }
             }
         }
 
         svg {
-            height: 2rem;
             fill: $white;
-            width: auto;
+            height: 2rem;
             margin: 0 0.25rem;
+            width: auto;
         }
     }
 
     &__decoration {
         $dimension-color: #66f7ff;
         height: grid-width(5);
-        // opacity: 0.4;
+        left: 50%;
         pointer-events: none;
         position: relative;
         top: 45vh;
-        left: 50%;
         transform: translate(-50%, -50%);
         width: grid-width(5);
         z-index: 40;
 
         .dimension {
-            background-color: $dimension-color;
             background-clip: padding-box;
-            border-top: 2px solid rgba($dark-blue, 0.75);
+            background-color: $dimension-color;
             border-bottom: 2px solid rgba($dark-blue, 0.75);
+            border-top: 2px solid rgba($dark-blue, 0.75);
             height: 2px;
             opacity: var(--y-visibility-ratio);
             position: absolute;
@@ -166,17 +165,17 @@ body[outgoing-section='specs'] {
 
             label {
                 @include font-weight(medium);
-                display: block;
+                background-color: $dimension-color;
                 color: $dark-blue;
+                display: block;
                 font-size: 0.75rem;
-                position: absolute;
-                white-space: nowrap;
-                top: 50%;
                 left: 50%;
                 padding: 0.3em 0.5em;
-                background-color: $dimension-color;
-                transform: translate(-50%, -50%);
+                position: absolute;
                 text-transform: uppercase;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                white-space: nowrap;
 
                 span {
                     font-size: 0.55rem;
@@ -185,9 +184,8 @@ body[outgoing-section='specs'] {
 
             &:before,
             &:after {
-                background-color: $dimension-color;
                 background-clip: padding-box;
-                // box-shadow: 1px 2px 0px $dark-blue;s
+                background-color: $dimension-color;
                 content: '';
                 height: 1rem;
                 position: absolute;
@@ -225,15 +223,15 @@ body[outgoing-section='specs'] {
             &.wheelbase {
                 left: 48%;
                 top: 52%;
-                width: calc(72% * var(--y-visibility-ratio));
                 transform: translate(-50%, -50%) rotate(45deg);
+                width: calc(72% * var(--y-visibility-ratio));
             }
 
             &.prop-size {
-                width: calc(40% * var(--y-visibility-ratio));
                 right: -0.5rem;
                 top: 24.25%;
                 transform: translateX(50%) rotate(90deg);
+                width: calc(40% * var(--y-visibility-ratio));
             }
 
             &.camera-size {
@@ -248,40 +246,40 @@ body[outgoing-section='specs'] {
             }
 
             &.whoop-pattern {
-                top: 58%;
                 left: 42%;
-                width: 20%;
+                top: 58%;
                 transform: translate(-50%, -50%) rotate(45deg);
+                width: 20%;
 
                 label {
-                    transform-origin: right center;
                     transform: translate(-100%, 0%) rotate(-45deg);
+                    transform-origin: right center;
                 }
             }
 
             &.micro-pattern {
-                top: 50%;
                 left: 53%;
-                width: 15%;
+                top: 50%;
                 transform: rotate(90deg);
+                width: 15%;
 
                 label {
                     top: -1.5rem;
-                    transform-origin: left center;
                     transform: translate(0, 40%) rotate(-90deg);
+                    transform-origin: left center;
                 }
             }
 
             &.motor-pattern {
-                top: 72%;
                 left: 79%;
-                width: 6%;
+                top: 72%;
                 transform: translate(-50%, -50%) rotate(45deg);
+                width: 6%;
 
                 label {
                     top: -2rem;
-                    transform-origin: left center;
                     transform: translate(0, 40%) rotate(-45deg);
+                    transform-origin: left center;
                 }
             }
         }
@@ -315,10 +313,10 @@ body[outgoing-section='specs'] {
         .grid-border {
             border-left: 1px solid $white;
             border-right: 1px solid $white;
+            display: none;
             height: $border-size;
             position: absolute;
             width: 100%;
-            display: none;
 
             &:before,
             &:after {
@@ -357,8 +355,6 @@ body[outgoing-section='specs'] {
         }
     }
 
-
-
     &.visible {
         .specs {
             &__grid,
@@ -369,10 +365,6 @@ body[outgoing-section='specs'] {
                 display: flex;
             }
         }
-    }
-
-    .specs_block {
-
     }
 
     .spec {

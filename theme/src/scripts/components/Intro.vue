@@ -151,11 +151,6 @@
               <label>Repeat</label>
             </div>
           </div>
-          <div class="timeline__span repeat">
-            <div class="timeline__point">
-              <label>Repeat</label>
-            </div>
-          </div>
           <div class="timeline__no-wait">
             Wait no more!
           </div>

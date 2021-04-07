@@ -38,7 +38,6 @@ export default class Lights {
         Type,
         position,
         color = 0xffffff,
-        debugColor,
         intensity = 1
       } = lightConf
       const light = new Type(color)

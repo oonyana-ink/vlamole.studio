@@ -1,4 +1,5 @@
-import { reactive, ref } from 'vue'
+import { reactive } from 'vue'
+
 class Grid {
   app = null
   options = {}
@@ -38,11 +39,13 @@ class Grid {
   }
 
   calculateGrid () {
+    let cols, newWidth
     this.grid.columnCount = this.columnCount
     this.grid.margin = this.margin
     this.grid.columnWidth = this.columnWidth
-    for (let cols in this.grids) {
-      let newWidth = this.columnsWidth(cols)
+
+    for (cols in this.grids) {
+      newWidth = this.columnsWidth(cols)
       this.grids[cols].value = newWidth
     }
   }

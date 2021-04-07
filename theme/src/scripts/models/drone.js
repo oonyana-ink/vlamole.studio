@@ -1,6 +1,5 @@
 import Model from './model'
 import { Propeller } from './propeller'
-import grid from '../layout/grid'
 
 const DRONE_DIMENSIONS = {
   widthXAxis: 69,
@@ -124,7 +123,7 @@ export class Drone extends Model {
 
   resetAnimation () {
     this.transformTarget = 'object3D'
-    this.position.y = 0;
+    this.position.y = 0
     this.rotation = { z: 0, x: 0 }
     this.transformTarget = 'default'
   }

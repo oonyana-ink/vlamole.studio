@@ -12,8 +12,8 @@ body[outgoing-section='crash'] {
 .crash {
     &__background {
         background-color: $light-blue;
-        position: relative;
         overflow: hidden;
+        position: relative;
 
         &:before {
             background: radial-gradient(circle at 75%, lighten($light-blue, 35%), $light-blue 50%);
@@ -23,8 +23,8 @@ body[outgoing-section='crash'] {
             opacity: var(--y-visibility-ratio);
             position: absolute;
             top: 0;
-            width: 100vw;
             transform: translateX(-50%) faux-fixed();
+            width: 100vw;
         }
 
         &.section-background {
