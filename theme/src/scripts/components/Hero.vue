@@ -32,7 +32,7 @@
         loop
       >
         <source
-          src="/assets/clouds-bg.mp4"
+          :src="`${ assetsURL }/clouds-bg.mp4`"
           type="video/mp4"
         >
       </video>
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import config from '@/config'
 import sectionMixin from '@mixins/section'
 
 export default {
@@ -49,6 +50,10 @@ export default {
   inject: ['grid', 'gridWidth'],
 
   computed: {
+    assetsURL () {
+      return config.assetsURL
+    },
+
     config () {
       return {
         stage: {

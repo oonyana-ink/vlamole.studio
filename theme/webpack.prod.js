@@ -42,9 +42,6 @@ const configs = {
         filename: '[name].bundle.css'
       })
     ]
-  }),
-  workers: merge(common.workers, {
-    mode: 'production'
   })
 }
 

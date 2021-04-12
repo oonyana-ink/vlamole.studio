@@ -2,6 +2,7 @@ const path = require('path')
 const StylelintPlugin = require('stylelint-webpack-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
+const RemovePlugin = require('remove-files-webpack-plugin')
 
 const resolve = {
   alias: {
@@ -42,6 +43,28 @@ const rules = {
 }
 
 const mainPlugins = [
+  new RemovePlugin({
+    before: {
+      test: [
+        {
+          folder: 'assets',
+          method: (path) => {
+            return /bundle\.(j|cs)s(\.map)?$/.test(path)
+          }
+        }
+      ]
+    },
+    watch: {
+      test: [
+        {
+          folder: 'assets',
+          method: (path) => {
+            return /bundle\.(j|cs)s(\.map)?$/.test(path)
+          }
+        }
+      ]
+    }
+  }),
   new StylelintPlugin({}),
   new ESLintPlugin({}),
   new VueLoaderPlugin()
@@ -54,7 +77,12 @@ module.exports = {
       filename: '[name].bundle.js',
       chunkFilename: '[name].chunk.js',
       path: path.resolve(__dirname, 'assets'),
-      publicPath: '/assets/'
+      publicPath: '/assets/',
+      clean: {
+        keep (asset) {
+          return !/bundle\.js(\.map)?$/.test(asset)
+        }
+      }
     },
 
     module: {
@@ -65,26 +93,5 @@ module.exports = {
     },
 
     plugins: mainPlugins
-  },
-
-  workers: {
-    entry: {
-      scene: './src/scripts/workers/scene-worker.js'
-    },
-    resolve,
-    devtool: false,
-    output: {
-      filename: '[name].worker.js',
-      path: path.resolve(__dirname, 'assets'),
-      publicPath: '/assets/'
-    },
-
-    module: {
-      rules: [rules.babelCompiler]
-    },
-
-    plugins: [
-      new ESLintPlugin({})
-    ]
   }
 }

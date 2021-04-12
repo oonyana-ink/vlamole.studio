@@ -24,7 +24,6 @@ const webpackHotMiddleware = require('webpack-hot-middleware')
 const webpackConfig = require('./webpack.dev.js')
 
 const mainWebpackCompiler = webpack(webpackConfig.main)
-const workerWepbackCompiler = webpack(webpackConfig.workers)
 
 const THEME_ID_FILE = '/themeify/.data/theme_id';
 const STATE = {
@@ -84,9 +83,6 @@ module.exports = {
     webpackDevMiddleware(mainWebpackCompiler, {
       publicPath: webpackConfig.main.output.publicPath
       // writeToDisk: (filePath) => /\.bunder\.(j|cs)s$/.test(filePath)
-    }),
-    webpackDevMiddleware(workerWepbackCompiler, {
-      publicPath: webpackConfig.workers.output.publicPath
     }),
     webpackHotMiddleware(mainWebpackCompiler),
     bodyParser.json(),

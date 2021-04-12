@@ -19,13 +19,13 @@
                 class="timeline-toggle__option"
                 @click="updateTimeline('old-timeline')"
               >
-                Old
+                Past
               </div>
               <div
                 class="timeline-toggle__option"
                 @click="updateTimeline('new-timeline')"
               >
-                New
+                Future
               </div>
             </div>
           </div>

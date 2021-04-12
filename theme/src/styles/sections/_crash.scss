@@ -1,22 +1,65 @@
 body[incoming-section='crash'] {
     .primary-canvas {
-        transform: translateX(calc(25% * var(--incoming-y-visibility-ratio)));
+        transform: translateX(calc(-24.5% * var(--incoming-y-visibility-ratio)));
     }
 }
 body[outgoing-section='crash'] {
     .primary-canvas {
-        transform: translateX(calc(25% * var(--outgoing-y-visibility-ratio)));
+        transform: translateX(calc(-24.5% * var(--outgoing-y-visibility-ratio)));
     }
 }
 
 .crash {
+    &.section {
+        height: 150vh;
+        z-index: 20;
+    }
+
+    .content {
+        height: 100vh;
+        opacity: var(--y-visibility-ratio);
+        position: relative;
+        width: 100%;
+        transform: faux-fixed();
+
+        .grid {
+            align-items: center;
+            height: 100%;
+        }
+    }
+
+    .section__copy {
+        color: $white;
+        width: grid-width($cols: 4);
+        margin-left: grid-offset($cols: 7);
+
+        h3 {
+            color: $white;
+            text-transform: uppercase;
+        }
+    }
+
+    .impact-forces {
+        $hw: 100vh; // grid-width($cols: 6);
+        position: absolute;
+        height: $hw;
+        width: $hw;
+        left: 25%;
+        top: 50vh;
+        transform: translate(-50%, -50%);
+    }
+
     &__background {
         background-color: $light-blue;
         overflow: hidden;
         position: relative;
 
+        &.section-background {
+            height: 150vh;
+        }
+
         &:before {
-            background: radial-gradient(circle at 75%, lighten($light-blue, 35%), $light-blue 50%);
+            background: radial-gradient(circle at 25%, lighten($light-blue, 35%), $light-blue 50%);
             content: '';
             height: 100vh;
             left: 50%;
@@ -27,8 +70,8 @@ body[outgoing-section='crash'] {
             width: 100vw;
         }
 
-        &.section-background {
-            height: 150vh;
+        .scroll-trigger {
+            height: 100vh;
         }
     }
 }
