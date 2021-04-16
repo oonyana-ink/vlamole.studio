@@ -8,7 +8,7 @@ export default class ScrollPosition {
     y: 0
   }
 
-  scrollingElement = document.querySelector('.main-content')
+  scrollingElement = document.scrollingElement //document.querySelector('.main-content')
 
   constructor ({ app }) {
     app.onScroll = this.onScroll.bind(this)

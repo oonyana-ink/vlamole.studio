@@ -78,6 +78,7 @@ export default {
   },
 
   computed: {
+    scrollLabel () { return 'Impact handling' },
     config () {
       return {
         stage: {
@@ -412,7 +413,7 @@ export default {
     reset () {
       if (this.inDelay) { return }
 
-      const delay = Math.floor(2000 * this.getRandomFloat(0.2, 1))
+      const delay = Math.floor(1000 * this.getRandomFloat(0.2, 1))
       setTimeout(() => {
         this.currentProp = this.getRandomProp()
         this.currentArcStart = this.randomArcStart

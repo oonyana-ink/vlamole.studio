@@ -8,7 +8,7 @@ class ScrollTracker {
     y: 0
   })
 
-  scrollingElement = document.querySelector('.main-content')
+  scrollingElement = document.body //document.querySelector('.main-content')
 
   constructor (app, options = {}) {
     this.app = app
@@ -19,6 +19,8 @@ class ScrollTracker {
 
   extendApp () {
     this.app.provide('scrollPosition', this.position)
+    this.app.provide('scrollingElement', this.scrollingElement)
+    this.app.provide('setScrollTop', this.setScrollTop.bind(this))
     this.app.scrollPosition = this.position
   }
 
@@ -32,6 +34,10 @@ class ScrollTracker {
       this.position.x = scrollingElement.scrollLeft
       this.position.y = scrollingElement.scrollTop
     }
+  }
+
+  setScrollTop (top) {
+    this.scrollingElement.scrollTop = top
   }
 }
 

@@ -45,7 +45,10 @@
       </div>
 
       <div class="footer_right-side">
-        <a class="button">Build One</a>
+        <a class="button primary-cta" :label-index="ctaLabelIndex">
+          <span>Get One</span>
+          <span>Make One</span>
+        </a>
       </div>
     </div>
   </footer>
@@ -53,6 +56,14 @@
 
 <script>
 export default {
-  setup() {},
+  data () {
+    return {
+      ctaLabelIndex: 0
+    }
+  },
+
+  mounted () {
+    setInterval(() => this.ctaLabelIndex = this.ctaLabelIndex === 0 ? 1 : 0, 4000)
+  }
 };
 </script>

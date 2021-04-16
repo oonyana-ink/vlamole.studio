@@ -1,5 +1,5 @@
 import { easeCubicInOut } from 'd3-ease'
-import { watch } from 'vue'
+import { watch, reactive } from 'vue'
 
 class Sections {
   app = null
@@ -8,7 +8,7 @@ class Sections {
   activeSections = []
   incomingSection = null
   outgoingSection = null
-  sections = []
+  sections = reactive([])
 
   constructor (app, options = {}) {
     this.app = app
@@ -20,6 +20,8 @@ class Sections {
   extendApp () {
     this.app.config.globalProperties.$registerSection = this.registerSection.bind(this)
     this.app.config.globalProperties.$registerStage = this.registerStage.bind(this)
+    console.log('---provide sections')
+    this.app.provide('sections', this.sections)
   }
 
   registerSection (section) {

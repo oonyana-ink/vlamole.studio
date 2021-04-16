@@ -1,12 +1,6 @@
 $menu_toggle_width: 1.5rem;
 $menu_toggle_height: $menu_toggle_width * 0.5;
 
-@mixin hud-color($prop) {
-    #{$prop}: var(--hud-color);
-    transition: $prop 600ms;
-}
-
-
 body {
     --hud-color: #{$dark-blue};
 }

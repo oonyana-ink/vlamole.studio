@@ -11,13 +11,13 @@
 @import "core/controls";
 @import "core/icons";
 
-@import "components/all";
-
-@import "modules/parallax";
-
 @import "layout/main";
 @import "layout/page";
 @import "layout/grid";
+
+@import "components/all";
+
+@import "modules/parallax";
 
 @import "sections/header";
 @import "sections/footer";
@@ -29,6 +29,7 @@
 @import "sections/specs";
 @import "sections/fly";
 @import "sections/crash";
+@import "sections/print";
 @import "sections/grid-overlay";
 
 

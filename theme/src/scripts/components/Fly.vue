@@ -56,6 +56,8 @@ export default {
       sceneState: 'scene'
     }),
 
+    scrollLabel () { return 'Flight dynamics' },
+
     config () {
       const { depth: sceneDepth } = this.sceneState
       return {

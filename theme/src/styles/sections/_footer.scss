@@ -12,6 +12,36 @@
         justify-content: space-between;
     }
 
+    .primary-cta {
+        height: 1em;
+        padding: 0.75em 0;
+        position: relative;
+        text-align: center;
+        width: 10vw;
+
+        span {
+            left: 50%;
+            opacity: 0;
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            transition: opacity 1000ms;
+            white-space: nowrap;
+        }
+
+        &[label-index="0"] {
+            span:first-child {
+                opacity: 1;
+            }
+        }
+
+        &[label-index="1"] {
+            span:last-child {
+                opacity: 1;
+            }
+        }
+    }
+
     .social-icon {
         margin-top: 1rem;
 

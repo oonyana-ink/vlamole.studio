@@ -1,0 +1,11 @@
+.print {
+    &.section {
+        height: 150vh;
+    }
+
+    &__background {
+        &.section-background {
+            height: 150vh;
+        }
+    }
+}

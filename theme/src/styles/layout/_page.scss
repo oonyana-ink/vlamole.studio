@@ -2,16 +2,44 @@ $page-margin: 2rem;
 
 html, body {
     height: 100%;
+    width: 100vw;
     overflow: hidden;
 }
 
-.main-content {
-    height: 100vh;
-    overflow-x: hidden;
+body {
     overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar * {
+    background: transparent !important;
+    display: none;
+}
+
+::-webkit-scrollbar {
+    width: 0.5rem;
+    display: none;
+}
+
+::-webkit-scrollbar-track {
+    // background: rgba(0, 0, 0, 0);
+    background: #c00;
+    display: none;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: $dark-blue;
+}
+
+.main-content {
+    // height: 100vh;
+    // overflow-x: hidden;
+    // overflow-y: scroll;
+    // overflow: overlay;
     position: relative;
+    // overflow: overlay;
     // scroll-snap-type: y;
-    width: 100%;
+    width: 100vw;
     z-index: 10;
 }
 

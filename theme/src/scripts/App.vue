@@ -7,11 +7,12 @@
   <Specs />
   <Fly />
   <Crash />
+  <Print />
+  <Scrollbar />
 </template>
 
 <script>
 import '@styles/index.scss'
-import { inject, watch } from 'vue'
 import HUD from '@components/HUD.vue'
 import Stage from '@components/Stage.vue'
 import Hero from '@components/Hero.vue'
@@ -19,6 +20,8 @@ import Intro from '@components/Intro.vue'
 import Specs from '@components/Specs.vue'
 import Fly from '@components/Fly.vue'
 import Crash from '@components/Crash.vue'
+import Print from '@components/Print.vue'
+import Scrollbar from '@components/Scrollbar.vue'
 
 export default {
   components: {
@@ -28,7 +31,9 @@ export default {
     Intro,
     Specs,
     Fly,
-    Crash
+    Crash,
+    Print,
+    Scrollbar
   }
 }
 </script>
