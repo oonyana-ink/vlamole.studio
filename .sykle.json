@@ -37,6 +37,10 @@
     "vue": {
       "service": "themeify",
       "command": "vue"
+    },
+    "themekit": {
+      "service": "themeify",
+      "command": "theme"
     }
   },
   "plugins": {}

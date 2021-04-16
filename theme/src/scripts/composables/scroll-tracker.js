@@ -8,7 +8,7 @@ class ScrollTracker {
     y: 0
   })
 
-  scrollingElement = document.body //document.querySelector('.main-content')
+  scrollingElement = document.body // document.querySelector('.main-content')
 
   constructor (app, options = {}) {
     this.app = app

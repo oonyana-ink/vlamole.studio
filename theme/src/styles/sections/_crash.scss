@@ -19,8 +19,8 @@ body[outgoing-section='crash'] {
         height: 100vh;
         opacity: var(--y-visibility-ratio);
         position: relative;
-        width: 100%;
         transform: faux-fixed();
+        width: 100%;
 
         .grid {
             align-items: center;
@@ -30,8 +30,8 @@ body[outgoing-section='crash'] {
 
     .section__copy {
         color: $white;
-        width: grid-width($cols: 4);
         margin-left: grid-offset($cols: 7);
+        width: grid-width($cols: 4);
 
         h3 {
             color: $white;
@@ -41,12 +41,12 @@ body[outgoing-section='crash'] {
 
     .impact-forces {
         $hw: 100vh; // grid-width($cols: 6);
-        position: absolute;
         height: $hw;
-        width: $hw;
         left: 25%;
+        position: absolute;
         top: 50vh;
         transform: translate(-50%, -50%);
+        width: $hw;
     }
 
     &__background {

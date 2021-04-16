@@ -46,8 +46,8 @@
     &__section-marker {
         display: flex;
         flex-direction: column;
-        justify-content: center;
         height: 0.5em;
+        justify-content: center;
         position: absolute;
         transform: translateX(0.25em);
         transition: transform 300ms, width 300ms, border-radius 300ms;
@@ -57,8 +57,8 @@
             border: 1px solid;
             @include hud-color(border-color);
             border-radius: 0.25em;
-            box-sizing: border-box;
             bottom: 0;
+            box-sizing: border-box;
             content: '';
             left: 0;
             position: absolute;

@@ -2,8 +2,8 @@ $page-margin: 2rem;
 
 html, body {
     height: 100%;
-    width: 100vw;
     overflow: hidden;
+    width: 100vw;
 }
 
 body {
@@ -17,8 +17,8 @@ body {
 }
 
 ::-webkit-scrollbar {
-    width: 0.5rem;
     display: none;
+    width: 0.5rem;
 }
 
 ::-webkit-scrollbar-track {
