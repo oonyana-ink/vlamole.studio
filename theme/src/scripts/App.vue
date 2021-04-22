@@ -11,6 +11,10 @@
   <Fix />
   <Insta />
   <Nopage />
+<<<<<<< HEAD
+=======
+  
+>>>>>>> f99470e2148cd02cacd00eef570ff1c9970ece14
   <Scrollbar />
   <ProductSelector />
 </template>
@@ -28,6 +32,10 @@ import Print from '@components/Print.vue'
 import Fix from '@components/Fix.vue'
 import Insta from  '@components/Insta.vue'
 import Nopage from  '@components/Nopage.vue';
+<<<<<<< HEAD
+=======
+
+>>>>>>> f99470e2148cd02cacd00eef570ff1c9970ece14
 import Scrollbar from '@components/Scrollbar.vue'
 import ProductSelector from '@components/ProductSelector.vue'
 
@@ -42,12 +50,19 @@ export default {
     Crash,
     Print,
 <<<<<<< HEAD
+<<<<<<< HEAD
     Scrollbar,
     ProductSelector
 =======
     Fix,
     Insta,
     Nopage,
+=======
+    Fix,
+    Insta,
+    Nopage,
+    
+>>>>>>> f99470e2148cd02cacd00eef570ff1c9970ece14
     Scrollbar
 >>>>>>> Jwan's WIP
   }
