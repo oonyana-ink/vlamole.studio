@@ -41,15 +41,11 @@ export default {
     Fly,
     Crash,
     Print,
-<<<<<<< HEAD
-    Scrollbar,
-    ProductSelector
-=======
     Fix,
     Insta,
     Nopage,
-    Scrollbar
->>>>>>> Jwan's WIP
+    Scrollba,
+    ProductSelector
   }
 }
 </script>
