@@ -23,6 +23,10 @@ export default {
 
     showSelector (state) {
       return state.showSelector
+    },
+
+    productImages (state) {
+      return state.product.images
     }
   },
   mutations: {
