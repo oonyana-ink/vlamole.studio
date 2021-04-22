@@ -3,7 +3,7 @@
   "plugins": [
     "stylelint-order"
   ],
-  "ignoreFiles": ["assets/*.css"],
+  "ignoreFiles": ["assets/*"],
   "rules": {
     "indentation": 4,
     "max-nesting-depth": 4,

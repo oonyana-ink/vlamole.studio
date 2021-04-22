@@ -28,8 +28,9 @@ export default {
       return {
         stage: {
           drone: {
-            rotation: ['0deg', '720deg', '0deg'],
-            position: [0, window.innerHeight * -0.25, 0]
+            appearance: 'shaded',
+            rotation: ['40deg', '140deg', '0deg'],
+            position: [0, 0, 0],
           }
         }
       }

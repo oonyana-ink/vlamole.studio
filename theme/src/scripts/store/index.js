@@ -1,12 +1,8 @@
 import { createStore } from 'vuex'
-import { drone, scene } from './modules'
+import * as modules from './modules'
 
 export default createStore({
-  modules: {
-    drone,
-    scene
-  },
-
+  modules,
   state () {
     return {
 

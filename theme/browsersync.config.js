@@ -85,19 +85,19 @@ module.exports = {
       // writeToDisk: (filePath) => /\.bunder\.(j|cs)s$/.test(filePath)
     }),
     webpackHotMiddleware(mainWebpackCompiler),
-    bodyParser.json(),
-    {
-      "route": "/theme_change",
-      "handle": function (req, res, next) {
-        let hardReload = !!req.body.files.find(file => /\.(liquid|js)$/.test(file))
-        if (hardReload) {
-          browserSync.instances.forEach(instance => instance.reload())
-        } else {
-          next()
-        }
-        res.end()
-      }
-    }
+    // bodyParser.json(),
+    // {
+    //   "route": "/theme_change",
+    //   "handle": function (req, res, next) {
+    //     let hardReload = !!req.body.files.find(file => /\.(liquid|js)$/.test(file))
+    //     if (hardReload) {
+    //       browserSync.instances.forEach(instance => instance.reload())
+    //     } else {
+    //       next()
+    //     }
+    //     res.end()
+    //   }
+    // }
   ],
   "serveStatic": [{
     "route": '/assets',
