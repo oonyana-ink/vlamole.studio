@@ -11,6 +11,7 @@
   <Fix />
   <Insta />
   <Nopage />
+  
   <Scrollbar />
 </template>
 
@@ -27,6 +28,7 @@ import Print from '@components/Print.vue'
 import Fix from '@components/Fix.vue'
 import Insta from  '@components/Insta.vue'
 import Nopage from  '@components/Nopage.vue';
+
 import Scrollbar from '@components/Scrollbar.vue'
 
 export default {
@@ -42,6 +44,7 @@ export default {
     Fix,
     Insta,
     Nopage,
+    
     Scrollbar
   }
 }
