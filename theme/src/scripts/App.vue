@@ -29,7 +29,6 @@ import Print from '@components/Print.vue'
 import Fix from '@components/Fix.vue'
 import Insta from  '@components/Insta.vue'
 import Nopage from  '@components/Nopage.vue';
-
 import Scrollbar from '@components/Scrollbar.vue'
 import ProductSelector from '@components/ProductSelector.vue'
 
