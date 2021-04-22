@@ -12,7 +12,7 @@
             class="gallery__item"
             v-for="(image, index) in productImages"
             :key="`galleryItem${index}`">
-            <img src="image" alt="" class="gallery__img">
+            <img :src="image" alt="" class="gallery__img">
           </figure>
         </div>
       </div>
