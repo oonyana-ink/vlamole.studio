@@ -1,0 +1,17 @@
+.insta {
+    &.section {
+        height: 150vh;
+    }
+
+    .grid {
+        box-sizing: border-box;
+        height: 100%;
+    }
+
+    &__background {
+        &.section-background {
+            height: 150vh;
+        }
+    }
+}
+

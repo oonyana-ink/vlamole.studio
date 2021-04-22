@@ -3,9 +3,34 @@
         height: 150vh;
     }
 
+    .grid {
+        box-sizing: border-box;
+        height: 100%;
+    }
+
     &__background {
         &.section-background {
             height: 150vh;
         }
     }
+}
+
+.pront {
+    font-size: 30vw;
+    letter-spacing: -0.075em;
+    text-align: center;
+    padding-top: 10vh;
+    padding-bottom: 0px;
+    margin: 0px;
+    
+    
+}
+
+.para {
+    display: inline-block;
+    
+}
+
+.paraa {
+    text-align: end;
 }

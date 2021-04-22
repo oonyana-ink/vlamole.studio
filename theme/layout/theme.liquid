@@ -63,6 +63,8 @@
       {% section 'intro' %}
       {% section 'specs' %}
       {% section 'printable' %}
+      {% section 'insta' %}
+      {% section 'nopage' %}
       {{ content_for_layout }} {% endcomment %}
     </main>
 
@@ -76,7 +78,7 @@
     {% endfor %}
 
     <script type="text/javascript">
-    const isLocal = /local/.test(window.location.host)
+    const isLocal = /(local|ngrok)/.test(window.location.host)
     const uriAttrKeys = {
       'SCRIPT': 'src',
       'LINK': 'href'

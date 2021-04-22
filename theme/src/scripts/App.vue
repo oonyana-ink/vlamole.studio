@@ -8,6 +8,9 @@
   <Fly />
   <Crash />
   <Print />
+  <Fix />
+  <Insta />
+  <Nopage />
   <Scrollbar />
   <ProductSelector />
 </template>
@@ -22,6 +25,9 @@ import Specs from '@components/Specs.vue'
 import Fly from '@components/Fly.vue'
 import Crash from '@components/Crash.vue'
 import Print from '@components/Print.vue'
+import Fix from '@components/Fix.vue'
+import Insta from  '@components/Insta.vue'
+import Nopage from  '@components/Nopage.vue';
 import Scrollbar from '@components/Scrollbar.vue'
 import ProductSelector from '@components/ProductSelector.vue'
 
@@ -35,8 +41,15 @@ export default {
     Fly,
     Crash,
     Print,
+<<<<<<< HEAD
     Scrollbar,
     ProductSelector
+=======
+    Fix,
+    Insta,
+    Nopage,
+    Scrollbar
+>>>>>>> Jwan's WIP
   }
 }
 </script>
