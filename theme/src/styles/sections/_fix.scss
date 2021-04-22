@@ -1,0 +1,46 @@
+.fix {
+    &.section {
+        height: 150vh;
+    }
+
+    &__background { // .fix__background
+        background-color: $dark-blue;
+
+        &.section-background {
+            height: 150vh;
+        }
+    }
+}
+
+.fixxx{
+    color: aliceblue;
+    font-size: 30vw;
+    letter-spacing: -0.075em;
+    padding-top: 20vh;
+    margin: 0px;
+    text-align: end;
+    padding-right: 11%;
+    
+}
+
+.fixxxx {
+    color: aliceblue;
+    padding-top: 0%;
+    padding-left: 5%;
+    float: right;
+  
+    
+}
+
+.nopage {
+
+    color: aliceblue;
+    font-size: 30vw;
+    letter-spacing: -0.075em;
+    padding-top: 20vh;
+    margin: 0px;
+    text-align: end;
+    padding-right: 25vw;
+
+}
+
