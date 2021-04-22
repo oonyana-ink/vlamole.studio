@@ -2,9 +2,9 @@
   The contents of the product.liquid template can be found in /sections/product-template.liquid
 {% endcomment %}
 
-{% section 'product-template' %}
-{% section 'product-recommendations' %}
-
+{% comment %} {% section 'product-template' %}
+{% section 'product-recommendations' %} {% endcomment %}
+{% comment %}
 {% if collection %}
   <div class="text-center return-link-wrapper page-width">
     <a href="{{ collection.url }}" class="btn btn--secondary btn--has-icon-before return-link">
@@ -12,7 +12,13 @@
       {{ 'products.product.back_to_collection' | t: title: collection.title }}
     </a>
   </div>
-{% endif %}
+{% endif %} {% endcomment %}
+
+<script id="product-json" type="application/json">
+  {
+    "product": {{ product | json }}
+  }
+</script>
 
 <script>
   // Override default values of shop.strings for each template.

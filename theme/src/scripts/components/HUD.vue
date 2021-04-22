@@ -45,7 +45,11 @@
       </div>
 
       <div class="footer_right-side">
-        <a class="button primary-cta" :label-index="ctaLabelIndex">
+        <a
+          class="button primary-cta"
+          :label-index="ctaLabelIndex"
+          @click="toggleSelector(true)"
+        >
           <span>Get One</span>
           <span>Make One</span>
         </a>
@@ -55,6 +59,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
   data () {
     return {
@@ -64,6 +69,12 @@ export default {
 
   mounted () {
     setInterval(() => this.ctaLabelIndex = this.ctaLabelIndex === 0 ? 1 : 0, 4000)
+  },
+
+  methods: {
+    ...mapMutations({
+      toggleSelector: 'product/toggleSelector'
+    })
   }
 };
 </script>

@@ -9,6 +9,7 @@
   <Crash />
   <Print />
   <Scrollbar />
+  <ProductSelector />
 </template>
 
 <script>
@@ -22,6 +23,7 @@ import Fly from '@components/Fly.vue'
 import Crash from '@components/Crash.vue'
 import Print from '@components/Print.vue'
 import Scrollbar from '@components/Scrollbar.vue'
+import ProductSelector from '@components/ProductSelector.vue'
 
 export default {
   components: {
@@ -33,7 +35,8 @@ export default {
     Fly,
     Crash,
     Print,
-    Scrollbar
+    Scrollbar,
+    ProductSelector
   }
 }
 </script>
