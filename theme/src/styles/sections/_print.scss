@@ -8,29 +8,125 @@
         height: 100%;
     }
 
+    .content {
+        transform: faux-fixed();
+    }
+
+    .title {
+        font-size: 35vw;
+        letter-spacing: -0.05em;
+        margin-top: -10vh;
+        position: relative;
+        text-align: center;
+        transform: translateX(-0.8vw);
+    }
+
+    .print-head {
+        background-color: currentColor;
+        color: $dark-blue;
+        height: 50vh;
+        left: 50%;
+        position: absolute;
+        top: 0;
+        transform: translateX(-50%);
+        width: 5.8vw;
+
+        &:before {
+            border-left: 2.6vw solid transparent;
+            border-right: 2.6vw solid transparent;
+            border-top: 2vw solid currentColor;
+            content: '';
+            height: 0;
+            left: 50%;
+            position: absolute;
+            top: 105%;
+            transform: translateX(-50%);
+            width: 1rem;
+        }
+
+        &:after {
+            background-color: currentColor;
+            bottom: -5%;
+            content: '';
+            height: 2vw;
+            left: 50%;
+            position: absolute;
+            width: 8vw;
+            transform: translateX(-50%);
+        }
+
+        .filament {
+            background-color: $white;
+            bottom: -3.3vw;
+            left: 50%;
+            position: absolute;
+            top: 0;
+            transform: translateX(-50%);
+            width: 0.75rem;
+            z-index: 10;
+
+            &:before {
+                background-color: $orange;
+                content: '';
+                height: calc(100% * var(--y-position-ratio));
+                left: 50%;
+                position: absolute;
+                top: 0;
+                transform: translateX(-50%);
+                width: 0.5rem;
+            }
+        }
+    }
+
+    .copy {
+        display: flex;
+        justify-content: space-between;
+        // margin: 0 grid-offset($cols: 1);
+        text-align: justify;
+    }
+
     &__background {
         &.section-background {
             height: 150vh;
+            overflow: hidden;;
+            position: relative;
+        }
+
+        .build-plate-grid {
+            --grid-size: calc(((100vw - #{$grid-margin / 2}) / 60));
+            height: 100vh;
+            left: 50%;
+            perspective: 100vh;
+            position: absolute;
+            top: 0;
+            width: 200vw;
+            transform: translateX(-50%) faux-fixed();
+
+            &:before {
+                background-image: linear-gradient($grey 5px, transparent 2px), linear-gradient(90deg, $grey 2px, transparent 2px);
+                background-position: center center;
+                background-size: var(--grid-size) var(--grid-size);
+                border: 1px solid $grey;
+                content: '';
+                height: 100%;
+                left: 0;
+                position: absolute;
+                top: 0;
+                width: 100%;
+                transform-origin: center;
+                transform: translateY(30vh) rotateX(90deg);
+            }
+
+            &:after {
+                background-image: linear-gradient($white, rgba($white, 0));
+                content: '';
+                height: 100%;
+                left: 0;
+                position: absolute;
+                top: 0;
+                transform: translateY(30vh) rotateX(90deg);
+                width: 100%;
+            }
         }
     }
-}
-
-.pront {
-    font-size: 30vw;
-    letter-spacing: -0.075em;
-    text-align: center;
-    padding-top: 10vh;
-    padding-bottom: 0px;
-    margin: 0px;
-    
-    
-}
-
-.para {
-    display: inline-block;
-    
-}
-
-.paraa {
-    text-align: end;
 }
