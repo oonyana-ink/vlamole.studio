@@ -74,9 +74,12 @@ export class Drone extends Model {
 
       childWireframe.rotation.set(child.rotation.x, child.rotation.y, child.rotation.z)
       childWireframe.position.set(child.position.x, child.position.y, child.position.z)
-      childWireframe.material.transparent = true
-      childWireframe.material.opacity = 0
-      childWireframe.material.color.set(0xffffff)
+
+      if (childWireframe.material) {
+        childWireframe.material.transparent = true
+        childWireframe.material.opacity = 0
+        childWireframe.material.color.set(0xffffff)
+      }
 
       this.wireframe.add(childWireframe)
     })
@@ -159,6 +162,11 @@ export class Drone extends Model {
     opacity = THREE.MathUtils.mapLinear(opacity, 0.25, 0.75, 0, 1)
     parent.children.forEach(child => {
       if (appearanceKey === 'shaded' && child.type === 'LineSegments') { return }
+      if (child.type === 'Group') {
+        this.fadeChildren(child, appearanceKey)
+        return
+      }
+
       child.material.transparent = true
       child.material.opacity = opacity
     })
@@ -236,6 +244,7 @@ export class Drone extends Model {
     PropguardTop: {
       clone: [
         {
+          group: 'top',
           position: [
             DRONE_DIMENSIONS.widthXAxis / -2,
             DRONE_DIMENSIONS.heightCoreInner / 2 + DRONE_DIMENSIONS.thicknessCore + DRONE_DIMENSIONS.thicknessPropguard,
@@ -249,6 +258,7 @@ export class Drone extends Model {
           }
         },
         {
+          group: 'top',
           position: [
             DRONE_DIMENSIONS.widthXAxis / 2,
             DRONE_DIMENSIONS.heightCoreInner / 2 + DRONE_DIMENSIONS.thicknessCore + DRONE_DIMENSIONS.thicknessPropguard,

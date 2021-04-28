@@ -19,6 +19,7 @@ export default class Model {
   }
 
   meta = {}
+  groups = {}
 
   children = []
   loadCallbacks = []
@@ -214,6 +215,8 @@ export default class Model {
 
     this.executeCallbacks()
     this.loaded()
+
+    console.log('model:init', this)
   }
 
   attachStore (store) {
@@ -232,11 +235,26 @@ export default class Model {
   }
 
   generateWireframe (object3D, opts = {}) {
-    if (object3D.type === 'LineSegments') { return object3D.clone() }
-
     const {
       material: materialOpts = {}
     } = opts
+
+    if (object3D.type === 'LineSegments') { return object3D.clone() }
+    if (object3D.type === 'Group') {
+      const clonedGroup = new THREE.Group()
+      object3D.children.forEach(child => {
+        const wireframeChild = this.generateWireframe(child)
+        wireframeChild.rotation.set(child.rotation.x, child.rotation.y, child.rotation.z)
+        wireframeChild.position.set(child.position.x, child.position.y, child.position.z)
+        wireframeChild.material.transparent = true
+        wireframeChild.material.opacity = 0
+        wireframeChild.material.color.set(0xffffff)
+        clonedGroup.add(wireframeChild)
+      })
+
+      return clonedGroup
+    }
+
     const geometry = new THREE.EdgesGeometry(object3D.geometry, 30)
     const material = new THREE.LineBasicMaterial(Object.assign({
       linewidth: 1,
@@ -244,6 +262,7 @@ export default class Model {
     }, materialOpts))
     const lineSegments = new THREE.LineSegments(geometry, material)
     lineSegments.computeLineDistances()
+
     return lineSegments
   }
 
@@ -390,6 +409,31 @@ export default class Model {
     const ModelClass = modelMeta.class ? modelMeta.class : Model
     const childModel = new ModelClass(child)
 
+    this.object3D.remove(child)
+
+    if (modelMeta.group) {
+      if (!this.groups[modelMeta.group]) {
+        const group = {
+          name: modelMeta.group,
+          models: [],
+          _group: new THREE.Group(),
+          add (model) {
+            this.models.push(model)
+            console.log(this._group, model.model)
+            this._group.add(model.model)
+          }
+        }
+        group._group.name = modelMeta.group
+        this.groups[modelMeta.group] = group
+        this.object3D.add(group._group)
+      }
+
+      this.groups[modelMeta.group].add(childModel)
+    } else {
+      this.object3D.add(childModel.model)
+    }
+
+
     this.children.push(childModel)
   }
 
@@ -407,7 +451,7 @@ export default class Model {
   }
 
   _ensureChildrenAreAdded () {
-    this.children.forEach(child => this.add(child))
+    // this.children.forEach(child => this.add(child))
   }
 
   _castValue (value) {
