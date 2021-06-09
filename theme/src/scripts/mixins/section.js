@@ -79,6 +79,7 @@ export default {
             ? windowHeight
             : sectionBottom
       const yVisibilityRatio = Math.min(1, Math.max(0, currentlyVisible / windowHeight))
+      console.log('-')
       this.isGrowing = this.prevYVisibilityRatio < yVisibilityRatio
       this.prevYVisibilityRatio = yVisibilityRatio
 

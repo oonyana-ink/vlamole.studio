@@ -23,7 +23,7 @@ export default {
     },
     isActive: Boolean,
     threshold: {
-      type: Number,
+      type: String,
       default: 0.5
     }
   },
@@ -48,7 +48,7 @@ export default {
       const { threshold } = this
       if (!OBSERVERS[threshold]) {
         OBSERVERS[threshold] = new IntersectionObserver(PROCESS_TRIGGERS, {
-          threshold: parseFloat(this.threshold)
+          threshold: parseFloat(threshold)
         })
       }
     },
