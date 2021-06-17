@@ -1,6 +1,6 @@
 <template>
   <HUD />
-  <div id="section-backgrounds" />
+  <div id="section-backgrounds" class="section-backgrounds" />
   <Stage />
   <Hero />
   <Intro />
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import '@styles/index.scss'
 import HUD from '@components/HUD.vue'
 import Stage from '@components/Stage.vue'
@@ -47,6 +48,19 @@ export default {
     Nopage,
     Scrollbar,
     ProductSelector
+  },
+
+  computed: {
+    ...mapState({
+      menuIsOpen: state => state.menu.open
+    })
+  },
+
+  watch: {
+    menuIsOpen (menuIsOpen) {
+      console.log(this);
+      document.querySelector('#App').classList.toggle('menu-open', menuIsOpen)
+    }
   }
 }
 </script>

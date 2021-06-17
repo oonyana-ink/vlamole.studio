@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="header__right-side">
-        <div class="menu-toggle" />
+        <div class="menu-toggle" @click="toggleMenu()" />
         <div class="cart icon">
           <img
             svg-inline
@@ -23,6 +23,8 @@
       </div>
     </div>
   </header>
+
+  <MainMenu />
 
   <footer class="footer">
     <div class="footer__content">
@@ -59,8 +61,14 @@
 </template>
 
 <script>
+import MainMenu from '@components/MainMenu.vue'
 import { mapMutations } from 'vuex'
+
 export default {
+  components: {
+    MainMenu
+  },
+
   data () {
     return {
       ctaLabelIndex: 0
@@ -73,7 +81,8 @@ export default {
 
   methods: {
     ...mapMutations({
-      toggleSelector: 'product/toggleSelector'
+      toggleSelector: 'product/toggleSelector',
+      toggleMenu: 'menu/toggle'
     })
   }
 };

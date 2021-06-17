@@ -1,0 +1,66 @@
+$background-color: $white;
+$foreground-color: $dark-blue;
+$accent-color: $light-blue;
+
+.main-menu {
+    align-items: center;
+    background: rgba($background-color, 0.75);
+    backdrop-filter: blur(0.5rem);
+    // border: 1px solid rgba($white, 0.5);
+    bottom: 0;
+    box-shadow: 0 2px 18px rgba($black, 0.35);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    right: var(--grid-margin);
+    top: 0;
+    // width: 100vw;
+    z-index: 80;
+
+    .logo {
+        display: none;
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -150%);
+
+        svg {
+            // fill: $foreground-color;
+            fill: none;
+            stroke: $foreground-color;
+            height: 15vh;
+            width: auto;
+        }
+    }
+
+    ul {
+        display: flex;
+        font-family: font-family(title);
+        font-size: 3rem;
+        margin-right: 2rem;
+        text-transform: uppercase;
+
+        li {
+            position: relative;
+            &:not(:first-child):before {
+                background-color: $accent-color;
+                content: '';
+                height: 2.25em;
+                left: 0;
+                position: absolute;
+                top: 50%;
+                transform: translate(-50%, -50%) rotate(15deg);
+                width: 0.1em;
+            }
+        }
+    }
+
+    a {
+        color: $foreground-color;
+        display: block;
+        padding: 0.5em;
+        text-decoration: none;
+    }
+}

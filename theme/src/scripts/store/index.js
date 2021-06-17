@@ -5,7 +5,6 @@ export default createStore({
   modules,
   state () {
     return {
-
     }
   }
 })
