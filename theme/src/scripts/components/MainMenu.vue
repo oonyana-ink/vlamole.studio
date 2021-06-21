@@ -10,7 +10,7 @@
     <nav>
       <ul>
         <li><a href="#">Bateleur</a></li>
-        <li><a href="#">About us</a></li>
+        <li><a href="#">About</a></li>
         <!-- <li><a href="#">Menu Item</a></li> -->
         <!-- <li><a href="#">Menu Item</a></li> -->
       </ul>

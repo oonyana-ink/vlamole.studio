@@ -1,5 +1,5 @@
 {% assign stylesheets = 'application.bundle.css' | split: ', ' %}
-{% assign scripts = 'runtime.bundle.js, hmrClient.bundle.js, vendor.bundle.js, application.bundle.js' | split: ', ' %}
+{% assign scripts = 'runtime.bundle.js, hmrClient.bundle.js, vendor.bundle.js, application.bundle.js' %}
 <!doctype html>
 <html class="no-js" lang="{{ request.locale.iso_code }}">
 <head>
@@ -75,9 +75,7 @@
     {% comment %} {% section 'footer' %} {% endcomment %}
     {% section 'grid_overlay' %}
 
-    {% for script in scripts %}
-    <script data-local-uri="/assets/{{ script }}" data-cdn-uri="{{ script | asset_url }}"></script>
-    {% endfor %}
+    {% render 'scripts', scripts: scripts %}
 
     <script type="text/javascript">
     const isLocal = /(local|ngrok)/.test(window.location.host)

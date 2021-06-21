@@ -14,4 +14,3 @@ app.use(grid)
 app.use(sections, { store })
 
 app.mount('#App')
-console.log('index.js', app)

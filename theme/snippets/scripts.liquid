@@ -1,0 +1,4 @@
+{% assign scripts = scripts | split: ', ' %}
+{% for script in scripts %}
+<script data-local-uri="/assets/{{ script }}" data-cdn-uri="{{ script | asset_url }}"></script>
+{% endfor %}
