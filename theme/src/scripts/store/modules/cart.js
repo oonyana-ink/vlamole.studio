@@ -4,14 +4,14 @@ export default {
 
   }),
   getters: {},
-  mutation: {},
+  mutations: {},
   actions: {
     addAndCheckout (context, variant) {
       const postBody = {
-        'items': [
+        items: [
           {
-            'id': variant.id,
-            'quantity': 1
+            id: variant.id,
+            quantity: 1
           }
         ]
       }
@@ -19,7 +19,7 @@ export default {
       fetch('/cart/add.js', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(postBody)
       }).then(response => {

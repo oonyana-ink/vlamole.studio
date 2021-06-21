@@ -95,6 +95,6 @@ export default class Sections {
   }
 
   initSection (...keys) {
-    console.log('keys', keys)
+    console.log('initSection:keys', keys)
   }
 }

@@ -9,9 +9,9 @@
         class="scroll-bar__thumb"
       />
       <div
-        v-for="section in sections"
+        v-for="section in scrollSections"
         :key="section.name"
-        :style="sectionMarkerStyle(section)"
+        :style="section.markerStyle"
         class="scroll-bar__section-marker"
         @click="scrollTo($event, section)"
       >
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   inject: ['scrollPosition', 'scrollingElement', 'sections', 'setScrollTop'],
   data () {
@@ -31,6 +32,10 @@ export default {
   },
 
   computed: {
+    ...mapState({
+      pageLoaded: (state) => state.page.loaded
+    }),
+
     scrollScalar () {
       if (!this.isMounted) { return 1 }
 
@@ -61,8 +66,6 @@ export default {
         track
       } = this.$refs
 
-      console.log(scrollScalar)
-
       return {
         height: ((window.innerHeight / scrollingElement.scrollHeight) * track.clientHeight) - 5,
         top: scrollTop * scrollScalar
@@ -75,6 +78,20 @@ export default {
         height: scrollbarThumbBounds.height + 'px',
         top: scrollbarThumbBounds.top + 'px'
       }
+    },
+
+    scrollSections () {
+      if (!this.pageLoaded) { return [] }
+      const { scrollScalar } = this
+      return this.sections.map(section => {
+        const { bounds } = section
+        section.markerStyle = {
+          top: section.top * scrollScalar + 'px',
+          height: (bounds.height * scrollScalar) - 5 + 'px'
+        }
+        console.log({ section })
+        return section
+      })
     }
   },
 
@@ -83,15 +100,6 @@ export default {
   },
 
   methods: {
-    sectionMarkerStyle (section) {
-      const { scrollScalar } = this
-      const { bounds } = section
-
-      return {
-        top: section.top * scrollScalar + 'px',
-        height: (bounds.height * scrollScalar) - 5 + 'px'
-      }
-    },
 
     sectionLabel (section) {
       return section.scrollLabel || section.name

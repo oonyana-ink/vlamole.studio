@@ -53,9 +53,9 @@
 
         &.free {
             background-color: lighten($grey, 15%);
-            width: 20vw;
             height: 70vh;
             transform: translate(0, 50%);
+            width: 20vw;
         }
 
         &:first-child {

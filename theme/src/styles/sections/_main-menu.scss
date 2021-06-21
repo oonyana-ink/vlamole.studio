@@ -4,12 +4,13 @@ $accent-color: $light-blue;
 
 .main-menu {
     align-items: center;
-    background: rgba($background-color, 0.75);
     backdrop-filter: blur(0.5rem);
+    background: rgba($background-color, 0.75);
     // border: 1px solid rgba($white, 0.5);
     bottom: 0;
     box-shadow: 0 2px 18px rgba($black, 0.35);
     display: flex;
+    display: none !important;
     flex-direction: column;
     justify-content: center;
     left: 0;
@@ -29,8 +30,8 @@ $accent-color: $light-blue;
         svg {
             // fill: $foreground-color;
             fill: none;
-            stroke: $foreground-color;
             height: 15vh;
+            stroke: $foreground-color;
             width: auto;
         }
     }

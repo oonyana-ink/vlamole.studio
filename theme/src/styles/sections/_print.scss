@@ -51,8 +51,8 @@
             height: 2vw;
             left: 50%;
             position: absolute;
-            width: 8vw;
             transform: translateX(-50%);
+            width: 8vw;
         }
 
         .filament {
@@ -88,7 +88,7 @@
     &__background {
         &.section-background {
             height: 150vh;
-            overflow: hidden;;
+            overflow: hidden;
             position: relative;
         }
 
@@ -99,8 +99,8 @@
             perspective: 100vh;
             position: absolute;
             top: 0;
-            width: 200vw;
             transform: translateX(-50%) faux-fixed();
+            width: 200vw;
 
             &:before {
                 background-image: linear-gradient($grey 5px, transparent 2px), linear-gradient(90deg, $grey 2px, transparent 2px);
@@ -112,9 +112,9 @@
                 left: 0;
                 position: absolute;
                 top: 0;
-                width: 100%;
-                transform-origin: center;
                 transform: translateY(30vh) rotateX(90deg);
+                transform-origin: center;
+                width: 100%;
             }
 
             &:after {

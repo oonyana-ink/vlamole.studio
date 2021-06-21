@@ -85,7 +85,6 @@
     }
     document.querySelectorAll('[data-local-uri]').forEach((assetEl) => {
       const targetUri = isLocal ? assetEl.dataset.localUri : assetEl.dataset.cdnUri
-      console.log('isLocal', isLocal, targetUri)
       const attrKey = uriAttrKeys[assetEl.tagName]
       assetEl[attrKey] = targetUri
     })

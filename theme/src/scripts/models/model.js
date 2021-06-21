@@ -215,13 +215,10 @@ export default class Model {
 
     this.executeCallbacks()
     this.loaded()
-
-    console.log('model:init', this)
   }
 
   attachStore (store) {
     this.state.store = store
-    console.log(this.state.store)
     watch(() => this.state.store.updated, this.updateFromStore.bind(this))
     this.updateFromStore()
   }
@@ -419,7 +416,6 @@ export default class Model {
           _group: new THREE.Group(),
           add (model) {
             this.models.push(model)
-            console.log(this._group, model.model)
             this._group.add(model.model)
           }
         }

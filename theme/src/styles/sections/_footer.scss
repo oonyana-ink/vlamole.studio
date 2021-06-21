@@ -2,8 +2,8 @@
     bottom: 0;
     left: 0;
     padding: $page-margin;
+    pointer-events: none;
     position: fixed;
-    pointer-events: none;;
     right: 0;
     z-index: 100;
 

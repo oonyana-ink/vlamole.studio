@@ -1,9 +1,11 @@
 const productJSONTag = document.getElementById('product-json')
-const productJSON = productJSONTag ? JSON.parse(productJSONTag.innerHTML) : {
-  product: {
-    variants: []
+const productJSON = productJSONTag
+  ? JSON.parse(productJSONTag.innerHTML)
+  : {
+    product: {
+      variants: []
+    }
   }
-}
 
 export default {
   namespaced: true,
@@ -13,7 +15,6 @@ export default {
   }),
   getters: {
     freeVariant (state) {
-      console.log({ state })
       return state.product.variants.find(variant => /free/i.test(variant.option1)) || {}
     },
 

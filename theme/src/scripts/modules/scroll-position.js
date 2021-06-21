@@ -27,11 +27,9 @@ export default class ScrollPosition {
 
     const { scrollingElement } = this
     const { scrollLeft, scrollTop } = scrollingElement
-    console.log('ScrollPosition:watch')
     if (scrollLeft !== this.position.x || scrollTop !== this.position.y) {
       this.position.x = scrollingElement.scrollLeft
       this.position.y = scrollingElement.scrollTop
-      console.log('-')
       this.update()
     }
   }

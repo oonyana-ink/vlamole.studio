@@ -20,7 +20,6 @@ class Sections {
   extendApp () {
     this.app.config.globalProperties.$registerSection = this.registerSection.bind(this)
     this.app.config.globalProperties.$registerStage = this.registerStage.bind(this)
-    console.log('---provide sections')
     this.app.provide('sections', this.sections)
   }
 

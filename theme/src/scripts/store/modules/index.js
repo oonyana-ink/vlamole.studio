@@ -1,13 +1,15 @@
-import drone from './drone'
-import scene from './scene'
 import cart from './cart'
-import product from './product'
+import drone from './drone'
 import menu from './menu'
+import page from './page'
+import product from './product'
+import scene from './scene'
 
 export {
-  drone,
-  scene,
   cart,
+  drone,
+  page,
   product,
-  menu
+  menu,
+  scene
 }

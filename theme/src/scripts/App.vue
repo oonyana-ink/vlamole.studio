@@ -1,65 +1,50 @@
 <template>
   <HUD />
   <div id="section-backgrounds" class="section-backgrounds" />
-  <Stage />
-  <Hero />
-  <Intro />
-  <Specs />
-  <Fly />
-  <Crash />
-  <Print />
-  <Fix />
-  <Insta />
-  <Nopage />
-
-  <Scrollbar />
-  <ProductSelector />
+  <component :is="currentPage" />
+  <Scrollbar v-if="pageLoaded" />
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import '@styles/index.scss'
+import pages from '@/pages'
 import HUD from '@components/HUD.vue'
-import Stage from '@components/Stage.vue'
-import Hero from '@components/Hero.vue'
-import Intro from '@components/Intro.vue'
-import Specs from '@components/Specs.vue'
-import Fly from '@components/Fly.vue'
-import Crash from '@components/Crash.vue'
-import Print from '@components/Print.vue'
-import Fix from '@components/Fix.vue'
-import Insta from  '@components/Insta.vue'
-import Nopage from  '@components/Nopage.vue';
+import Insta from '@components/Insta.vue'
+import Nopage from '@components/Nopage.vue';
 import Scrollbar from '@components/Scrollbar.vue'
 import ProductSelector from '@components/ProductSelector.vue'
+
+const pageLoaders = Object.entries(pages).map(([path, component]) => {
+  const pathRegex = new RegExp(`^${path.replace(/\//g, '\/')}`)
+  return { test: () => pathRegex.test(location.pathname), path }
+});
 
 export default {
   components: {
     HUD,
-    Stage,
-    Hero,
-    Intro,
-    Specs,
-    Fly,
-    Crash,
-    Print,
-    Fix,
     Insta,
     Nopage,
     Scrollbar,
-    ProductSelector
+    ProductSelector,
+    ...pages
   },
 
   computed: {
     ...mapState({
-      menuIsOpen: state => state.menu.open
-    })
+      menuIsOpen: state => state.menu.open,
+      pageLoaded: state => state.page.loaded
+    }),
+
+    currentPage () {
+      const pageComponent = pageLoaders.find(loader => loader.test()) || {}
+      return pageComponent.path || 'Nopage'
+    }
   },
 
   watch: {
     menuIsOpen (menuIsOpen) {
-      console.log(this);
-      document.querySelector('#App').classList.toggle('menu-open', menuIsOpen)
+      // document.querySelector('#App').classList.toggle('menu-open', menuIsOpen)
     }
   }
 }

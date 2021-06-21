@@ -223,7 +223,6 @@ export default {
 
   methods: {
     handleTrigger (trigger) {
-      console.log('TRIGGER!', trigger.name)
       this.updateTimeline(trigger.name)
     },
 

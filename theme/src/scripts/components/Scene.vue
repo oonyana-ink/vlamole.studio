@@ -24,7 +24,6 @@ export default {
 
   methods: {
     init () {
-      console.log('>>', this.sceneState)
       this.scene = new Scene({
         canvas: this.$refs.primaryCanvas,
         pixelRation: window.devicePixelRatio,

@@ -6,7 +6,7 @@ const mainEntries = {
   hmrClient: 'webpack-hot-middleware/client',
   application: './src/scripts/index.js',
   vendor: './src/scripts/vendor/index.js',
-  'page.bateleur': './src/scripts/pages/bateleur.js'
+  // 'page.bateleur': './src/scripts/pages/bateleur.js'
 }
 
 module.exports = {
