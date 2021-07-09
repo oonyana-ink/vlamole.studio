@@ -11,8 +11,8 @@
 
   <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
 
-  <link rel="preload" href="{{ 'application.bundle.css' | asset_url }}" as="style">
-  <link rel="preload" href="{{ 'application.bundle.js' | asset_url }}" as="script">
+  {% comment %} <link rel="preload" href="{{ 'application.bundle.css' | asset_url }}" as="style">
+  <link rel="preload" href="{{ 'application.bundle.js' | asset_url }}" as="script"> {% endcomment %}
 
   {% if canonical_url != blank  %}
     <link rel="canonical" href="{{ canonical_url }}">
@@ -58,22 +58,15 @@
     {% comment %} {% section 'header' %} {% endcomment %}
 
     <main id='App' class="main-content" role="main">
-      {% comment %} {% section 'drone' %}
-      {% section 'hero' %}
-      {% section 'intro' %}
-      {% section 'specs' %}
-      {% section 'printable' %}
-      {% section 'insta' %}
-      {% section 'nopage' %}
-      
-      {{ content_for_layout }} {% endcomment %}
-
+      {{ content_for_layout }}
     </main>
 
-    {{ content_for_layout }}
 
     {% comment %} {% section 'footer' %} {% endcomment %}
     {% section 'grid_overlay' %}
+
+    {% render 'linklist-json', handle: 'main-menu' %}
+    {% render 'linklist-json', handle: 'footer' %}
 
     {% render 'scripts', scripts: scripts %}
 
@@ -83,9 +76,11 @@
       'SCRIPT': 'src',
       'LINK': 'href'
     }
+    window.vlamole.initialContent = document.getElementById('App').innerHTML;
     document.querySelectorAll('[data-local-uri]').forEach((assetEl) => {
       const targetUri = isLocal ? assetEl.dataset.localUri : assetEl.dataset.cdnUri
       const attrKey = uriAttrKeys[assetEl.tagName]
+      console.log('loading asset', attrKey, targetUri, isLocal);
       assetEl[attrKey] = targetUri
     })
     </script>

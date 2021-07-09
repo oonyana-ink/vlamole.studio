@@ -1,7 +1,11 @@
 .main-content {
-    > section,
+    .section,
     .section-background {
         height: 100vh;
+
+        &--auto-height {
+            height: auto;
+        }
     }
 
     .section-backgrounds {

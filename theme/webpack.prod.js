@@ -12,6 +12,10 @@ const configs = {
     entry: mainEntries,
     mode: 'development',
     devtool: 'source-map',
+    output: {
+      publicPath: '//cdn.shopify.com/s/files/1/0528/2483/4222/t/16/assets/',
+      chunkFilename: '[contenthash].chunk.js'
+    },
 
     module: {
       rules: [

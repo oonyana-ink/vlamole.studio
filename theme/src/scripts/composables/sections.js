@@ -73,7 +73,8 @@ class Sections {
   }
 
   setInitialState () {
-    const initialSection = this.sections.find(section => section.yVisibilityRatio > 0.5)
+    let initialSection = this.sections.find(section => section.yVisibilityRatio > 0.5)
+    initialSection = initialSection || this.sections[0]
     this.applyConfig(initialSection)
   }
 
@@ -97,6 +98,7 @@ class Sections {
   }
 
   applyConfig (section) {
+    if (!section.config) { return }
     Object.entries(section.config.stage).forEach(([key, value]) => {
       this.store.commit(`${key}/apply`, value)
     })

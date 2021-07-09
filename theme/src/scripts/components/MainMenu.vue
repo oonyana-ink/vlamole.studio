@@ -3,16 +3,17 @@
     <div class="logo">
       <img
         svg-inline
-        src="@svgs/logo.svg"
+        src='@svgs/logo.svg'
       >
     </div>
 
     <nav>
       <ul>
-        <li><a href="#">Bateleur</a></li>
-        <li><a href="#">About</a></li>
-        <!-- <li><a href="#">Menu Item</a></li> -->
-        <!-- <li><a href="#">Menu Item</a></li> -->
+        <li
+          v-for='link in menu.links'
+          :key='link.url'>
+          <a :href='link.url'>{{ link.title }}</a>
+        </li>
       </ul>
     </nav>
   </div>
@@ -20,5 +21,10 @@
 
 <script>
 export default {
+  data () {
+    return {
+      menu: window.vlamole.menus['main-menu']
+    }
+  }
 }
 </script>

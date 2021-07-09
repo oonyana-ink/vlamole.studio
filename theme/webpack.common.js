@@ -49,7 +49,7 @@ const mainPlugins = [
         {
           folder: 'assets',
           method: (path) => {
-            return /bundle\.(j|cs)s(\.map)?$/.test(path)
+            return /(bundle|chunk)\.(j|cs)s(\.map)?$/.test(path)
           }
         }
       ]
@@ -59,7 +59,7 @@ const mainPlugins = [
         {
           folder: 'assets',
           method: (path) => {
-            return /bundle\.(j|cs)s(\.map)?$/.test(path)
+            return /(bundle|chunk)\.(j|cs)s(\.map)?$/.test(path)
           }
         }
       ]

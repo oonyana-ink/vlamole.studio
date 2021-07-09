@@ -11,14 +11,15 @@ import '@styles/index.scss'
 import pages from '@/pages'
 import HUD from '@components/HUD.vue'
 import Insta from '@components/Insta.vue'
-import Nopage from '@components/Nopage.vue';
+import Nopage from '@components/Nopage.vue'
 import Scrollbar from '@components/Scrollbar.vue'
 import ProductSelector from '@components/ProductSelector.vue'
 
 const pageLoaders = Object.entries(pages).map(([path, component]) => {
   const pathRegex = new RegExp(`^${path.replace(/\//g, '\/')}`)
-  return { test: () => pathRegex.test(location.pathname), path }
-});
+  console.log(component);
+  return { test: () => pathRegex.test(location.pathname), path, component }
+})
 
 export default {
   components: {
@@ -38,13 +39,20 @@ export default {
 
     currentPage () {
       const pageComponent = pageLoaders.find(loader => loader.test()) || {}
-      return pageComponent.path || 'Nopage'
+      console.log(pageComponent)
+      if (pageComponent.component instanceof Function) {
+        return pageComponent.component()
+      } else if (pageComponent.component.setup) {
+        return pageComponent.path
+      } else {
+        return 'Nopage'
+      }
     }
   },
 
   watch: {
     menuIsOpen (menuIsOpen) {
-      // document.querySelector('#App').classList.toggle('menu-open', menuIsOpen)
+      document.querySelector('#App').classList.toggle('menu-open', menuIsOpen)
     }
   }
 }

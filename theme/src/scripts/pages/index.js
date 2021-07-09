@@ -1,5 +1,7 @@
 import { defineAsyncComponent } from 'vue'
 
 export default {
-  '/pages/bateleur': defineAsyncComponent(() => import('@/pages/Bateleur.vue'))
+  '/?$': () => { window.location = '/products/bateleur' },
+  '/products/bateleur': defineAsyncComponent(() => import('@/pages/Bateleur.vue')),
+  '/policies': defineAsyncComponent(() => import('@/pages/Policies.vue'))
 }

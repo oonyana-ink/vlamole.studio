@@ -5,8 +5,36 @@
     :class="sectionClasses"
     :style="sectionStyles"
   >
-  <h1>no page</h1>
+
+  <div class="grid">
+        <div class="content grid__column--12">
+          <div class="section__copy">
+
+
+
+            <h1 class="nohead content grid__row--4">404</h1>
+
+
+
+
+          </div>
+
+        </div>
+      </div>
+
+
+
   </section>
+
+   <teleport to="#section-backgrounds">
+        <div
+            ref="background"
+            class="fix__background section-background"
+            :style="sectionBackgroundStyles"
+        >
+            Background
+        </div>
+    </teleport>
 </template>
 
 <script>

@@ -54,8 +54,22 @@
         }
     }
 
-    .small-print {
+    .small-print,
+    .small-print a {
         @include hud-color(color);
         margin-top: 1rem;
+        text-decoration: none;
+    }
+
+    .small-print a {
+        cursor: pointer;
+        pointer-events: initial;
+
+        &:before {
+            content: '|';
+            display: inline-block;
+            margin-left: 1em;
+            margin-right: 1em;
+        }
     }
 }

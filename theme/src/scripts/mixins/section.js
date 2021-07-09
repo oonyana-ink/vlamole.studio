@@ -5,6 +5,8 @@ export default {
 
   data () {
     return {
+      scrollTop: 0,
+      viewHeight: 0,
       top: 0,
       left: 0,
       prevYVisibilityRatio: 0,
@@ -18,7 +20,9 @@ export default {
         top: 0,
         right: 0,
         bottom: 0,
-        left: 0
+        left: 0,
+        offsetTop: 0,
+        offsetHeight: 0
       }
     }
   },
@@ -39,11 +43,12 @@ export default {
 
     sectionStyles () {
       const {
-        top,
-        left,
         yVisibilityRatio,
-        yPositionRatio
+        yPositionRatio,
+        top,
+        left
       } = this
+
       return {
         top: top + 'px',
         left: left + 'px',
@@ -66,19 +71,23 @@ export default {
     },
 
     yVisibilityRatio () {
-      const { bounds } = this
-      const { innerHeight: windowHeight } = window
-      const { top: sectionTop, bottom: sectionBottom, height: sectionHeight } = bounds
-      const currentlyVisible = sectionTop >= windowHeight || sectionBottom <= 0
+      const { viewHeight } = this
+      const {
+        top: sectionTop,
+        height: sectionHeight,
+        bottom: sectionBottom
+      } = this.calculatedBounds
+
+      const currentlyVisible = sectionTop >= viewHeight || sectionBottom <= 0
         ? 0
         : sectionTop > 0
-          ? sectionBottom < windowHeight
+          ? sectionBottom < viewHeight
             ? sectionHeight
-            : windowHeight - sectionTop
-          : sectionBottom > windowHeight
-            ? windowHeight
+            : viewHeight - sectionTop
+          : sectionBottom > viewHeight
+            ? viewHeight
             : sectionBottom
-      const yVisibilityRatio = Math.min(1, Math.max(0, currentlyVisible / windowHeight))
+      const yVisibilityRatio = Math.min(1, Math.max(0, currentlyVisible / viewHeight))
 
       this.isGrowing = this.prevYVisibilityRatio < yVisibilityRatio
       this.prevYVisibilityRatio = yVisibilityRatio
@@ -95,17 +104,31 @@ export default {
     },
 
     yPositionRatio () {
-      const { bounds } = this
-      const yPositionDiff = window.innerHeight - bounds.top
-      const yPositionRatio = yPositionDiff / window.innerHeight
+      const { calculatedBounds, viewHeight } = this
+      const yPositionDiff = viewHeight - calculatedBounds.top
+      const yPositionRatio = yPositionDiff / viewHeight
       return yPositionRatio
+    },
+
+    calculatedBounds () {
+      const {
+        top, height, left
+      } = this.bounds
+      const { scrollTop } = this
+      return {
+        top: top - scrollTop,
+        height: height,
+        bottom: top - scrollTop + height,
+        left
+      }
     }
   },
 
   watch: {
     isIntersecting (isIntersecting) {
       if (isIntersecting) {
-        this.trackBounds()
+        console.log(this.name, 'isIntersecting')
+        // this.trackBounds()
       }
     }
   },
@@ -113,14 +136,17 @@ export default {
   created () {
     this.afterMountCallbacks = []
     watch(this.scrollPosition, this.handleScroll)
+    console.log(this)
     this.$registerSection(this)
   },
 
   mounted () {
+    this.getViewHeight()
     this.getPosition()
-    this.trackOffset()
     this.trackBounds({ force: true })
+    this.trackOffset()
     this.afterMountCallbacks.forEach(callback => callback())
+    // window.requestIdleCallback(() => this.trackBounds())
   },
 
   methods: {
@@ -134,19 +160,24 @@ export default {
       this.left = el.offsetLeft
     },
 
+    getViewHeight () {
+      this.viewHeight = window.innerHeight
+    },
+
     handleScroll () {
       this.trackOffset()
-      this.trackBounds()
+      // this.trackBounds()
     },
 
     trackOffset () {
-      const { background: el } = this.$refs
-      const { offsetTop, offsetHeight } = el
-      const { innerHeight } = window
+      const { viewHeight, bounds } = this
+      // const { background: el } = this.$refs
+      // const { offsetTop, offsetHeight } = el
       const scrollTop = this.scrollPosition.y
-      const scrollBottom = scrollTop + innerHeight
-      const offsetBottom = offsetTop + offsetHeight
-      this.isIntersecting = scrollBottom > offsetTop && scrollTop < offsetBottom
+      const scrollBottom = scrollTop + viewHeight
+      const offsetBottom = bounds.offsetTop + bounds.offsetHeight
+      this.isIntersecting = scrollBottom > bounds.offsetTop && scrollTop < offsetBottom
+      this.scrollTop = scrollTop
     },
 
     trackBounds ({ force } = {}) {
@@ -155,11 +186,9 @@ export default {
       const boundingRect = el.getBoundingClientRect()
       const newBounds = {}
       let key
-
       for (key in this.bounds) {
-        newBounds[key] = boundingRect[key]
+        newBounds[key] = ['offsetTop', 'offsetHeight'].includes(key) ? el[key] : boundingRect[key]
       }
-
       this.bounds = newBounds
     }
   }

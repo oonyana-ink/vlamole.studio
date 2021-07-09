@@ -23,18 +23,13 @@
 @import "sections/main-menu";
 @import "sections/footer";
 @import "sections/background";
-@import "sections/drone";
 @import "sections/page-scroller";
-@import "sections/hero";
-@import "sections/intro";
-@import "sections/specs";
-@import "sections/fly";
-@import "sections/crash";
-@import "sections/print";
-@import "sections/fix";
 @import "sections/nopage";
 @import "sections/insta";
 @import "sections/grid-overlay";
+
+@import "pages/bateleur";
+@import "pages/policies";
 
 
 #preview-bar-iframe {

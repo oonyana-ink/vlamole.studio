@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="header__right-side">
-        <div class="menu-toggle" @click="toggleMenu()" />
+        <div class="menu-toggle" @click="toggleMenu" />
         <div class="cart icon">
           <img
             svg-inline
@@ -42,7 +42,16 @@
           >
         </a>
         <div class="small-print">
-          <div>&copy; 2021 vlamole.studio | Terms &amp; Conditions | Privacy Policy</div>
+          <div>
+            &copy; 2021 vlamole.studio
+            <a
+              v-for="link in footerMenu.links"
+              :key="link.url"
+              :href="link.url"
+            >
+              {{ link.title }}
+            </a>
+          </div>
         </div>
       </div>
 
@@ -71,12 +80,15 @@ export default {
 
   data () {
     return {
-      ctaLabelIndex: 0
+      ctaLabelIndex: 0,
+      footerMenu: window.vlamole.menus.footer
     }
   },
 
   mounted () {
-    setInterval(() => this.ctaLabelIndex = this.ctaLabelIndex === 0 ? 1 : 0, 4000)
+    setInterval(() => {
+      this.ctaLabelIndex = this.ctaLabelIndex === 0 ? 1 : 0
+    }, 4000)
   },
 
   methods: {

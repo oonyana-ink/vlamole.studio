@@ -1,0 +1,19 @@
+{% assign linklist = linklists[handle] %}
+<script type='text/javascript'>
+  window.vlamole = window.vlamole || {};
+  window.vlamole.menus = window.vlamole.menus || {};
+  window.vlamole.menus = Object.assign(window.vlamole.menus, {
+    '{{ linklist.handle }}': {
+      title: '{{ linklist.title }}',
+      links: [
+        {% for link in linklist.links %}
+          {
+            active: {{ link.active }},
+            title: '{{ link.title }}',
+            url: '{{ link.url }}'
+          }{% if forloop.last != true %},{% endif %}
+        {% endfor %}
+      ]
+    }
+  });
+</script>

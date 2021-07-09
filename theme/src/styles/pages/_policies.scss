@@ -1,0 +1,101 @@
+.section-policy {
+    z-index: 20;
+
+    &__background {
+        &:before {
+            background-color: $light-blue;
+            content: '';
+            height: 100vh;
+            left: 0;
+            position: fixed;
+            top: 0;
+            width: 40%;
+        }
+    }
+}
+
+.shopify-policy {
+    &__container {
+        display: flex;
+        max-width: 100%;
+        width: calc(100vw - (var(--grid-margin) * 2));
+    }
+
+    &__title {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        height: 100vh;
+        justify-content: center;
+        width: 40%;
+
+        h1 {
+            bottom: 10%;
+            color: $white;
+            font-size: 10rem;
+            left: 0%;
+            line-height: 0.8em;
+            position: fixed;
+            text-align: right;
+            text-transform: uppercase;
+            // top: 90%;
+            // transform-origin: bottom left;
+            // transform: rotate(-90deg);
+            width: 40.4%;
+        }
+    }
+
+    &__body {
+        box-sizing: border-box;
+        padding: 5rem 15vw 5rem 5rem;
+        width: 60%;
+
+        h1 {
+            font-size: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-top: 2rem;
+        }
+
+        p {
+            u {
+                font-weight: bold;
+                text-decoration: none;
+            }
+        }
+
+        ul {
+            padding-left: 2rem;
+            list-style-type: disc;
+        }
+
+        table {
+            width: 100%;
+
+            thead, strong {
+                font-weight: bold;
+                text-align: left;
+            }
+
+            strong {
+                display: block;
+                text-align: left;
+            }
+
+            tr {
+                border-bottom: 1px solid #ccc;
+            }
+
+            th, td {
+                padding: 0.25rem 0.5rem;
+            }
+        }
+
+        a {
+            color: $light-blue;
+        }
+    }
+}

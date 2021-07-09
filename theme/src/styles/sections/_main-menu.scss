@@ -10,15 +10,24 @@ $accent-color: $light-blue;
     bottom: 0;
     box-shadow: 0 2px 18px rgba($black, 0.35);
     display: flex;
-    display: none !important;
     flex-direction: column;
     justify-content: center;
     left: 0;
     position: fixed;
     right: var(--grid-margin);
     top: 0;
+    transform: translate(-100%, 0);
+    transition: transform 500ms ease;
     // width: 100vw;
     z-index: 80;
+
+    #App.menu-open & {
+        transform: translate(0%, 0);
+
+        ul {
+            transform: translate(0%, 0);
+        }
+    }
 
     .logo {
         display: none;
@@ -42,6 +51,9 @@ $accent-color: $light-blue;
         font-size: 3rem;
         margin-right: 2rem;
         text-transform: uppercase;
+        transform: translate(-100%, 0);
+        transition: transform 300ms ease;
+        transition-delay: 300ms;
 
         li {
             position: relative;

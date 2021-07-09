@@ -27,7 +27,11 @@ export default {
   inject: ['scrollPosition', 'scrollingElement', 'sections', 'setScrollTop'],
   data () {
     return {
-      isMounted: false
+      isMounted: false,
+      scrollScalar: 0,
+      viewHeight: 0,
+      scrollingElementHeight: 0,
+      trackHeight: 0
     }
   },
 
@@ -36,38 +40,24 @@ export default {
       pageLoaded: (state) => state.page.loaded
     }),
 
-    scrollScalar () {
-      if (!this.isMounted) { return 1 }
-
-      const {
-        scrollingElement
-      } = this
-      const {
-        track
-      } = this.$refs
-
-      return track.clientHeight / scrollingElement.scrollHeight
-    },
-
     scrollbarThumbBounds () {
       if (!this.isMounted) { return { height: 0, top: 0 } }
 
       const {
         scrollPosition,
         scrollingElement,
-        scrollScalar
+        scrollScalar,
+        viewHeight,
+        trackHeight,
+        scrollingElementHeight
       } = this
 
       const {
         y: scrollTop
       } = scrollPosition
 
-      const {
-        track
-      } = this.$refs
-
       return {
-        height: ((window.innerHeight / scrollingElement.scrollHeight) * track.clientHeight) - 5,
+        height: ((viewHeight/ scrollingElementHeight) * trackHeight) - 5,
         top: scrollTop * scrollScalar
       }
     },
@@ -81,23 +71,34 @@ export default {
     },
 
     scrollSections () {
-      if (!this.pageLoaded) { return [] }
+      if (!this.pageLoaded || !this.isMounted) { return [] }
       const { scrollScalar } = this
       return this.sections.map(section => {
         const { bounds } = section
+        console.log('scrollSections', section, bounds)
         section.markerStyle = {
           top: section.top * scrollScalar + 'px',
           height: (bounds.height * scrollScalar) - 5 + 'px'
         }
-        console.log({ section })
         return section
       })
     }
   },
 
   mounted () {
+    this.sections.forEach(section => section.trackBounds())
     this.isMounted = true
+    this.getViewHeight()
+    this.getComponentHeights()
+    this.getScrollScalar()
+    console.log(this, '<<<')
   },
+
+  // updated () {
+  //   this.getViewHeight()
+  //   this.getComponentHeights()
+  //   this.getScrollScalar()
+  // },
 
   methods: {
 
@@ -111,6 +112,22 @@ export default {
       const { top } = section
 
       this.setScrollTop(((offsetY - (scrollbarThumbBounds.height / 2)) / scrollScalar) + top)
+    },
+
+    getScrollScalar () {
+      if (!this.isMounted) { return 1 }
+      const { scrollingElement } = this
+      const { track } = this.$refs
+      this.scrollScalar = this.trackHeight / this.scrollingElementHeight
+    },
+
+    getViewHeight () {
+      this.viewHeight = window.innerHeight
+    },
+
+    getComponentHeights () {
+      this.scrollingElementHeight = this.scrollingElement.scrollHeight
+      this.trackHeight = this.$refs.track.clientHeight
     }
   }
 
