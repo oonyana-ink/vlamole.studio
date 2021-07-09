@@ -81,3 +81,31 @@
         }
     }
 }
+
+$media-expressions: (screen: "screen", 
+                    handheld: "handheld",
+                    retina2x: 
+                    ("(-webkit-min-device-pixel-ratio: 2)", 
+                    "(min-resolution: 192dpi)")) !default;
+
+@include media("screen", ">=tablet") {
+
+}
+
+@include media(">tablet", "<=desktop", "retina2x") {
+
+}
+
+/* Compiles to */
+@media screen and (min-width: 768px) {
+
+}
+
+@media (min-width: 769px) and 
+       (max-width: 1024px) and 
+       (-webkit-min-device-pixel-ratio: 2),
+       (min-width: 769px) and 
+       (max-width: 1024px) and 
+       (min-resolution: 192dpi) {
+
+}

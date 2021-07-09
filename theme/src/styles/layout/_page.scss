@@ -60,3 +60,23 @@ body {
         z-index: 30;
     }
 }
+
+p, .paragraph {
+    font-size: 1rem;
+    line-height: 1rem;
+    margin-bottom: 1rem;
+}
+
+
+
+.intro .timeline__point:after {
+    size: 1rem;
+}
+
+.intro .timeline__point:after {
+    font-size: 1rem;
+}
+
+.specs__copy p {
+    font-size: 0.5rem;
+}
