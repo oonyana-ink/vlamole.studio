@@ -9,6 +9,15 @@ html, body {
 body {
     overflow-y: scroll;
     scroll-behavior: smooth;
+
+    &.scroll-active {
+        pointer-events: none;
+        user-select: none;
+    }
+
+    &.instant-scroll {
+        scroll-behavior: initial;
+    }
 }
 
 ::-webkit-scrollbar * {

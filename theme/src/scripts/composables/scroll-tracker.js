@@ -21,6 +21,7 @@ class ScrollTracker {
     this.app.provide('scrollPosition', this.position)
     this.app.provide('scrollingElement', this.scrollingElement)
     this.app.provide('setScrollTop', this.setScrollTop.bind(this))
+    this.app.provide('setScrollBehaviour', this.setScrollBehaviour.bind(this))
     this.app.scrollPosition = this.position
   }
 
@@ -38,6 +39,11 @@ class ScrollTracker {
 
   setScrollTop (top) {
     this.scrollingElement.scrollTop = top
+  }
+
+  setScrollBehaviour ({ instant = false, smooth = false } = {}) {
+    this.scrollingElement.classList.toggle('instant-scroll', instant)
+    this.scrollingElement.classList.toggle('smooth-scroll', smooth)
   }
 }
 

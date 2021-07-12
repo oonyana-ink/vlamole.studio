@@ -3,10 +3,13 @@
     <div
       ref="track"
       class="scroll-bar__track"
+      @mouseenter="setScrollActive(true)"
+      @mouseleave="setScrollActive(false)"
     >
       <div
         :style="scrollbarThumbStyles"
         class="scroll-bar__thumb"
+        @mousedown="startScrollDrag($event)"
       />
       <div
         v-for="section in scrollSections"
@@ -24,14 +27,19 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-  inject: ['scrollPosition', 'scrollingElement', 'sections', 'setScrollTop'],
+  inject: ['scrollPosition', 'scrollingElement', 'sections', 'setScrollTop', 'setScrollBehaviour'],
   data () {
     return {
       isMounted: false,
       scrollScalar: 0,
       viewHeight: 0,
       scrollingElementHeight: 0,
-      trackHeight: 0
+      trackHeight: 0,
+      scrollDrag: false,
+      scrollDragStart: {
+        clientY: 0,
+        scrollY: 0
+      }
     }
   },
 
@@ -91,17 +99,9 @@ export default {
     this.getViewHeight()
     this.getComponentHeights()
     this.getScrollScalar()
-    console.log(this, '<<<')
   },
 
-  // updated () {
-  //   this.getViewHeight()
-  //   this.getComponentHeights()
-  //   this.getScrollScalar()
-  // },
-
   methods: {
-
     sectionLabel (section) {
       return section.scrollLabel || section.name
     },
@@ -128,6 +128,41 @@ export default {
     getComponentHeights () {
       this.scrollingElementHeight = this.scrollingElement.scrollHeight
       this.trackHeight = this.$refs.track.clientHeight
+    },
+
+    startScrollDrag ($event) {
+      const { dragScroll, stopScrollDrag } = this
+      this.scrollDrag = true;
+      this.scrollDragStart = {
+        clientY: $event.clientY,
+        scrollY: this.scrollPosition.y
+      };
+      this.setScrollBehaviour({ instant: true })
+      window.addEventListener('mousemove', dragScroll)
+      window.addEventListener('mouseup', stopScrollDrag)
+    },
+
+    stopScrollDrag () {
+      const { dragScroll, stopScrollDrag } = this
+      this.scrollDrag = false
+      window.removeEventListener('mousemove', dragScroll)
+      window.removeEventListener('mouseup', stopScrollDrag)
+      this.setScrollBehaviour({ smooth: true })
+      this.setScrollActive(false)
+    },
+
+    dragScroll ($event) {
+      const {
+        scrollDragStart,
+        scrollingElementHeight,
+        trackHeight
+      } = this
+      this.scrollOffset = $event.clientY - this.scrollDragStart.clientY
+      this.setScrollTop(this.scrollDragStart.scrollY + scrollingElementHeight * (this.scrollOffset / trackHeight))
+    },
+
+    setScrollActive (active) {
+      this.scrollingElement.classList.toggle('scroll-active', this.scrollDrag || active)
     }
   }
 

@@ -25,6 +25,7 @@ $accent-color: $light-blue;
         transform: translate(0%, 0);
 
         ul {
+            opacity: 1;
             transform: translate(0%, 0);
         }
     }
@@ -48,15 +49,17 @@ $accent-color: $light-blue;
     ul {
         display: flex;
         font-family: font-family(title);
-        font-size: 3rem;
         margin-right: 2rem;
+        opacity: 0;
         text-transform: uppercase;
         transform: translate(-100%, 0);
-        transition: transform 300ms ease;
-        transition-delay: 300ms;
+        transition: transform 300ms ease, opacity 300ms;
+        transition-delay: 400ms;
 
         li {
+            font-size: 3rem;
             position: relative;
+
             &:not(:first-child):before {
                 background-color: $accent-color;
                 content: '';

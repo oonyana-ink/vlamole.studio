@@ -11,6 +11,7 @@ export default {
   namespaced: true,
   state: () => ({
     product: productJSON.product,
+    showSelectorCTA: false,
     showSelector: false
   }),
   getters: {
@@ -37,6 +38,11 @@ export default {
 
     toggleSelector (state) {
       state.showSelector = !state.showSelector
+    },
+
+    showSelectorCTA (state, showSelectorCTA) {
+      console.log('setSelectorPresent', showSelectorCTA)
+      state.showSelectorCTA = showSelectorCTA
     }
   },
   actions: {}

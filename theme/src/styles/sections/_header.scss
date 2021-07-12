@@ -43,21 +43,28 @@ body {
         margin-left: 0.6rem;
         transform: translateY(-50%) rotate(90deg);
         transform-origin: left bottom;
+
+        a {
+            color: currentColor;
+            text-decoration: none;
+        }
     }
 
     .breadcrumb {
         background-color: $light-blue;
         color: $white;
-        margin-left: 0.3em;
         padding: 0 0.5em 0 0.2em;
+        margin-left: 0.3em;
 
-        &:before {
-            @include hud-color(background-color);
-            content: '';
-            display: inline-block;
-            height: 1.15em;
-            transform: translateX(-0.25em) translateY(0.25em) rotate(25deg);
-            width: 0.14em;
+        span {
+            &:before {
+                @include hud-color(background-color);
+                content: '';
+                display: inline-block;
+                height: 1.15em;
+                transform: translateX(-0.25em) translateY(0.25em) rotate(25deg);
+                width: 0.14em;
+            }
         }
     }
 

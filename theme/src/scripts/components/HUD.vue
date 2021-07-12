@@ -2,14 +2,20 @@
   <header class="header">
     <div class="header__content">
       <div class="header__left-side">
-        <div class="logo">
+        <a
+          href="/"
+          class="logo">
           <img
             svg-inline
             src="@svgs/logo.svg"
           >
-        </div>
+        </a>
         <div class="logotype">
-          vlamole.studio<span class="breadcrumb">bateleur</span>
+          <a href="/">vlamole.studio</a><span
+            v-if="breadcrumb"
+            ref="breadcrumb"
+            class="breadcrumb"
+            v-html="breadcrumb"></span>
         </div>
       </div>
       <div class="header__right-side">
@@ -57,6 +63,7 @@
 
       <div class="footer_right-side">
         <a
+          v-if="showProductSelectorCTA"
           class="button primary-cta"
           :label-index="ctaLabelIndex"
           @click="toggleSelector(true)"
@@ -71,7 +78,7 @@
 
 <script>
 import MainMenu from '@components/MainMenu.vue'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 
 export default {
   components: {
@@ -81,21 +88,42 @@ export default {
   data () {
     return {
       ctaLabelIndex: 0,
-      footerMenu: window.vlamole.menus.footer
+      ctaCylceStarted: false,
+      footerMenu: window.vlamole.menus.footer,
+      pathname: (window.location.pathname.length > 1 ? window.location.pathname : null)
     }
   },
 
-  mounted () {
-    setInterval(() => {
-      this.ctaLabelIndex = this.ctaLabelIndex === 0 ? 1 : 0
-    }, 4000)
+  computed: {
+    ...mapState({
+      showProductSelectorCTA: (state) => state.product.showSelectorCTA
+    }),
+
+    breadcrumb () {
+      return this.pathname && this.pathname.replace(/^\//, '').split('/').map(pathPart => `<span>${pathPart}</span>`)[1]
+    }
+  },
+
+  watch: {
+    showProductSelectorCTA (show) {
+      if (show && !this.ctaCylceStarted) {
+        this.startCTACycle()
+      }
+    }
   },
 
   methods: {
     ...mapMutations({
       toggleSelector: 'product/toggleSelector',
       toggleMenu: 'menu/toggle'
-    })
+    }),
+
+    startCTACycle () {
+      this.ctaCylceStarted = true
+      setInterval(() => {
+        this.ctaLabelIndex = this.ctaLabelIndex === 0 ? 1 : 0
+      }, 4000)
+    }
   }
 };
 </script>

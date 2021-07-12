@@ -13,7 +13,6 @@ import HUD from '@components/HUD.vue'
 import Insta from '@components/Insta.vue'
 import Nopage from '@components/Nopage.vue'
 import Scrollbar from '@components/Scrollbar.vue'
-import ProductSelector from '@components/ProductSelector.vue'
 
 const pageLoaders = Object.entries(pages).map(([path, component]) => {
   const pathRegex = new RegExp(`^${path.replace(/\//g, '\/')}`)
@@ -27,7 +26,6 @@ export default {
     Insta,
     Nopage,
     Scrollbar,
-    ProductSelector,
     ...pages
   },
 
