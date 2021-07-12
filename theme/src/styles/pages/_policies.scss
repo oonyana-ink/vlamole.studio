@@ -30,7 +30,7 @@
         width: 40%;
 
         h1 {
-            bottom: 10%;
+            // bottom: 10%;
             color: $white;
             font-size: 10rem;
             left: 0%;
@@ -38,6 +38,8 @@
             position: fixed;
             text-align: right;
             text-transform: uppercase;
+            top: 50%;
+            transform: translateY(-50%);
             // top: 90%;
             // transform-origin: bottom left;
             // transform: rotate(-90deg);
@@ -47,6 +49,9 @@
 
     &__body {
         box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         padding: 5rem 15vw 5rem 5rem;
         width: 60%;
 
