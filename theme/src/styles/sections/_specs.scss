@@ -1,5 +1,7 @@
 $border-size: 5rem;
 
+
+
 body[incoming-section='specs'] {
     --hud-color: #{$white};
 
@@ -57,6 +59,10 @@ body[outgoing-section='specs'] {
             position: relative;
             text-align: center;
 
+            @include media("<=phone") {
+                
+            }
+
             &.no-grow {
                 flex-grow: 0;
             }
@@ -78,6 +84,8 @@ body[outgoing-section='specs'] {
         position: absolute;
         right: $grid-margin;
         top: $grid-margin * 0.25;
+
+        
 
         &.data-table {
             .col {
@@ -103,6 +111,11 @@ body[outgoing-section='specs'] {
         top: $grid-margin * 0.5;
         width: grid-width($cols: 3);
 
+        @include media("<=phone") {
+            width: grid-width($cols: 12);
+            top: 50%;
+        }
+
         p {
             font-size: 0.95rem;
         }
@@ -113,6 +126,10 @@ body[outgoing-section='specs'] {
         left: $grid-margin;
         position: absolute;
         width: grid-width(10);
+
+        @include media("<=phone") {
+            display: none;
+        }
 
         &.data-table {
             .col {

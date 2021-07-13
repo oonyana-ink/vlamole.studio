@@ -28,7 +28,18 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
         margin-top: calc(var(--grid-margin) * 0.75);
         position: relative;
         width: grid-width($cols: 4);
+
+        @include media("<=phone") {
+            align-items: center;
+            margin-left: grid-offset($cols: 0.5);
+            margin-top: grid-offset($cols: 1.5);
+            width: grid-width($cols: 11);
+
+
+        }
     }
+
+
 
     .section__copy {
         color: $dark-blue;
@@ -87,10 +98,22 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
         // padding: 1.5em;
         text-transform: uppercase;
 
+
+
         label {
             padding: 0 2rem;
         }
+
+        @include media("<=tablet") {
+            font-size: 1.5rem;
+        }
+
+        @include media("<=phone") {
+            font-size: 2rem;
+        }
+
     }
+
 
     .timeline-toggle {
         // border: 1px solid $light-blue;
@@ -98,6 +121,14 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
         display: flex;
         position: relative;
         width: 100%;
+
+        @include media("<=tablet") {
+            font-size: 1.5rem;
+        }
+
+        @include media("<=phone") {
+            width: 30%;
+        }
 
         &.new-timeline {
             &:before {
@@ -115,6 +146,8 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
             }
         }
 
+
+
         &:before {
             background-color: $copy-block-border-color;
             // border-radius: 1rem;
@@ -127,6 +160,15 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
             transition: transform 250ms;
             width: 50%;
             z-index: 1;
+
+            @include media("<=tablet") {
+                font-size: 0.5rem;
+            }
+
+            @include media("<=phone") {
+                font-size: 0.5rem;
+
+            }
         }
 
         &__option {
@@ -141,7 +183,22 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
             text-align: center;
             width: 50%;
             z-index: 2;
+
+
         }
+
+        @include media("<=tablet") {
+            font-size: 0.5rem;
+        }
+
+        @include media("<=phone") {
+            font-size: 1rem;
+            width: 50%;
+        }
+
+
+
+
     }
 
     .timeline {
@@ -151,6 +208,15 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
         position: absolute;
         top: 70%;
         width: 100%;
+
+        @include media("<=phone") {
+            top: 60%;
+        }
+
+
+
+
+
 
         &:before {
             background-color: $grey;
@@ -163,6 +229,14 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
             transform: translateY(-1px) scaleX(1);
             transform-origin: left center;
             transition: transform 300ms ease-in;
+
+            @include media("<=tablet") {
+                font-size: 0.1rem;
+            }
+
+            @include media("<=phone") {
+                font-size: 0.1rem;
+            }
         }
 
         &__span {
@@ -174,10 +248,20 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
             transition: max-width 500ms ease-out, opacity 500ms;
             transition-delay: 1000ms;
 
+            @include media("<=tablet") {
+                font-size: 0.7rem;
+            }
+
+            @include media("<=phone") {
+
+            }
+
             &.fixed-width {
                 flex-grow: 0;
                 width: 12vw;
             }
+
+
 
             &:before {
                 border: 1px solid $orange;
@@ -206,7 +290,13 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
                 transition: opacity 500ms, transform 300ms;
                 transition-delay: var(--transition-delay);
                 z-index: 4;
+
+
             }
+
+
+
+
 
             &:nth-child(odd) {
                 @extend %extend-down;
@@ -239,6 +329,15 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
             transition-delay: var(--transition-delay);
             z-index: 5;
 
+            @include media("<=tablet") {
+                font-size: 1rem;
+            }
+
+            @include media("<=phone") {
+                font-size: 1rem;
+            }
+
+
             em {
                 display: inline-block;
                 font-size: 1.5em;
@@ -246,6 +345,16 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
                 transform: translateY(-20%);
                 vertical-align: top;
             }
+
+            @include media("<=tablet") {
+                font-size: 0.6rem;
+            }
+
+            @include media("<=phone") {
+                font-size: 0.6rem;
+            }
+
+
         }
 
         &__point {
@@ -254,6 +363,7 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
             height: 0;
             position: relative;
             z-index: 5;
+
 
             &.taller {
                 &:before {
@@ -274,7 +384,9 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
                 transition: transform $point-transition-duration ease-in-out;
                 transition-delay: calc(var(--transition-delay) + #{$point-transition-duration});
                 width: 0;
+
             }
+
 
             &:after {
                 background: $white;
@@ -289,7 +401,13 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
                 transition: transform $point-transition-duration ease-out;
                 transition-delay: var(--transition-delay);
                 width: 1.5rem;
+
+                @include media("<=phone") {
+                    padding: auto;
+                }
             }
+
+
 
             label {
                 @include font(title, $size: 1rem * 2.5, $line-height: 1);
@@ -302,7 +420,20 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
                 transition: opacity $point-transition-duration, transform $point-transition-duration ease-out;
                 transition-delay: calc(var(--transition-delay) + #{$point-transition-duration * 2});
                 white-space: nowrap;
+
+                @include media("<=tablet") {
+                    font-size: 1rem;
+                }
+
+                @include media("<=phone") {
+                    font-size: 1.5rem;
+                }
             }
+
+
+
+
+
 
             @for $i from 0 through 11 {
                 &[data-index="#{$i}"] {
@@ -340,6 +471,14 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
                 transition: right 200ms ease-out;
                 transition-delay: var(--transition-delay);
             }
+
+            @include media("<=tablet") {
+                font-size: 1rem;
+            }
+
+            @include media("<=phone") {
+                font-size: 1rem;
+            }
         }
 
         &__no-wait {
@@ -353,6 +492,14 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
             transform: translate(-50%, 12rem) rotate(-5deg);
             transition: transform 400ms, opacity 400ms;
             transition-delay: 1500ms;
+
+            @include media("<=tablet") {
+                font-size: 0.5rem;
+            }
+
+            @include media("<=phone") {
+                font-size: 1rem;
+            }
         }
     }
 
@@ -370,7 +517,7 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
 
             &__point {
                 &:before {
-                    transform: translate(-50%, 0%) scaleY(0) !important;
+                    transform: translate(-20%, 0%) scaleY(0) !important;
                 }
 
                 &:after {
@@ -380,7 +527,10 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
                 label {
                     opacity: 0;
                 }
+
             }
+
+
         }
     }
 
@@ -411,6 +561,8 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
                 right: -0.2em;
             }
         }
+
+
     }
 
     &__background.section-background {
@@ -473,6 +625,7 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
         }
 
 
+
         .timeline__point {
             &:before {
                 transform: translate(-50%, -50%) scaleY(1);
@@ -488,5 +641,11 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
                 }
             }
         }
+
+
     }
+
+
+
+
 }

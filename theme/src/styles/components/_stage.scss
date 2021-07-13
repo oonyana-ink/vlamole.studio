@@ -11,4 +11,9 @@
         height: 100%;
         width: 100%;
     }
+
+    @include media("<=tablet") {
+        opacity: 0;
+        pointer-events: none;
+    }
 }

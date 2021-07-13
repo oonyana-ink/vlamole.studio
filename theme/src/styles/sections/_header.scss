@@ -7,22 +7,37 @@ body {
 
 .header {
     left: 0;
-    padding: $page-margin;
+    padding: var(--page-margin);
     position: fixed;
     right: 0;
     top: 0;
     z-index: 100;
 
+    @include media("<=phone") {
+        // top: 89%;
+        top: auto;
+        bottom: 0;
+        background: rgba(#000, 0.1);
+    }
+
     &__content {
         align-items: flex-start;
         display: flex;
         justify-content: space-between;
+
+        @include media("<=phone") {
+            align-items: center;
+        }
     }
 
     &__right-side {
         align-items: flex-end;
         display: flex;
         flex-direction: column;
+
+        @include media("<=phone") {
+            display: block;
+        }
     }
 
     .logo {
@@ -43,6 +58,10 @@ body {
         margin-left: 0.6rem;
         transform: translateY(-50%) rotate(90deg);
         transform-origin: left bottom;
+
+        @include media("<=phone") {
+            display: none;
+        }
     }
 
     .breadcrumb {
@@ -59,15 +78,19 @@ body {
             transform: translateX(-0.25em) translateY(0.25em) rotate(25deg);
             width: 0.14em;
         }
+
+        
     }
 
     .menu-toggle {
+        background: rgba(#c00, 0.2);
         cursor: pointer;
         height: $menu_toggle_height;
         position: relative;
         transform: scale(1);
         transition: transform 150ms;
         width: $menu_toggle_width;
+
 
         &:hover {
             transform: scale(1.1);
@@ -84,6 +107,9 @@ body {
             transform-origin: center center;
             transition: transform 200ms ease;
             width: 100%;
+            // @include media("<=phone") {
+            //     top: 60%;
+            // }
         }
 
         &:before {
@@ -112,6 +138,13 @@ body {
             path {
                 @include hud-color(fill);
             }
+
+    
+            @include media("<=phone") {
+                display: none;
+            }
         }
     }
+
+    
 }

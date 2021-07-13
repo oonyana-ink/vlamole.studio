@@ -5,10 +5,18 @@
     height: 100vh;
     justify-content: center;
     position: fixed;
-    right: $page-margin;
+    right: var(--page-margin);
     top: 0;
     width: 1em;
     z-index: 80;
+
+    @include media("<=tablet") {
+        font-size: 1rem;
+    }
+
+    @include media("<=phone") {
+        font-size: 1rem;
+    }
 
     &__track {
         height: 50vh;
@@ -32,6 +40,14 @@
                 transform: translateX(-1rem);
             }
         }
+
+        @include media("<=tablet") {
+
+        }
+
+        @include media("<=phone") {
+            display: none;
+        }
     }
 
     &__thumb {
@@ -41,6 +57,8 @@
         transform: translateX(0.25em);
         transition: transform 300ms, width 300ms, border-radius 300ms;
         width: 0.5em;
+
+
     }
 
     &__section-marker {
@@ -53,6 +71,9 @@
         transition: transform 300ms, width 300ms, border-radius 300ms;
         width: 0.5em;
 
+
+
+
         &:before {
             border: 1px solid;
             @include hud-color(border-color);
@@ -64,6 +85,8 @@
             position: absolute;
             right: 0;
             top: 0;
+
+
         }
 
         &:hover {
@@ -91,6 +114,17 @@
                 display: block;
                 white-space: nowrap;
             }
+
+        }
+
+        @include media("<=tablet") {
+            font-size: 1rem;
+        }
+
+        @include media("<=phone") {
+            font-size: 5rem;
         }
     }
+
+
 }

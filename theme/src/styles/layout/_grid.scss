@@ -41,6 +41,9 @@ $gutter: 1rem;
             margin-right: 0;
         }
 
+        
+
+    
         @for $i from 1 through $column-count {
             &--#{$i} {
                 width: grid-width($i);

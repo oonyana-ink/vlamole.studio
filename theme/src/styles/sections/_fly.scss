@@ -23,7 +23,11 @@
             text-transform: uppercase;
             transform: translateX(-2rem);
         }
+
+        
     }
+
+ 
 
     .blackbox-sim {
         border: 1px solid $black;
@@ -75,6 +79,13 @@
             &.orange {
                 color: $orange;
             }
+            @include media("<=tablet") {
+                font-size: 10rem;
+            }
+    
+            @include media("<=phone") {
+                font-size: 5rem;
+            }
         }
 
         .canvas-container {
@@ -84,6 +95,10 @@
             right: 0;
             top: 0;
         }
+
+        
+
+        
     }
 
     &__background {
@@ -111,4 +126,5 @@
         top: 50vh;
         transform: translateX(-50%) faux-fixed($offset: "-35% * var(--y-position-ratio)");
     }
+
 }
