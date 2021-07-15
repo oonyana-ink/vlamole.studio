@@ -77,15 +77,20 @@
         label {
             @include hud-color(color);
             font-size: 0.75rem;
-            line-height: 1.25;
-            opacity: 0;
+            line-height: 1.1;
+            opacity: 1; //NB
             pointer-events: none;
             position: absolute;
             right: 100%;
             text-align: right;
             text-transform: uppercase;
-            transform: translateX(-3rem);
+            transform: translateX(-1rem);
             transition: opacity 300ms, transform 300ms;
+
+            span {
+                display: block;
+                white-space: nowrap;
+            }
         }
     }
 }

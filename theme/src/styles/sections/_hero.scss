@@ -36,6 +36,17 @@
         top: 50%;
         transform: translateX(-1%) faux-fixed($offset: -50%);
 
+        .the {
+            // bottom: calc(100% - 0.06em);
+            // letter-spacing: 0;
+            // font-size: 0.25em;
+            // position: absolute;
+            // right: calc(100% - 0.1em);
+            // transform: rotate(-90deg);
+            // transform-origin: bottom right;
+            display: none;
+        }
+
         .top {
             display: inline-block;
         }

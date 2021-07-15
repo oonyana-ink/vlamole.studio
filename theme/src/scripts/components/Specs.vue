@@ -103,6 +103,13 @@ import sectionMixin from '@mixins/section'
 export default {
   name: 'Specs',
   mixins: [sectionMixin],
+
+  data () {
+    return {
+      scrollLabel: ['Frame', 'Specs']
+    }
+  },
+
   computed: {
     config () {
       return {

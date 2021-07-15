@@ -27,7 +27,6 @@ class Worker {
 
   waitUntilReady () {
     this.ready = this.scene.ready && this.drone.ready
-    console.log('ready', this.ready)
     if (!this.ready) {
       setTimeout(() => { this.waitUntilReady() }, 500)
     } else {

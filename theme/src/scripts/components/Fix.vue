@@ -1,56 +1,63 @@
 <template>
-    <section
-        ref="section"
-        class="fix section"
-        :class="sectionClassses"
-        :style="sectionStyles"
-    >
+  <section
+    ref="section"
+    class="fix section"
+    :class="sectionClassses"
+    :style="sectionStyles"
+  >
+    <div class="content">
       <div class="grid">
-        <div class="content grid__column--12">
+        <div class="grid__column--12">
           <div class="section__copy">
-
-              
-
-            <h1 class="fixxx content grid__row--4">FIX</h1>
-           
-            <p class="fixxxx content grid__column--6">This frustrating time in a budding pilot’s life is the inspiration behind the Bateleur, a modular 3D printable 2 inch whoop frame. Now the time between a critical failure and being airborne again can be minutes instead of days.critical failure and being airborne again can be minutes instead of days.his frustrating time in a budding pilot’s life is the inspiration behind the Bateleur, a modular 3D printable 2 inch whoop frame. Now the time between a critical failure and being airborne again can be minutes instead of days.critical failure and being airborne again can be minutes instead of days.his frustrating time in a budding pilot’s life is the inspiration behind the Bateleur, a modular 3D printable 2 inch whoop frame. Now the time between a critical failure and being airborne again can be minutes instead of days.critical failure and being airborne again can be minutes instead of days.</p>
-          
-          
+              <div class='title-container'>
+                <h3>Fix</h3>
+              </div>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </p>
           </div>
-        
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <teleport to="#section-backgrounds">
-        <div
-            ref="background"
-            class="fix__background section-background"
-            :style="sectionBackgroundStyles"
-        >
-            Background
-        </div>
-    </teleport>
+  <teleport to="#section-backgrounds">
+    <div
+      ref="background"
+      class="fix__background section-background"
+      :style="sectionBackgroundStyles"
+    >
+      Background
+    </div>
+  </teleport>
 </template>
 
 <script>
-import sectionMixin from '@mixins/section'
+import sectionMixin from "@mixins/section";
 
 export default {
-    name: 'Fix',
-    mixins: [sectionMixin],
+  name: "Fix",
+  mixins: [sectionMixin],
 
-    computed: {
-        config () {
-            return {
-                stage: {
-                    drone: {
-                        rotation: ['0deg', '180deg', '0deg'],
-                        position: [window.innerWidth * -0.25, 0, 0]
-                    }
-                }
-            }
-        }
+  data () {
+    return {
+      scrollLabel: ['Easy', 'Fixing']
     }
-}
+  },
+
+  computed: {
+    config() {
+      return {
+        stage: {
+          drone: {
+            float: 0,
+            rotation: ["0deg", "180deg", "0deg"],
+            position: [0, 0, 0],
+            explodedView: 1
+          },
+        },
+      };
+    },
+  },
+};
 </script>

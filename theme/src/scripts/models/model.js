@@ -14,9 +14,9 @@ export default class Model {
 
   state = {
     loading: false,
-    loaded: false,
-    store: null
+    loaded: false
   }
+  store = null
 
   meta = {}
   groups = {}
@@ -217,9 +217,10 @@ export default class Model {
     this.loaded()
   }
 
-  attachStore (store) {
-    this.state.store = store
-    watch(() => this.state.store.updated, this.updateFromStore.bind(this))
+  attachStore (store, stateKey) {
+    this.state = store.state[stateKey]
+    this.store = store
+    watch(() => this.state.updated, this.updateFromStore.bind(this))
     this.updateFromStore()
   }
 
@@ -241,6 +242,7 @@ export default class Model {
       const clonedGroup = new THREE.Group()
       object3D.children.forEach(child => {
         const wireframeChild = this.generateWireframe(child)
+        clonedGroup.name = child.name
         wireframeChild.rotation.set(child.rotation.x, child.rotation.y, child.rotation.z)
         wireframeChild.position.set(child.position.x, child.position.y, child.position.z)
         wireframeChild.material.transparent = true
@@ -248,7 +250,6 @@ export default class Model {
         wireframeChild.material.color.set(0xffffff)
         clonedGroup.add(wireframeChild)
       })
-
       return clonedGroup
     }
 
@@ -259,6 +260,7 @@ export default class Model {
     }, materialOpts))
     const lineSegments = new THREE.LineSegments(geometry, material)
     lineSegments.computeLineDistances()
+    lineSegments.name = object3D.name
 
     return lineSegments
   }
@@ -383,9 +385,9 @@ export default class Model {
   }
 
   updateFromStore () {
-    this.position = this.state.store.position
-    this.rotation = this.state.store.rotation
-    this.size = this.state.store.size
+    this.position = this.state.position
+    this.rotation = this.state.rotation
+    this.size = this.state.size
   }
 
   _update (frame) {
@@ -406,6 +408,8 @@ export default class Model {
     const ModelClass = modelMeta.class ? modelMeta.class : Model
     const childModel = new ModelClass(child)
 
+    childModel.parent = this
+    childModel.scene = this.scene
     this.object3D.remove(child)
 
     if (modelMeta.group) {

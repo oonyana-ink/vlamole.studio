@@ -197,7 +197,8 @@ export default {
 
   data () {
     return {
-      timelineStyle: 'hidden-timeline'
+      timelineStyle: 'hidden-timeline',
+      scrollLabel: ['Old v. New',  'Timelines']
     }
   },
 

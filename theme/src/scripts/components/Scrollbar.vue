@@ -15,7 +15,11 @@
         class="scroll-bar__section-marker"
         @click="scrollTo($event, section)"
       >
-        <label>{{ sectionLabel(section) }}</label>
+        <label>
+          <span v-for="labelPart in sectionLabel(section)">
+            {{ labelPart }}
+          </span>
+        </label>
       </div>
     </div>
   </div>
@@ -75,7 +79,6 @@ export default {
       const { scrollScalar } = this
       return this.sections.map(section => {
         const { bounds } = section
-        console.log('scrollSections', section, bounds)
         section.markerStyle = {
           top: section.top * scrollScalar + 'px',
           height: (bounds.height * scrollScalar) - 5 + 'px'
@@ -91,7 +94,6 @@ export default {
     this.getViewHeight()
     this.getComponentHeights()
     this.getScrollScalar()
-    console.log(this, '<<<')
   },
 
   // updated () {
@@ -103,7 +105,11 @@ export default {
   methods: {
 
     sectionLabel (section) {
-      return section.scrollLabel || section.name
+      let label = section.scrollLabel || section.name
+      if (!(label instanceof Array)) {
+        label = [label]
+      }
+      return label
     },
 
     scrollTo ($event, section) {

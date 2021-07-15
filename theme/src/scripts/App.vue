@@ -17,7 +17,6 @@ import ProductSelector from '@components/ProductSelector.vue'
 
 const pageLoaders = Object.entries(pages).map(([path, component]) => {
   const pathRegex = new RegExp(`^${path.replace(/\//g, '\/')}`)
-  console.log(component);
   return { test: () => pathRegex.test(location.pathname), path, component }
 })
 
@@ -39,7 +38,6 @@ export default {
 
     currentPage () {
       const pageComponent = pageLoaders.find(loader => loader.test()) || {}
-      console.log(pageComponent)
       if (pageComponent.component instanceof Function) {
         return pageComponent.component()
       } else if (pageComponent.component.setup) {

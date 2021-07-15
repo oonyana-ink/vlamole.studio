@@ -73,12 +73,12 @@ export default {
       particleLifespan: 40,
       shuffledProps: [],
       impactParticles: [],
-      impactTrajectory: {}
+      impactTrajectory: {},
+      scrollLabel: ['Impact', 'Handling']
     }
   },
 
   computed: {
-    scrollLabel () { return 'Impact handling' },
     config () {
       return {
         stage: {

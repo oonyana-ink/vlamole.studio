@@ -34,10 +34,11 @@ export default {
 
   methods: {
     init () {
+      console.log(this)
       this.scene = new Scene()
       this.drone = new Drone()
-      this.scene.attachStore(this.sceneState)
-      this.drone.onInit(() => this.drone.attachStore(this.droneState))
+      this.scene.attachStore(this.$store, 'scene')
+      this.drone.onInit(() => this.drone.attachStore(this.$store, 'drone'))
       this.scene.mount(this.$refs.primaryCanvas)
       this.scene.add(this.drone)
       this.scene.onReady(() => {

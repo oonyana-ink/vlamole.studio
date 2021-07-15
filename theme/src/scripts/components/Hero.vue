@@ -8,6 +8,7 @@
     <div class='grid'>
       <div class='content grid__column--10 grid__column--offset-1'>
         <div class='title'>
+          <span class='the'>THE</span>
           <span class='top'>BATE</span><br/><span class='bottom'>LEUR</span>
           <div class="subtitle" parallax='2'>
             THE IMMORTAL CINEWHOOP FRAME
@@ -48,6 +49,12 @@ export default {
   name: 'Hero',
   mixins: [sectionMixin],
   inject: ['grid', 'gridWidth'],
+
+  data () {
+    return {
+      scrollLabel: ['The', 'Bateleur']
+    }
+  },
 
   computed: {
     assetsURL () {

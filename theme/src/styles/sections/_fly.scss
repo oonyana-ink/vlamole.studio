@@ -1,6 +1,7 @@
 .fly {
     &.section {
         height: 150vh;
+        z-index: 11;
     }
 
     .grid {
@@ -100,7 +101,7 @@
         // bottom: -5%;
         color: rgba($white, 0.75);
         font-family: font-family(title);
-        font-size: 100vh;
+        font-size: 150vh;
         left: 50%;
         letter-spacing: -0.05em;
         line-height: 0.72em;

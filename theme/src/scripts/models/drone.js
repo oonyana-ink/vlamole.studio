@@ -93,6 +93,8 @@ export class Drone extends Model {
       processedChildren.push(processChild)
     })
 
+    console.log({ processedChildren })
+
     super.processChildren(processedChildren)
   }
 
@@ -103,15 +105,15 @@ export class Drone extends Model {
   }
 
   floatAnimation (frame) {
-    if (!this.state.float) { return this.resetAnimation() }
+    const { floatInterpolation } = this.state
     const { wireframe } = this.appearances
 
     const offsetMultiplier = wireframe.inScene ? 5 : 10
     const periodDivisor = 600
     const sinePeriod = Math.PI * 2 / periodDivisor
-    const sineOffset = offsetMultiplier * Math.sin(frame * sinePeriod) + 10
-    const sineRotationZ = (wireframe.inScene ? 0.05 : 0.02) * Math.sin(frame * sinePeriod * 1.3)
-    const sineRotationX = (wireframe.inScene ? 0.05 : 0.01) * Math.sin(frame * sinePeriod * 1.5)
+    const sineOffset = (offsetMultiplier * Math.sin(frame * sinePeriod) + 10) * floatInterpolation.value
+    const sineRotationZ = (wireframe.inScene ? 0.05 : 0.02) * Math.sin(frame * sinePeriod * 1.3) * floatInterpolation.value
+    const sineRotationX = (wireframe.inScene ? 0.05 : 0.01) * Math.sin(frame * sinePeriod * 1.5) * floatInterpolation.value
 
     this.transformTarget = 'object3D'
     this.position = { y: sineOffset }
@@ -122,6 +124,38 @@ export class Drone extends Model {
       this.wireframe.rotation.copy(this.transformTarget.rotation)
     }
     this.transformTarget = 'default'
+  }
+
+  explodedViewInterpolator ({ from = 0, to = 0, value, ratio }) {
+    const { scalar } = this.scene
+    if (to === from) { return }
+
+    const relatedRatio = to > from ? ratio : 1 - ratio
+    this.explodedViewSpinRatio = relatedRatio
+
+    this.children.forEach(child => {
+      child._initialPosition = child._initialPosition || child.position.clone()
+      const { yRatio } = child.meta.explodedView
+      const positionOffset = (((value * window.innerHeight * 0.2) / scalar) * yRatio);
+      const yPosition = child._initialPosition.y + positionOffset
+      child.position = {
+        y: yPosition
+      }
+    })
+  }
+
+  spinExplodedView () {
+    if (this.explodedViewSpinRatio > 0.98) {
+      const { rotation } = this.state
+      this.store.commit('drone/apply', {
+        rotation: [
+          parseFloat(rotation[0]) + (0.15 * this.explodedViewSpinRatio) + 'deg' ,
+          parseFloat(rotation[1]) + (0.25 * this.explodedViewSpinRatio) + 'deg',
+          rotation[2]
+          // parseFloat(rotation[2]) + (0.25 * this.explodedViewSpinRatio) + 'deg'
+        ]
+      })
+    }
   }
 
   resetAnimation () {
@@ -192,14 +226,17 @@ export class Drone extends Model {
 
   update (frame) {
     this.floatAnimation(frame)
+    this.spinExplodedView(frame)
   }
 
   updateFromStore () {
     const {
-      appearanceTransition
-    } = this.state.store
+      appearanceInterpolation,
+      explodedViewInterpolation
+    } = this.state
     super.updateFromStore()
-    this.appearanceInterpolator(appearanceTransition)
+    this.appearanceInterpolator(appearanceInterpolation)
+    this.explodedViewInterpolator(explodedViewInterpolation)
   }
 
   components = {
@@ -213,6 +250,9 @@ export class Drone extends Model {
         class: THREE.MeshPhongMaterial,
         color: COLORS.aux,
         flatShading: true
+      },
+      explodedView: {
+        yRatio: -0.33
       }
     },
     CoreTop: {
@@ -226,6 +266,9 @@ export class Drone extends Model {
         class: THREE.MeshPhongMaterial,
         color: COLORS.core,
         flatShading: true
+      },
+      explodedView: {
+        yRatio: 0
       }
     },
     CoreBottom: {
@@ -239,6 +282,9 @@ export class Drone extends Model {
         class: THREE.MeshPhongMaterial,
         color: COLORS.core,
         flatShading: true
+      },
+      explodedView: {
+        yRatio: -0.6
       }
     },
     PropguardTop: {
@@ -255,6 +301,9 @@ export class Drone extends Model {
             class: THREE.MeshPhongMaterial,
             color: COLORS.aux,
             flatShading: true
+          },
+          explodedView: {
+            yRatio: 0.66
           }
         },
         {
@@ -269,6 +318,9 @@ export class Drone extends Model {
             class: THREE.MeshPhongMaterial,
             color: COLORS.aux,
             flatShading: true
+          },
+          explodedView: {
+            yRatio: 0.66
           }
         }
       ]
@@ -286,6 +338,9 @@ export class Drone extends Model {
             class: THREE.MeshPhongMaterial,
             color: COLORS.aux,
             flatShading: true
+          },
+          explodedView: {
+            yRatio: -1
           }
         },
         {
@@ -299,6 +354,9 @@ export class Drone extends Model {
             class: THREE.MeshPhongMaterial,
             color: COLORS.aux,
             flatShading: true
+          },
+          explodedView: {
+            yRatio: -1
           }
         }
       ]
@@ -314,6 +372,9 @@ export class Drone extends Model {
         class: THREE.MeshPhongMaterial,
         color: COLORS.core,
         flatShading: true
+      },
+      explodedView: {
+        yRatio: 1
       }
     },
     CameraBracket: {
@@ -329,6 +390,9 @@ export class Drone extends Model {
             class: THREE.MeshPhongMaterial,
             color: COLORS.aux,
             flatShading: true
+          },
+          explodedView: {
+            yRatio: -0.33
           }
         },
         {
@@ -342,6 +406,9 @@ export class Drone extends Model {
             class: THREE.MeshPhongMaterial,
             color: COLORS.aux,
             flatShading: true
+          },
+          explodedView: {
+            yRatio: -0.33
           }
         }
       ]
@@ -356,7 +423,10 @@ export class Drone extends Model {
       material: {
         color: COLORS.wireframe
       },
-      rotation: ['110deg', 0, 0]
+      rotation: ['110deg', 0, 0],
+      explodedView: {
+        yRatio: -0.33
+      }
     },
     PropellerCCW: {
       clone: [
@@ -371,6 +441,9 @@ export class Drone extends Model {
           ],
           material: {
             color: COLORS.wireframe
+          },
+          explodedView: {
+            yRatio: -0.05
           }
         },
         {
@@ -384,6 +457,9 @@ export class Drone extends Model {
           ],
           material: {
             color: COLORS.wireframe
+          },
+          explodedView: {
+            yRatio: -0.05
           }
         }
       ]
@@ -401,6 +477,9 @@ export class Drone extends Model {
           ],
           material: {
             color: COLORS.wireframe
+          },
+          explodedView: {
+            yRatio: -0.05
           }
         },
         {
@@ -414,6 +493,9 @@ export class Drone extends Model {
           ],
           material: {
             color: COLORS.wireframe
+          },
+          explodedView: {
+            yRatio: -0.05
           }
         }
       ]
@@ -430,6 +512,9 @@ export class Drone extends Model {
             class: THREE.MeshPhongMaterial,
             color: COLORS.core,
             flatShading: true
+          },
+          explodedView: {
+            yRatio: -0.33
           }
         },
         {
@@ -442,6 +527,9 @@ export class Drone extends Model {
             class: THREE.MeshPhongMaterial,
             color: COLORS.core,
             flatShading: true
+          },
+          explodedView: {
+            yRatio: -0.33
           }
         }
       ]
@@ -456,6 +544,9 @@ export class Drone extends Model {
         class: THREE.MeshPhongMaterial,
         color: COLORS.aux,
         flatShading: true
+      },
+      explodedView: {
+        yRatio: 0.33
       }
     }
   }

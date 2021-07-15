@@ -50,13 +50,18 @@ import P5 from 'p5'
 export default {
   name: 'Fly',
   mixins: [sectionMixin],
+
+  data () {
+    return {
+      scrollLabel: ['Flight', 'Dynamics']
+    }
+  },
+
   computed: {
     ...mapState({
       droneState: 'drone',
       sceneState: 'scene'
     }),
-
-    scrollLabel () { return 'Flight dynamics' },
 
     config () {
       const { depth: sceneDepth } = this.sceneState

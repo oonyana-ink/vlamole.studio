@@ -1,43 +1,90 @@
+body[incoming-section='fix'] {
+    --hud-color: #{$white};
+
+    .primary-canvas {
+        transform: translateX(calc(24.5% * var(--incoming-y-visibility-ratio)));
+    }
+}
+body[outgoing-section='fix'] {
+    .primary-canvas {
+        transform: translateX(calc(24.5% * var(--outgoing-y-visibility-ratio)));
+    }
+}
+
 .fix {
     &.section {
         height: 150vh;
+        z-index: 11;
+    }
+
+    .content {
+        // border: 1px solid $white;
+        height: 70vh;
+        opacity: var(--y-visibility-ratio);
+        position: relative;
+        top: 15vh;
+        transform: faux-fixed();
+        width: 100%;
+
+        .grid {
+            align-items: stretch;
+            height: 100%;
+        }
+    }
+
+    .section__copy {
+        // border: 1px solid $white;
+        align-items: stretch;
+        color: $white;
+        display: flex;
+        height: 100%;
+        justify-content: space-between;
+        // margin-left: grid-offset($cols: 1);
+        position: relative;
+        width: grid-width($cols: 5.5);
+
+        .title-container {
+            // border: 1px solid $white;
+            position: relative;
+            width: grid-width($cols: 2);
+        }
+
+        h3 {
+            color: $white;
+            font-size: 26vw;
+            // left: -0.09em;
+            position: absolute;
+            text-transform: uppercase;
+            top: 100%;
+            transform: translate(-0.1em, 0.065em) rotate(-90deg);
+            transform-origin: top left;
+        }
+
+        p {
+            // margin-left: ;
+            width: grid-width($cols: 3);
+        }
     }
 
     &__background { // .fix__background
         background-color: $dark-blue;
+        overflow: hidden;
+        position: relative;
+
+        &:before {
+            background: radial-gradient(circle at 75%, lighten($dark-blue, 10%), $dark-blue 50%);
+            content: '';
+            height: 100vh;
+            left: 50%;
+            opacity: var(--y-visibility-ratio);
+            position: absolute;
+            top: 0;
+            transform: translateX(-50%) faux-fixed();
+            width: 100vw;
+        }
 
         &.section-background {
             height: 150vh;
         }
     }
-}
-
-.fixxx{
-    color: aliceblue;
-    font-size: 30vw;
-    letter-spacing: -0.075em;
-    margin: 0px;
-    padding-right: 11%;
-    padding-top: 20vh;
-    text-align: end;
-
-}
-
-.fixxxx {
-    color: aliceblue;
-    float: right;
-    padding-left: 5%;
-    padding-top: 0%;
-
-
-}
-
-.nopage {
-    color: aliceblue;
-    font-size: 30vw;
-    letter-spacing: -0.075em;
-    margin: 0px;
-    padding-right: 25vw;
-    padding-top: 20vh;
-    text-align: end;
 }

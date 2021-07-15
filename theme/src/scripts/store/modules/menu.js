@@ -14,7 +14,6 @@ export default {
     },
 
     toggle (state) {
-      console.log('toggle')
       state.open = !state.open
     }
   }

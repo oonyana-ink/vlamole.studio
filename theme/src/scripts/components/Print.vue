@@ -43,6 +43,12 @@ export default {
   name: 'Print',
   mixins: [sectionMixin],
 
+  data () {
+    return {
+      scrollLabel: ['Print It', 'Yourself']
+    }
+  },
+
   computed: {
     config () {
       return {

@@ -71,6 +71,7 @@ export default {
     },
 
     yVisibilityRatio () {
+      if (!this.isIntersecting) { return 0 }
       const { viewHeight } = this
       const {
         top: sectionTop,
@@ -127,7 +128,6 @@ export default {
   watch: {
     isIntersecting (isIntersecting) {
       if (isIntersecting) {
-        console.log(this.name, 'isIntersecting')
         // this.trackBounds()
       }
     }
@@ -136,7 +136,6 @@ export default {
   created () {
     this.afterMountCallbacks = []
     watch(this.scrollPosition, this.handleScroll)
-    console.log(this)
     this.$registerSection(this)
   },
 
