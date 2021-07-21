@@ -1,9 +1,8 @@
 <template>
-  <section
+  <Section
     ref="section"
-    class="specs section"
-    :class="sectionClasses"
-    :style="sectionStyles"
+    name="specs"
+    :config="config"
   >
     <div class="specs__content">
       <div class="specs__header data-table">
@@ -82,23 +81,24 @@
         </div>
       </div>
     </div>
-  </section>
 
-  <teleport to="#section-backgrounds">
-    <div
-      ref="background"
-      class="specs__background section-background"
-      :style="sectionBackgroundStyles"
-    >
-      <div class="specs-grid">
-        <div class="grid-border grid-border--top" />
-        <div class="grid-border grid-border--bottom" />
+    <template v-slot:background>
+      <div
+        ref="background"
+        class="specs__background section-background"
+        :style="sectionBackgroundStyles"
+      >
+        <div class="specs-grid">
+          <div class="grid-border grid-border--top" />
+          <div class="grid-border grid-border--bottom" />
+        </div>
       </div>
-    </div>
-  </teleport>
+    </template>
+  </Section>
 </template>
 
 <script>
+import Section from "@components/Section.vue";
 import sectionMixin from '@mixins/section'
 export default {
   name: 'Specs',
@@ -122,6 +122,10 @@ export default {
         }
       }
     }
+  },
+
+  components: {
+    Section
   }
 }
 </script>

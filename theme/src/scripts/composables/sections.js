@@ -74,6 +74,7 @@ class Sections {
 
   setInitialState () {
     let initialSection = this.sections.find(section => section.yVisibilityRatio > 0.5)
+    console.log('setInitialState', initialSection)
     initialSection = initialSection || this.sections[0]
     this.applyConfig(initialSection)
   }

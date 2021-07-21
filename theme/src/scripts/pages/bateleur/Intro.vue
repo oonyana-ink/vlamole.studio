@@ -1,7 +1,8 @@
 <template>
-  <section
-    class="intro section"
-    :style="sectionStyles"
+  <Section
+    ref="section"
+    name="intro"
+    :config="config"
   >
     <div class="grid">
       <div class="content grid__column--12">
@@ -169,13 +170,8 @@
         </div>
       </div>
     </div>
-  </section>
 
-  <teleport to="#section-backgrounds">
-    <div
-      ref="background"
-      class="intro__background section-background"
-    >
+    <template v-slot:background>
       <ScrollTrigger
         :is-active="isIntersecting"
         name="old-timeline"
@@ -188,66 +184,72 @@
         threshold="0.5"
         @trigger.once="handleTrigger"
       />
-    </div>
-  </teleport>
+    </template>
+  </Section>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import config from '@/config'
-import sectionMixin from '@mixins/section'
-import ScrollTrigger from './ScrollTrigger.vue'
+import { mapState } from "vuex";
+import sectionMixin from "@mixins/section"
+import Section from "@components/Section.vue"
+import ScrollTrigger from "@components/ScrollTrigger.vue"
 
 export default {
-  name: 'Intro',
+  name: "Intro",
 
-  components: {
-    ScrollTrigger
-  },
-
+  inject: ["grid", "gridWidth"],
   mixins: [sectionMixin],
-  inject: ['grid', 'gridWidth'],
 
-  data () {
+  data() {
     return {
-      timelineStyle: 'hidden-timeline',
-      scrollLabel: ['The Past',  'vs.',  'The Future']
-    }
+      mounted: false,
+      timelineStyle: "hidden-timeline",
+      scrollLabel: ["The Past", "vs.", "The Future"],
+    };
   },
 
   computed: {
     ...mapState({
-      droneState: 'drone',
-      sceneState: 'scene'
+      droneState: "drone",
+      sceneState: "scene",
     }),
 
-    assetsURL () {
-      return config.assetsURL
-    },
-
-    config () {
-      const { depth: sceneDepth } = this.sceneState
+    config() {
+      const { depth: sceneDepth } = this.sceneState;
       return {
         stage: {
           drone: {
-            appearance: 'shaded',
-            position: [this.gridWidth({ cols: -4 }), window.innerHeight * 0.3, sceneDepth * 0.05],
-            rotation: ['50deg', '220deg', '0deg']
-          }
-        }
-      }
+            appearance: "shaded",
+            position: [
+              this.gridWidth({ cols: -4 }),
+              window.innerHeight * 0.3,
+              sceneDepth * 0.05,
+            ],
+            rotation: ["50deg", "220deg", "0deg"],
+          },
+        },
+      };
     }
   },
 
   methods: {
-    handleTrigger (trigger) {
-      this.updateTimeline(trigger.name)
+    handleTrigger(trigger) {
+      console.log('trigger')
+      this.updateTimeline(trigger.name);
     },
 
-    updateTimeline (triggerName) {
-      this.timelineStyle = triggerName
-    }
+    updateTimeline(triggerName) {
+      this.timelineStyle = triggerName;
+    },
+  },
 
-  }
-}
+  mounted () {
+    this.mounted = true
+  },
+
+  components: {
+    Section,
+    ScrollTrigger
+  },
+};
 </script>

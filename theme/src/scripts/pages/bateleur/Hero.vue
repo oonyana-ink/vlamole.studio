@@ -1,9 +1,7 @@
 <template>
-  <section
-    ref="section"
-    class="hero section"
-    :class="sectionClasses"
-    :style="sectionStyles"
+  <Section
+    name="hero"
+    :config="config"
   >
     <div class='grid'>
       <div class='content grid__column--10 grid__column--offset-1'>
@@ -16,14 +14,8 @@
         </div>
       </div>
     </div>
-  </section>
 
-  <teleport to="#section-backgrounds">
-    <div
-      ref="background"
-      class="hero__background section-background"
-      :style="sectionBackgroundStyles"
-    >
+    <template v-slot:background>
       <video
         v-if="isIntersecting"
         class="background-video"
@@ -37,22 +29,22 @@
           type="video/mp4"
         >
       </video>
-    </div>
-  </teleport>
+    </template>
+  </Section>
 </template>
 
 <script>
 import config from '@/config'
-import sectionMixin from '@mixins/section'
+import Section from '@components/Section.vue'
 
 export default {
   name: 'Hero',
-  mixins: [sectionMixin],
   inject: ['grid', 'gridWidth'],
 
   data () {
     return {
-      scrollLabel: ['The', 'Bateleur']
+      scrollLabel: ['The', 'Bateleur'],
+      isIntersecting: true
     }
   },
 
@@ -73,6 +65,10 @@ export default {
         }
       }
     }
+  },
+
+  components: {
+    Section
   }
 }
 </script>
