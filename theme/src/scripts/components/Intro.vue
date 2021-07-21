@@ -6,8 +6,20 @@
     <div class="grid">
       <div class="content grid__column--12">
         <div class="section__copy-block">
+          <div class="section__copy title">
+            <label>The Past v. The Future</label>
+            <h1>
+              From<br>forever<br>to now
+            </h1>
+          </div>
           <div class="section__copy paragraph">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            The wait for new parts after a fatal crash can be the worst. Maybe you were just about to nail that trick,
+            or make that gap, and bam! Out of action for what feels like forever. And while you wait for the post man
+            to do his many hand-offs and checks and paperwork and what-nots, you somehow have to keep your eagerness to
+            feel the freedom of flight in check.
+            <br><br>
+            If only there was a way that you could reduce that wait time. Maybe a way that you could, I don't know, make
+            your own parts? That should shrink the wait time from weeks to hours...right?
           </div>
           <div class="timeline-toggle-container">
             <label>Timeline</label>
@@ -182,6 +194,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import config from '@/config'
 import sectionMixin from '@mixins/section'
 import ScrollTrigger from './ScrollTrigger.vue'
 
@@ -198,7 +211,7 @@ export default {
   data () {
     return {
       timelineStyle: 'hidden-timeline',
-      scrollLabel: ['Old v. New',  'Timelines']
+      scrollLabel: ['The Past',  'vs.',  'The Future']
     }
   },
 
@@ -207,6 +220,10 @@ export default {
       droneState: 'drone',
       sceneState: 'scene'
     }),
+
+    assetsURL () {
+      return config.assetsURL
+    },
 
     config () {
       const { depth: sceneDepth } = this.sceneState

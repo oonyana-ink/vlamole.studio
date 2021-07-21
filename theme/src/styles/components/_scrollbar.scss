@@ -78,13 +78,13 @@
             @include hud-color(color);
             font-size: 0.75rem;
             line-height: 1.1;
-            opacity: 1; //NB
+            opacity: 0; //NB
             pointer-events: none;
             position: absolute;
             right: 100%;
             text-align: right;
             text-transform: uppercase;
-            transform: translateX(-1rem);
+            transform: translateX(0rem);
             transition: opacity 300ms, transform 300ms;
 
             span {

@@ -1,4 +1,7 @@
 $section-height: 250vh;
+$copy-block-border-width: 4px;
+$copy-block-border-color: $light-blue;
+$copy-block-border: $copy-block-border-width solid $copy-block-border-color;
 
 .intro {
     &.section {
@@ -18,42 +21,105 @@ $section-height: 250vh;
     }
 
     .section__copy-block {
-        margin-left: grid-offset($cols: 7);
-        margin-top: grid-offset($cols: 1);
+        border: $copy-block-border;
+        box-sizing: border-box;
+        margin-left: grid-offset($cols: 8);
+        // margin-top: grid-offset($cols: 1);
+        margin-top: calc(var(--grid-margin) * 0.75);
+        position: relative;
         width: grid-width($cols: 4);
+    }
+
+    .section__copy {
+        color: $dark-blue;
+
+        &.title {
+            align-items: flex-end;
+            background-color: $copy-block-border-color;
+            border: $copy-block-border;
+            bottom: -$copy-block-border-width;
+            box-sizing: border-box;
+            display: flex;
+            overflow: hidden;
+            padding: 1.5rem;
+            position: absolute;
+            right: 100%;
+            text-align: right;
+            text-transform: uppercase;
+            top: -$copy-block-border-width;
+            white-space: nowrap;
+            z-index: -1;
+
+            > label {
+                color: $white;
+                font-family: font-family(mono);
+                font-size: 0.8rem;
+                font-weight: font-weight(medium);
+                left: 1rem;
+                position: absolute;
+                top: 1rem;
+            }
+
+            > h1 {
+                color: $white;
+                font-size: 4rem;
+                margin: 0;
+                position: relative;
+                z-index: 2;
+            }
+        }
+
+        &.paragraph {
+            margin: 0;
+            padding: 1.5rem;
+            text-align: justify;
+        }
     }
 
     .timeline-toggle-container {
         align-items: center;
+        border-top: $copy-block-border;
         display: flex;
         font-family: font-family(mono);
+        font-size: 1.1rem;
         font-weight: font-weight(medium);
-        padding-top: 2rem;
+        // padding-top: 2rem;
+        // padding: 1.5em;
         text-transform: uppercase;
 
         label {
-            padding-right: 1rem;
+            padding: 0 2rem;
         }
     }
 
     .timeline-toggle {
-        border: 1px solid $light-blue;
-        border-radius: 1rem;
+        // border: 1px solid $light-blue;
+        // border-radius: 1rem;
         display: flex;
         position: relative;
-        width: 50%;
+        width: 100%;
 
         &.new-timeline {
             &:before {
                 transform: translateX(100%);
             }
+
+            .timeline-toggle__option:last-child {
+                color: $white;
+            }
+        }
+
+        &:not(.new-timeline) {
+            .timeline-toggle__option:first-child {
+                color: $white;
+            }
         }
 
         &:before {
-            background-color: $light-blue;
-            border-radius: 1rem;
+            background-color: $copy-block-border-color;
+            // border-radius: 1rem;
             content: '';
-            height: 2rem;
+            height: 4rem;
             left: 0;
             position: absolute;
             top: 0;
@@ -64,12 +130,13 @@ $section-height: 250vh;
         }
 
         &__option {
+            border-left: $copy-block-border;
             box-sizing: border-box;
             cursor: pointer;
             flex-grow: 1;
-            height: 2rem;
-            line-height: 2rem;
-            padding: 0 0.5em;
+            height: 4rem;
+            line-height: 4rem;
+            padding: 0 1.5em;
             position: relative;
             text-align: center;
             width: 50%;
@@ -349,6 +416,8 @@ $section-height: 250vh;
     &__background.section-background {
         background-color: $white;
         height: $section-height;
+        position: relative;
+        z-index: 14;
 
         .scroll-trigger {
             height: 100vh;
