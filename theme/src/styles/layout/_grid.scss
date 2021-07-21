@@ -51,6 +51,11 @@ $gutter: 1rem;
 
             &--offset-#{$i} {
                 margin-left: grid-offset($i);
+
+                @include media("<=phone") {
+                    justify-content: center;
+                    
+                }
             }
         }
     }

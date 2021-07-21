@@ -17,6 +17,7 @@
         display: none;
         height: 100%;
         position: relative;
+        align-items: center;
     }
 
     &.visible {
@@ -56,14 +57,19 @@
         }
 
         @include media("<=tablet") {
-            font-size: 20rem;
+            font-size: 25vw;
+            top: 50%;
+            position: absolute;
         }
 
         @include media("<=phone") {
-            font-size: 9rem;
+            align-items: center;
+            font-size: 40vw;
             top: 67%;
-            
-        }
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        } 
     }
 
     .subtitle {

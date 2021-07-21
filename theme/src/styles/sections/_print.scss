@@ -19,6 +19,29 @@
         position: relative;
         text-align: center;
         transform: translateX(-0.8vw);
+
+        @include media("<=tablet") {
+            font-size: 30vw;
+            margin-top: 2vh;
+        }
+
+        @include media("<=phone") {
+            font-size: 30vw;
+            margin-top: 5vh;
+        }
+    }
+
+    .printp {
+        @include media("<=tablet") {
+            width: grid-width(5);
+            font-size: 1rem;  
+            margin: 0 grid-offset($cols: 1);
+        }
+
+        @include media("<=phone") {
+            width: grid-width(5);
+            font-size: 0.8rem;  
+        }
     }
 
     .print-head {
@@ -125,7 +148,7 @@
                 position: absolute;
                 top: 0;
                 transform: translateY(30vh) rotateX(90deg);
-                width: 100%;
+                width: 100%;  
             }
         }
     }

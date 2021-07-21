@@ -1,7 +1,5 @@
 $border-size: 5rem;
 
-
-
 body[incoming-section='specs'] {
     --hud-color: #{$white};
 
@@ -9,6 +7,7 @@ body[incoming-section='specs'] {
         transform: translateY(calc(-5% * var(--incoming-y-visibility-ratio)));
     }
 }
+
 body[outgoing-section='specs'] {
     .primary-canvas {
         transform: translateY(calc(-5% * var(--outgoing-y-visibility-ratio)));
@@ -59,8 +58,12 @@ body[outgoing-section='specs'] {
             position: relative;
             text-align: center;
 
+            @include media("<=tablet") {
+                flex-direction: row;
+            }
+
             @include media("<=phone") {
-                
+                flex-direction: row;
             }
 
             &.no-grow {
@@ -84,8 +87,6 @@ body[outgoing-section='specs'] {
         position: absolute;
         right: $grid-margin;
         top: $grid-margin * 0.25;
-
-        
 
         &.data-table {
             .col {
@@ -111,9 +112,18 @@ body[outgoing-section='specs'] {
         top: $grid-margin * 0.5;
         width: grid-width($cols: 3);
 
+        @include media("<=tablet") {
+            padding: 0;
+            margin: 0 grid-offset($cols: 0.7);
+            top: 60%;
+            width: grid-width($cols: 10.5);
+        }
+
         @include media("<=phone") {
-            width: grid-width($cols: 12);
-            top: 50%;
+            padding: 0;
+            margin: 0 grid-offset($cols: 1);
+            top: 47%;
+            width: grid-width($cols: 10);
         }
 
         p {
@@ -126,6 +136,12 @@ body[outgoing-section='specs'] {
         left: $grid-margin;
         position: absolute;
         width: grid-width(10);
+
+        @include media("<=tablet") {
+            width: grid-width(11);
+            margin: 0 grid-offset($cols: 0.5);
+            margin-bottom: 2rem;
+        }
 
         @include media("<=phone") {
             display: none;
@@ -147,6 +163,11 @@ body[outgoing-section='specs'] {
                 .value {
                     font-size: 1rem;
                     padding: 0.3em 0.5em;
+                }
+
+                @include media("<=tablet") {
+                    font-size: 0.5rem;
+                    padding: 1rem 1rem 0 0;
                 }
             }
         }
@@ -221,7 +242,6 @@ body[outgoing-section='specs'] {
                 border-right: 3px solid rgba($dark-blue, 0.75);
                 right: -3px;
             }
-
 
             &.x-axis {
                 bottom: -0.5rem;
@@ -299,6 +319,16 @@ body[outgoing-section='specs'] {
                     transform-origin: left center;
                 }
             }
+        }
+
+        @include media("<=tablet") {
+            top: 35%;
+            left: 50%;
+        }
+        
+        @include media("<=phone") {
+            top: 30%;
+            left: 50%;
         }
     }
 

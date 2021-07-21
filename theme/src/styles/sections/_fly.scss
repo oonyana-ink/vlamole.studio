@@ -8,6 +8,7 @@
         box-sizing: border-box;
         height: 100%;
     }
+
     .content {
         align-items: center;
         display: flex;
@@ -15,19 +16,52 @@
         opacity: var(--y-visibility-ratio);
         transform: faux-fixed();
     }
+    
     .section__copy {
         margin: 0 grid-offset($cols: 1);
         width: grid-width($cols: 4);
+
+        @include media("<=tablet") {
+            margin: 0 grid-offset($cols: 0);
+            margin-bottom: 10rem;
+            width: grid-width($cols: 12);
+        }
+
+        @include media("<=phone") {
+            margin: 0 grid-offset($cols: 0);
+            width: grid-width($cols: 12);
+        }
 
         h3 {
             text-transform: uppercase;
             transform: translateX(-2rem);
         }
 
-        
-    }
+        h2 {
+            text-transform: uppercase;
+            transform: translateX(1rem);
+            transform: translateY(-8rem);
 
- 
+            @include media("<=tablet") {
+                font-size: 15vw;
+                margin-left: grid-offset($cols: 1);
+                margin-top: 10%;
+            }
+
+            @include media("<=phone") {
+                font-size: 15vw;
+                margin-top: 20vw;
+            }
+        } 
+
+        .fly {
+            transform: translateX(2rem);
+            transform: translateY(-7rem);
+            margin: 0 grid-offset($cols: 1);
+            width: grid-width($cols: 10);
+            font-size: 1rem;
+        }
+    }
 
     .blackbox-sim {
         border: 1px solid $black;
@@ -36,6 +70,26 @@
         position: relative;
         width: grid-width($cols: 4);
 
+        @include media("<=tablet") {
+            border: 1px solid $black;
+            height: grid-width($cols: 6);
+            margin: 0 grid-offset($cols: 1);
+            position: absolute;
+            top: 60%;
+            width: grid-width($cols: 10);
+            
+        }
+
+        @include media("<=phone") {
+            border: 1px solid $black;
+            height: grid-width($cols: 6);
+            margin: 0 grid-offset($cols: 1);
+            position: absolute;
+            top: 70%;
+            width: grid-width($cols: 10);
+            
+        }
+
         label {
             display: block;
             font-family: font-family(mono);
@@ -43,6 +97,24 @@
             font-weight: font-weight(medium);
             padding: 0.5em;
             text-transform: uppercase;
+
+            @include media("<=tablet") {
+                display: block;
+                font-family: font-family(mono);
+                font-size: 3vw;
+                font-weight: font-weight(medium);
+                width: grid-width($cols: 9.7);
+                text-transform: uppercase;
+        }
+
+            @include media("<=phone") {
+                display: block;
+                font-family: font-family(mono);
+                font-size: 3vw;
+                font-weight: font-weight(medium);
+                width: grid-width($cols: 12);
+                text-transform: uppercase;
+        }
 
             &.key {
                 bottom: 0;
@@ -79,12 +151,11 @@
             &.orange {
                 color: $orange;
             }
-            @include media("<=tablet") {
-                font-size: 10rem;
-            }
     
             @include media("<=phone") {
-                font-size: 5rem;
+                font-size: 5vw;
+                left: 20vw ;
+
             }
         }
 
@@ -94,11 +165,13 @@
             position: absolute;
             right: 0;
             top: 0;
+            
+            @include media("<=phone") {
+                font-size: 10vw;
+                position: relative;
+                width: grid-width($cols: 5.5);
+            }
         }
-
-        
-
-        
     }
 
     &__background {
@@ -125,6 +198,16 @@
         text-transform: uppercase;
         top: 50vh;
         transform: translateX(-50%) faux-fixed($offset: "-35% * var(--y-position-ratio)");
-    }
 
+        @include media("<=tablet") {
+            display: none;
+            font-size: 60vh;
+            opacity: 0.5;
+        }
+
+        @include media("<=phone") {
+            font-size: 40vh;
+            opacity: 0.5;
+        }
+    }
 }

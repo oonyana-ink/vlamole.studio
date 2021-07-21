@@ -41,6 +41,9 @@ body {
     }
 
     .logo {
+        align-items: center;
+        display: flex;
+
         svg {
             height: 2rem;
             width: auto;
@@ -78,19 +81,15 @@ body {
             transform: translateX(-0.25em) translateY(0.25em) rotate(25deg);
             width: 0.14em;
         }
-
-        
     }
 
     .menu-toggle {
-        background: rgba(#c00, 0.2);
         cursor: pointer;
         height: $menu_toggle_height;
         position: relative;
         transform: scale(1);
         transition: transform 150ms;
         width: $menu_toggle_width;
-
 
         &:hover {
             transform: scale(1.1);
@@ -107,9 +106,6 @@ body {
             transform-origin: center center;
             transition: transform 200ms ease;
             width: 100%;
-            // @include media("<=phone") {
-            //     top: 60%;
-            // }
         }
 
         &:before {
@@ -117,7 +113,7 @@ body {
         }
 
         &:after {
-            transform: translateY(calc(#{$menu_toggle_height * 0.25} + 50%)) rotate(0deg) translateZ(0);
+            transform: translateY(calc(#{$menu_toggle_height * 0.25} - 50%)) rotate(0deg) translateZ(0);
         }
 
         #App.menu-open & {
@@ -133,18 +129,15 @@ body {
 
     .cart {
         margin-top: 1rem;
+    
+        @include media("<=phone") {
+            display: none;
+        }
 
         svg {
             path {
                 @include hud-color(fill);
             }
-
-    
-            @include media("<=phone") {
-                display: none;
-            }
         }
     }
-
-    
 }

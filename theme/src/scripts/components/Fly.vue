@@ -8,8 +8,8 @@
     <div class="grid">
       <div class="content grid__column--12">
         <div class="section__copy">
-          <h3>Smooth flying</h3>
-          <p>
+          <h2 class="">Smooth flying</h2>
+          <p class="fly">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
           </p>
         </div>

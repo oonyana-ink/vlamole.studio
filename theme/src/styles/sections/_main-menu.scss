@@ -21,6 +21,10 @@ $accent-color: $light-blue;
     // width: 100vw;
     z-index: 80;
 
+    @include media("<=phone") {
+        right: 0;
+    }
+
     #App.menu-open & {
         transform: translate(0%, 0);
 
@@ -55,8 +59,19 @@ $accent-color: $light-blue;
         transition: transform 300ms ease;
         transition-delay: 300ms;
 
+        @include media("<=phone") {
+            flex-direction: column;
+            margin-right: 0;
+            align-items: center;
+        }
+
         li {
             position: relative;
+
+            @include media("<=phone") {
+                text-align: right;
+            }
+
             &:not(:first-child):before {
                 background-color: $accent-color;
                 content: '';
@@ -66,6 +81,10 @@ $accent-color: $light-blue;
                 top: 50%;
                 transform: translate(-50%, -50%) rotate(15deg);
                 width: 0.1em;
+
+                @include media("<=phone") {
+                    display: none;
+                }
             }
         }
     }

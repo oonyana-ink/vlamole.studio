@@ -3,6 +3,7 @@ body[incoming-section='crash'] {
         transform: translateX(calc(-24.5% * var(--incoming-y-visibility-ratio)));
     }
 }
+
 body[outgoing-section='crash'] {
     .primary-canvas {
         transform: translateX(calc(-24.5% * var(--outgoing-y-visibility-ratio)));
@@ -33,9 +34,29 @@ body[outgoing-section='crash'] {
         margin-left: grid-offset($cols: 7);
         width: grid-width($cols: 4);
 
+        @include media("<=tablet") {
+            margin-left: grid-offset($cols: 1);
+            width: grid-width($cols: 10);
+            margin-top: 40vh;
+        }
+
+        @include media("<=phone") {
+            margin-left: grid-offset($cols: 1);
+            width: grid-width($cols: 10);
+            margin-top: 15rem;
+        }
+
         h3 {
             color: $white;
             text-transform: uppercase;
+
+            @include media("<=tablet") {
+                font-size: 15vw;
+            }
+
+            @include media("<=phone") {
+                font-size: 20vw;
+            }
         }
     }
 
@@ -47,6 +68,10 @@ body[outgoing-section='crash'] {
         top: 50vh;
         transform: translate(-50%, -50%);
         width: $hw;
+
+        @include media("<=phone") {
+            display: none;
+        } 
     }
 
     &__background {
@@ -68,6 +93,30 @@ body[outgoing-section='crash'] {
             top: 0;
             transform: translateX(-50%) faux-fixed();
             width: 100vw;
+
+            @include media("<=tablet") {
+                background: radial-gradient(circle at 25%, lighten($light-blue, 35%), $light-blue 50%);
+                content: '';
+                height: 100vh;
+                left: 50%;
+                opacity: 1;
+                position: absolute;
+                top: -30%;
+                left: 20%;
+                width: 100vw;
+            }
+
+            @include media("<=phone") {
+                background: radial-gradient(circle at 25%, lighten($light-blue, 35%), $light-blue 50%);
+                content: '';
+                height: 100vh;
+                left: 50%;
+                opacity: 1;
+                position: absolute;
+                top: -30%;
+                left: 20%;
+                width: 100vw;
+            }
         }
 
         .scroll-trigger {
