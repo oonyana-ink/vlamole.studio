@@ -15,7 +15,6 @@ import Nopage from '@components/Nopage.vue'
 import Scrollbar from '@components/Scrollbar.vue'
 import ProductSelector from '@components/ProductSelector.vue'
 
-
 const pageLoaders = Object.entries(pages).map(([path, component]) => {
   const pathRegex = new RegExp(`^${path.replace(/\//g, '\/')}`)
   return { test: () => pathRegex.test(location.pathname), path, component }
