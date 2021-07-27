@@ -3,6 +3,7 @@
     ref="section"
     name="specs"
     :config="config"
+    :scrollLabel="scrollLabel"
   >
     <div class="specs__content">
       <div class="specs__header data-table">
@@ -25,14 +26,22 @@
 
       <div class="specs__copy">
         <p>
+          <strong>Designed to be simple.</strong>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         </p>
+        <div class="specs-list">
+          <h2>Frame Specifications</h2>
+          <div v-for="spec in specs" class="row">
+            <div class="col">{{ spec[0] }}</div>
+            <div class="col">{{ spec[1] }}</div>
+          </div>
+        </div>
       </div>
 
       <div class="specs__decoration">
         <div class="dimension x-axis">
           <label>Width:100<span>mm</span></label>
-      </div>
+        </div>
         <div class="dimension y-axis">
           <label>Depth:100<span>mm</span></label>
         </div>
@@ -53,6 +62,21 @@
         </div>
         <div class="dimension motor-pattern">
           <label>Motor&#8960;:9<span>mm</span></label>
+        </div>
+      </div>
+
+      <div class="specs__hardware">
+        <h2>Required Hardware</h2>
+        <div class="hardware-list">
+          <div
+            v-for="item in hardware"
+            class="hardware-list__item">
+            <img
+              svg-inline
+              src="@svgs/screw.svg"
+            >
+            <label>{{ `${item[1]} x ${item[0]}` }}</label>
+          </div>
         </div>
       </div>
 
@@ -83,15 +107,9 @@
     </div>
 
     <template v-slot:background>
-      <div
-        ref="background"
-        class="specs__background section-background"
-        :style="sectionBackgroundStyles"
-      >
-        <div class="specs-grid">
-          <div class="grid-border grid-border--top" />
-          <div class="grid-border grid-border--bottom" />
-        </div>
+      <div class="specs-grid">
+        <div class="grid-border grid-border--top" />
+        <div class="grid-border grid-border--bottom" />
       </div>
     </template>
   </Section>
@@ -106,7 +124,24 @@ export default {
 
   data () {
     return {
-      scrollLabel: ['Frame', 'Specs']
+      scrollLabel: ['Frame', 'Specs'],
+      specs: [
+        ['Prop. Size', '2"'],
+        ['Weight', '< 100g'],
+        ['Width', '100mm'],
+        ['Depth', '100mm'],
+        ['Camera Width', '19mm'],
+        ['FC Mounts', '20x20mm & 25x25mm'],
+        ['Moto Mounts', '9mm'],
+        ['Battery', '2s & 3s']
+      ],
+
+      hardware: [
+        ['m4', '8'],
+        ['m6', '10'],
+        ['m12', '12'],
+        ['m24', '4']
+      ]
     }
   },
 
@@ -114,7 +149,12 @@ export default {
     config () {
       return {
         stage: {
-          drone: {
+          default: {
+            position: ['0vw', '-4.6vh']
+          }
+        },
+        drone: {
+          default: {
             appearance: 'wireframe',
             position: [0, 0, 0],
             rotation: ['90deg', '360deg', '0deg']

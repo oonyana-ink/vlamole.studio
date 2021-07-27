@@ -1,4 +1,4 @@
-$button-transition-duration: 140ms;
+$button-transition-duration: 340ms;
 
 .button,
 button {
@@ -33,12 +33,16 @@ button {
         background-color: $light-blue;
         content: '';
         display: block;
-        height: 100%;
-        left: 0;
+        height: 0%;
+        left: 50%;
         position: absolute;
-        top: 0;
-        transition: height $button-transition-duration;
-        width: 100%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(90deg);
+        transition:
+            height $button-transition-duration,
+            transform $button-transition-duration,
+            width $button-transition-duration;
+        width: 0%;
         z-index: -1;
     }
 
@@ -46,7 +50,9 @@ button {
         color: $light-blue;
 
         &:after {
-            height: 0;
+            height: 100%;
+            transform: translate(-50%, -50%) rotate(0deg);
+            width: 100%;
         }
     }
 }

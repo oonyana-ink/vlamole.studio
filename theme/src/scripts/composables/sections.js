@@ -1,6 +1,11 @@
 import { easeCubicInOut } from 'd3-ease'
 import { watch, reactive } from 'vue'
 
+const BREAKPOINTS = [
+  ['default', Infinity],
+  ['phone', 480]
+]
+
 class Sections {
   app = null
   options = {}
@@ -74,12 +79,22 @@ class Sections {
 
   setInitialState () {
     let initialSection = this.sections.find(section => section.yVisibilityRatio > 0.5)
-    console.log('setInitialState', initialSection)
     initialSection = initialSection || this.sections[0]
     this.applyConfig(initialSection)
   }
 
+  breakpointConfig (config) {
+    let breakpointConfig = {}
+    BREAKPOINTS
+      .filter(([breakpointKey, breakpoint]) => window.innerWidth < breakpoint && config[breakpointKey] !== undefined)
+      .forEach(([breakpointKey, _]) => Object.assign(breakpointConfig, config[breakpointKey]));
+    return breakpointConfig
+  }
+
   interpolateSections () {
+    const {
+      breakpointConfig
+    } = this
     const {
       yVisibilityRatio,
       config: incomingConfig
@@ -88,20 +103,23 @@ class Sections {
       config: outgoingConfig
     } = this.outgoingSection
 
-    const easedRatio = easeCubicInOut(yVisibilityRatio)
-    Object.keys(incomingConfig.stage).forEach(key => {
+    const easedRatio = yVisibilityRatio // easeCubicInOut(yVisibilityRatio)
+    Object.keys(incomingConfig).forEach(key => {
       this.store.commit(`${key}/interpolate`, {
-        outgoingState: outgoingConfig.stage[key],
-        incomingState: incomingConfig.stage[key],
+        outgoingState: breakpointConfig(outgoingConfig[key]),
+        incomingState: breakpointConfig(incomingConfig[key]),
         easedRatio
       })
     })
   }
 
   applyConfig (section) {
+    const {
+      breakpointConfig
+    } = this
     if (!section.config) { return }
-    Object.entries(section.config.stage).forEach(([key, value]) => {
-      this.store.commit(`${key}/apply`, value)
+    Object.entries(section.config).forEach(([key, config]) => {
+      this.store.commit(`${key}/apply`, breakpointConfig(config))
     })
   }
 }

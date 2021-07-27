@@ -8,6 +8,10 @@
       class="primary-canvas"
     />
   </section>
+
+  <teleport to="#section-styles">
+    {{ stageStyles }}
+  </teleport>
 </template>
 
 <script>
@@ -24,8 +28,18 @@ export default {
   computed: {
     ...mapState({
       droneState: 'drone',
-      sceneState: 'scene'
-    })
+      sceneState: 'scene',
+      stageState: 'stage'
+    }),
+
+    stageStyles () {
+      const { position } = this.stageState
+      return `
+        .primary-canvas {
+          transform: translate(${position[0]}, ${position[1]});
+        }
+      `
+    }
   },
 
   mounted () {

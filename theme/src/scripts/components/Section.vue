@@ -6,6 +6,15 @@
 
     <slot></slot>
 
+    <teleport to="#section-foregrounds" v-if="hasForeground">
+      <div
+        class="section-foreground"
+        :class="`${name}__foreground`"
+      >
+        <slot name="foreground"></slot>
+      </div>
+    </teleport>
+
     <teleport to="#section-backgrounds">
       <div
         ref="background"
@@ -30,7 +39,8 @@ export default {
 
   props: {
     name: String,
-    config: Object
+    config: Object,
+    scrollLabel: String
   },
 
   data () {
@@ -62,6 +72,10 @@ export default {
     //   return this.$options.name
     // },
 
+    hasForeground () {
+      return !!this.$slots.foreground
+    },
+
     sectionClasses () {
       const {
         name,
@@ -81,9 +95,13 @@ export default {
         left,
         name
       } = this
+      const {
+        height
+      } = this.bounds
 
       return `
-        .section.${name}  {
+        .section.${name},
+        .${name}__foreground.section-foreground  {
           top: ${top}px;
           left: ${left}px;
           --y-visibility-ratio: ${yVisibilityRatio};
@@ -95,6 +113,10 @@ export default {
           --y-visibility-ratio: ${yVisibilityRatio};
           --y-visibility-percent: ${Math.ceil(yVisibilityRatio * 100)};
           --y-position-ratio: ${yPositionRatio};
+        }
+
+        .${name}__foreground.section-foreground {
+          height: ${height}px;
         }
       `
     },

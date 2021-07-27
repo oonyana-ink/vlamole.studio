@@ -1,17 +1,8 @@
 $border-size: 5rem;
+$data-table-border: 1px solid rgba($white, 0.4);
 
 body[incoming-section='specs'] {
     --hud-color: #{$white};
-
-    .primary-canvas {
-        transform: translateY(calc(-5% * var(--incoming-y-visibility-ratio)));
-    }
-}
-
-body[outgoing-section='specs'] {
-    .primary-canvas {
-        transform: translateY(calc(-5% * var(--outgoing-y-visibility-ratio)));
-    }
 }
 
 .specs {
@@ -20,10 +11,10 @@ body[outgoing-section='specs'] {
     justify-content: flex-end;
     overflow: hidden;
     width: 100%;
-    z-index: 30;
 
     &.section {
         height: 150vh;
+        z-index: 30;
     }
 
     &__content {
@@ -33,7 +24,6 @@ body[outgoing-section='specs'] {
     }
 
     .data-table {
-        $data-table-border: 1px solid rgba($white, 0.6);
         border: $data-table-border;
         color: $white;
         font-size: 0.75rem;
@@ -89,7 +79,14 @@ body[outgoing-section='specs'] {
         top: $grid-margin * 0.25;
 
         &.data-table {
+            border-right: none;
+            border-top: none;
+
             .col {
+                &:last-child {
+                    border-right: none;
+                }
+
                 label {
                     font-size: 0.8em;
                 }
@@ -102,15 +99,21 @@ body[outgoing-section='specs'] {
     }
 
     &__copy {
+        // border: $data-table-border;
         box-sizing: border-box;
         color: $white;
-        left: $grid-margin;
+        display: flex;
+        // display: none;
+        flex-direction: column;
+        height: calc(100vh - #{$grid-margin * 0.75} - 10.75rem);
+        justify-content: space-between;
+        left: calc(#{$grid-margin} + 1px + 3rem);
         opacity: var(--y-visibility-ratio);
-        padding: 0 2rem;
+        padding: 0;
         position: absolute;
-        text-align: justify;
-        top: $grid-margin * 0.5;
-        width: grid-width($cols: 3);
+        // text-align: justify;
+        top: calc(#{$grid-margin * 0.25} + 4rem);
+        width: grid-width($cols: 2.5);
 
         @include media("<=tablet") {
             padding: 0;
@@ -127,7 +130,132 @@ body[outgoing-section='specs'] {
         }
 
         p {
-            font-size: 0.95rem;
+            // border-bottom: $data-table-border;
+            box-sizing: border-box;
+            font-size: 0.8rem;
+            line-height: 1.8;
+            // height: 50%;
+            // margin: 0;
+            // padding: 2rem 2.5rem;
+            text-transform: uppercase;
+
+            strong {
+                font-size: 1.25em;
+                font-weight: font-weight(bold);
+                letter-spacing: 0.05em;
+                vertical-align: bottom;
+            }
+        }
+    }
+
+    .specs-list {
+        // border: $data-table-border;
+        display: flex;
+        // flex-direction: column;
+        flex-wrap: wrap;
+        margin-right: grid-width($cols: 0.5);
+        // width: 20rem;
+        // flex-grow: 1;
+
+        h2 {
+            // background-color: $white;
+            // border: $data-table-border;
+            color: $white;
+            font-family: font-family(mono);
+            font-size: 0.8rem;
+            font-weight: font-weight(medium);
+            letter-spacing: 0.1em;
+            margin: 0;
+            padding: 0.75rem 0rem;
+            text-transform: uppercase;
+        }
+
+        .row {
+            border-left: $data-table-border;
+            border-right: $data-table-border;
+            border-top: $data-table-border;
+            box-sizing: border-box;
+            align-items: stretch;
+            display: flex;
+            flex-grow: 1;
+            width: 100%;
+
+            &:nth-child(2n) {
+                // border-right: $data-table-border;
+            }
+
+            &:last-child {
+                border-bottom: $data-table-border;
+            }
+        }
+
+        .col {
+            align-items: center;
+            display: flex;
+            font-size: 0.75rem;
+            padding: 0.75em 1.2em;
+
+            &:first-child {
+                border-right: $data-table-border;
+                // font-weight: font-weight(medium);
+                text-transform: uppercase;
+                width: 33%;
+            }
+        }
+    }
+
+    &__hardware {
+        left: 72vw;
+        position: absolute;
+        top: calc(#{$grid-margin * 0.25} + 4rem);
+        width: grid-width($cols: 3);
+
+        h2 {
+            // background-color: $white;
+            // border: $data-table-border;
+            color: $white;
+            font-family: font-family(mono);
+            font-size: 0.8rem;
+            font-weight: font-weight(medium);
+            letter-spacing: 0.1em;
+            margin: 0;
+            padding: 0.75rem 0rem;
+            text-transform: uppercase;
+        }
+
+        .hardware-list {
+            display: flex;
+            flex-wrap: wrap;
+
+            &__item {
+                align-items: center;
+                // border: $data-table-border;
+                display: flex;
+                flex: none;
+                flex-direction: column;
+                padding: 1rem 1rem;
+                // width: grid-width($cols: 1);
+
+                label {
+                    color: $white;
+                    display: block;
+                    font-family: font-family(mono);
+                    font-size: 0.8rem;
+                    font-weight: font-weight(regular);
+                    margin-top: 1rem;
+                }
+            }
+        }
+
+        .screw-svg {
+            width: 2vw;
+            height: auto;
+            stroke: rgba($white, 0.9);
+            stroke-width: 2px;
+
+            .outline {
+                stroke-width: 4px;
+            }
         }
     }
 
@@ -148,12 +276,21 @@ body[outgoing-section='specs'] {
         }
 
         &.data-table {
+            border-bottom: none;
+            border-left: none;
+
             .col {
                 justify-content: center;
+
+                &:first-child {
+                    flex: none;
+                    width: grid-width($cols: 3);
+                }
 
                 label {
                     border: none;
                     font-size: 0.65rem;
+                    line-height: 1;
                     left: 0;
                     padding: 0.5em;
                     position: absolute;
@@ -162,6 +299,7 @@ body[outgoing-section='specs'] {
 
                 .value {
                     font-size: 1rem;
+                    line-height: 1;
                     padding: 0.3em 0.5em;
                 }
 
@@ -187,7 +325,7 @@ body[outgoing-section='specs'] {
         pointer-events: none;
         position: relative;
         top: 45vh;
-        transform: translate(-50%, -50%);
+        transform: translate(-51%, -50%);
         width: grid-width(5);
         z-index: 40;
 
@@ -325,7 +463,7 @@ body[outgoing-section='specs'] {
             top: 35%;
             left: 50%;
         }
-        
+
         @include media("<=phone") {
             top: 30%;
             left: 50%;
@@ -345,15 +483,17 @@ body[outgoing-section='specs'] {
             background-image: linear-gradient(rgba($white, .1) 1px, transparent 1px), linear-gradient(90deg, rgba($white, .1) 1px, transparent 1px);
             background-position: center center;
             background-size: var(--grid-size) var(--grid-size);
-            border: 1px solid rgba($white, 0.1);
+            border: $data-table-border;
+            border-width: 1px;
+            // box-sizing: border-box;
             content: '';
             height: calc(100vh - #{$grid-margin * 0.75});
-            left: $grid-margin;
+            left: calc(#{$grid-margin});
             opacity: var(--y-visibility-ratio);
             pointer-events: none;
             position: absolute;
-            right: $grid-margin;
-            top: $grid-margin * 0.25;
+            right: calc(#{$grid-margin});
+            top: calc(#{$grid-margin * 0.25});
             transform: faux-fixed();
         }
 

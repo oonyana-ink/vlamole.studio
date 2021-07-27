@@ -3,6 +3,7 @@
     ref="section"
     name="intro"
     :config="config"
+    :scrollLabel="scrollLabel"
   >
     <div class="grid">
       <div class="content grid__column--12">
@@ -176,13 +177,13 @@
         :is-active="isIntersecting"
         name="old-timeline"
         threshold="0.5"
-        @trigger.once="handleTrigger"
+        @trigger="handleTrigger"
       />
       <ScrollTrigger
         :is-active="isIntersecting"
         name="new-timeline"
         threshold="0.5"
-        @trigger.once="handleTrigger"
+        @trigger="handleTrigger"
       />
     </template>
   </Section>
@@ -218,16 +219,17 @@ export default {
       const { depth: sceneDepth } = this.sceneState;
       return {
         stage: {
-          drone: {
-            appearance: "shaded",
-            position: [
-              this.gridWidth({ cols: -4 }),
-              window.innerHeight * 0.3,
-              sceneDepth * 0.05,
-            ],
-            rotation: ["50deg", "220deg", "0deg"],
-          },
+          default: {
+            position: ['-35vw', '-35vh']
+          }
         },
+        drone: {
+          default: {
+            appearance: "shaded",
+            position: [0, 0, 0],
+            rotation: ["30deg", "200deg", "-360deg"]
+          }
+        }
       };
     }
   },

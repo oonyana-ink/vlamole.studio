@@ -1,38 +1,98 @@
-body[incoming-section='crash'] {
-    .primary-canvas {
-        transform: translateX(calc(-24.5% * var(--incoming-y-visibility-ratio)));
-    }
-}
-
-body[outgoing-section='crash'] {
-    .primary-canvas {
-        transform: translateX(calc(-24.5% * var(--outgoing-y-visibility-ratio)));
-    }
-}
-
 .crash {
     &.section {
         height: 150vh;
-        z-index: 20;
     }
 
     .content {
+        box-sizing: border-box;
         height: 100vh;
         opacity: var(--y-visibility-ratio);
-        position: relative;
+        padding: var(--grid-margin);
         transform: faux-fixed();
         width: 100%;
+    }
 
-        .grid {
-            align-items: center;
-            height: 100%;
+    .content-container {
+        align-items: stretch;
+        border: 8px solid $white;
+        box-sizing: border-box;
+        display: flex;
+        height: calc(100vh - (2 * var(--grid-margin)));
+        position: relative;
+
+        &:after {
+            @include stripe-background($background-color: $white);
+            border-left: 4px solid $white;
+            box-sizing: border-box;
+            content: '';
+            flex: none;
+            width: 50%;
+        }
+
+    }
+
+    .section__sidebar {
+        border-right: 4px solid $white;
+        // flex: none;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        width: calc((100vh - (2 * var(--grid-margin))) / 3);
+
+        .panel {
+            border-bottom: 4px solid $white;
+            flex-grow: 1;
+
+            &:last-child {
+                border: none;
+            }
         }
     }
 
     .section__copy {
+        // align-items: flex-end;
+        box-sizing: border-box;
         color: $white;
-        margin-left: grid-offset($cols: 7);
-        width: grid-width($cols: 4);
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        justify-content: flex-end;
+        width: 30%;
+
+        .title {
+            align-items: flex-end;
+            background-color: $white;
+            color: $light-blue;
+            display: flex;
+            flex-grow: 1;
+            justify-content: flex-end;
+            text-align: right;
+            text-transform: uppercase;
+            padding: 2rem;
+            position: relative;
+
+            h2 {
+                color: $light-blue;
+                font-size: 5rem;
+            }
+
+            label {
+                font-family: font-family(mono);
+                font-weight: font-weight(medium);
+                left: 1rem;
+                position: absolute;
+                text-transform: uppercase;
+                top: 1rem;
+            }
+        }
+
+        p {
+            // max-width: 20rem;
+            // columns: 2;
+            // column-gap: 2rem;
+            padding: 2rem 3rem 3rem;
+            margin: 0;
+        }
 
         @include media("<=tablet") {
             margin-left: grid-offset($cols: 1);
@@ -45,33 +105,25 @@ body[outgoing-section='crash'] {
             width: grid-width($cols: 10);
             margin-top: 15rem;
         }
-
-        h3 {
-            color: $white;
-            text-transform: uppercase;
-
-            @include media("<=tablet") {
-                font-size: 15vw;
-            }
-
-            @include media("<=phone") {
-                font-size: 20vw;
-            }
-        }
     }
 
-    .impact-forces {
-        $hw: 100vh; // grid-width($cols: 6);
-        height: $hw;
-        left: 25%;
-        position: absolute;
-        top: 50vh;
-        transform: translate(-50%, -50%);
-        width: $hw;
+    &__foreground {
+        overflow: hidden;
 
-        @include media("<=phone") {
-            display: none;
-        } 
+        .impact-forces {
+            $hw: 100vh;
+            height: $hw;
+            right: 28vw;
+            position: absolute;
+            top: 50vh;
+            transform: translateX(50%) faux-fixed($offset: -50%);
+            width: $hw;
+            z-index: 30;
+
+            @include media("<=phone") {
+                display: none;
+            }
+        }
     }
 
     &__background {
@@ -84,7 +136,7 @@ body[outgoing-section='crash'] {
         }
 
         &:before {
-            background: radial-gradient(circle at 25%, lighten($light-blue, 35%), $light-blue 50%);
+            background: radial-gradient(circle at 73%, lighten($light-blue, 30%), darken($light-blue, 8%) 50%);
             content: '';
             height: 100vh;
             left: 50%;
@@ -95,7 +147,7 @@ body[outgoing-section='crash'] {
             width: 100vw;
 
             @include media("<=tablet") {
-                background: radial-gradient(circle at 25%, lighten($light-blue, 35%), $light-blue 50%);
+                background: radial-gradient(circle at 75%, lighten($light-blue, 35%), $light-blue 50%);
                 content: '';
                 height: 100vh;
                 left: 50%;

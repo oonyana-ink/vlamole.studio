@@ -49,17 +49,22 @@ export default {
 
     interpolate (state, { incomingState, outgoingState, easedRatio }) {
       const interpolatedState = {}
-      const currentVectors = {
-        rotation: state.rotation,
-        position: state.position
-      }
-      const incomingVectors = {}
-      const outgoingVectors = {}
-      Object.keys(currentVectors).forEach(vectorKey => {
-        incomingVectors[vectorKey] = incomingState[vectorKey] || currentVectors[vectorKey]
-        outgoingVectors[vectorKey] = currentVectors[vectorKey]
+      const vectors = ['position', 'rotation']
+      let keysToInterpolate = []
+      let fromConfig = {}
+      let toConfig = {}
+
+      vectors.forEach(key => {
+        fromConfig[key] = outgoingState[key]
+        toConfig[key] = incomingState[key]
+        if (fromConfig[key] && toConfig[key]) {
+          keysToInterpolate.push(key)
+        }
       })
-      Object.assign(interpolatedState, interpolate(outgoingVectors, incomingVectors)(easedRatio))
+
+      keysToInterpolate.forEach(key => {
+        state[key] = interpolate(fromConfig[key], toConfig[key])(easedRatio)
+      })
 
       Object.entries(INTERPOLATABLES).forEach(([key, conf]) => {
         const interpolation = {
@@ -70,9 +75,11 @@ export default {
         if (interpolation.from !== interpolation.to) {
           interpolation.ratio = easedRatio
           interpolation.value = interpolate(interpolation.from, interpolation.to)(easedRatio)
+
           if (easedRatio > 0.95) {
             state[key] = interpolation.to
           }
+
           Object.assign(interpolatedState, {
             [`${key}Interpolation`]: interpolation
           })

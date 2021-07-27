@@ -93,8 +93,6 @@ export class Drone extends Model {
       processedChildren.push(processChild)
     })
 
-    console.log({ processedChildren })
-
     super.processChildren(processedChildren)
   }
 
@@ -194,6 +192,7 @@ export class Drone extends Model {
   fadeChildren (parent, appearanceKey) {
     let opacity = this.appearances[appearanceKey].ratio
     opacity = THREE.MathUtils.mapLinear(opacity, 0.25, 0.75, 0, 1)
+
     parent.children.forEach(child => {
       if (appearanceKey === 'shaded' && child.type === 'LineSegments') { return }
       if (child.type === 'Group') {

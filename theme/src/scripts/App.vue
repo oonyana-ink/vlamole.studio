@@ -1,6 +1,7 @@
 <template>
   <HUD />
   <component :is="currentPage" />
+  <div id="section-foregrounds" class="section-foregrounds" />
   <div id="section-backgrounds" class="section-backgrounds" />
   <Scrollbar v-if="pageLoaded" />
   <component id="section-styles" is="style" type="text/css" />

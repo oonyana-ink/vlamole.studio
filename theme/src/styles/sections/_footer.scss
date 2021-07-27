@@ -15,17 +15,26 @@
 
     .primary-cta {
         height: 1em;
+        overflow: hidden;
         padding: 0.75em 0;
         pointer-events: all;
         position: relative;
         text-align: center;
         width: 10vw;
 
+        &:before {
+            background: $orange;
+        }
+
+        &:after {
+            background-color: $dark-blue;
+        }
+
         @include media("<=tablet") {
             width: 20vw;
             display: none;
         }
-    
+
         @include media("<=phone") {
             width: 80vw;
             margin-bottom: 2.5rem;
@@ -64,9 +73,9 @@
             }
 
             @include media("<=tablet") {
-        
+
             }
-        
+
             @include media("<=phone") {
                 display: none;
             }
@@ -80,9 +89,9 @@
         text-decoration: none;
 
         @include media("<=tablet") {
-        
+
         }
-    
+
         @include media("<=phone") {
             display: none;
         }
@@ -100,9 +109,9 @@
         }
 
         @include media("<=tablet") {
-        
+
         }
-    
+
         @include media("<=phone") {
             display: none;
         }

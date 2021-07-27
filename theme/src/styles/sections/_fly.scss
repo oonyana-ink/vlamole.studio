@@ -10,16 +10,154 @@
     }
 
     .content {
-        align-items: center;
+        // align-items: center;
+        border: 8px solid $dark-blue;
+        // box-sizing: border-box;
         display: flex;
         height: 80vh;
         opacity: var(--y-visibility-ratio);
-        transform: faux-fixed();
+        position: relative;
+        transform: faux-fixed($offset: 8vh);
+
+        &:after {
+            @include stripe-background($opacity: 0.25);
+            border-right: 4px solid $dark-blue;
+            box-sizing: border-box;
+            bottom: 0;
+            content: '';
+            height: 40vh;
+            left: 0;
+            position: absolute;
+            width: 50%;
+        }
     }
-    
+
+    .blackbox-sim {
+        // border: 1px solid $black;
+        border-right: 4px solid $dark-blue;
+        border-bottom: 4px solid $dark-blue;
+        box-sizing: border-box;
+        height: 40vh;
+        // margin: 0 grid-offset($cols: 1);
+        position: relative;
+        width: 50%;
+
+        @include media("<=tablet") {
+            border: 1px solid $black;
+            height: grid-width($cols: 6);
+            margin: 0 grid-offset($cols: 1);
+            position: absolute;
+            top: 60%;
+            width: grid-width($cols: 10);
+
+        }
+
+        @include media("<=phone") {
+            border: 1px solid $black;
+            height: grid-width($cols: 6);
+            margin: 0 grid-offset($cols: 1);
+            position: absolute;
+            top: 70%;
+            width: grid-width($cols: 10);
+
+        }
+
+        .labels {
+            border-bottom: 4px solid $dark-blue;
+            display: flex;
+            justify-content: space-between;
+
+            label {
+                font-family: font-family(mono);
+                font-size: 1rem;
+                font-weight: font-weight(medium);
+                padding: 1em;
+                text-transform: uppercase;
+
+                @include media("<=tablet") {
+                    display: block;
+                    font-family: font-family(mono);
+                    font-size: 3vw;
+                    font-weight: font-weight(medium);
+                    width: grid-width($cols: 9.7);
+                    text-transform: uppercase;
+                }
+
+                @include media("<=phone") {
+                    display: block;
+                    font-family: font-family(mono);
+                    font-size: 3vw;
+                    font-weight: font-weight(medium);
+                    width: grid-width($cols: 12);
+                    text-transform: uppercase;
+                }
+
+                &.key {
+                    border-left: 4px solid $dark-blue;
+                }
+            }
+
+            span {
+                display: inline-block;
+                padding-left: 1.5rem;
+                position: relative;
+
+                &:before {
+                    background-color: currentColor;
+                    border-radius: 50%;
+                    content: '';
+                    height: 8px;
+                    left: 0.75rem;
+                    position: absolute;
+                    top: 50%;
+                    transform: translate(0%, -50%);
+                    width: 8px;
+                }
+
+                &.dark-blue {
+                    color: $dark-blue;
+                }
+
+                &.blue {
+                    color: $light-blue;
+                }
+
+                &.orange {
+                    color: $orange;
+                }
+
+                @include media("<=phone") {
+                    font-size: 5vw;
+                    left: 20vw ;
+
+                }
+            }
+
+        }
+
+        .canvas-container {
+            bottom: 0;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+
+            @include media("<=phone") {
+                font-size: 10vw;
+                position: relative;
+                width: grid-width($cols: 5.5);
+            }
+        }
+    }
+
     .section__copy {
-        margin: 0 grid-offset($cols: 1);
-        width: grid-width($cols: 4);
+        // margin: 0 grid-offset($cols: 1);
+        // width: grid-width($cols: 4);
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column-reverse;
+        // padding: 4rem;
+        width: 50%;
 
         @include media("<=tablet") {
             margin: 0 grid-offset($cols: 0);
@@ -34,13 +172,17 @@
 
         h3 {
             text-transform: uppercase;
-            transform: translateX(-2rem);
+            // transform: translateX(-2rem);
         }
 
         h2 {
+            background-color: $dark-blue;
+            color: $white;
+            margin-bottom: 0;
+            padding: 2rem 3rem;
             text-transform: uppercase;
-            transform: translateX(1rem);
-            transform: translateY(-8rem);
+            // transform: translateX(1rem);
+            // transform: translateY(-8rem);
 
             @include media("<=tablet") {
                 font-size: 15vw;
@@ -52,126 +194,16 @@
                 font-size: 15vw;
                 margin-top: 20vw;
             }
-        } 
-
-        .fly {
-            transform: translateX(2rem);
-            transform: translateY(-7rem);
-            margin: 0 grid-offset($cols: 1);
-            width: grid-width($cols: 10);
-            font-size: 1rem;
-        }
-    }
-
-    .blackbox-sim {
-        border: 1px solid $black;
-        height: grid-width($cols: 3);
-        margin: 0 grid-offset($cols: 1);
-        position: relative;
-        width: grid-width($cols: 4);
-
-        @include media("<=tablet") {
-            border: 1px solid $black;
-            height: grid-width($cols: 6);
-            margin: 0 grid-offset($cols: 1);
-            position: absolute;
-            top: 60%;
-            width: grid-width($cols: 10);
-            
         }
 
-        @include media("<=phone") {
-            border: 1px solid $black;
-            height: grid-width($cols: 6);
-            margin: 0 grid-offset($cols: 1);
-            position: absolute;
-            top: 70%;
-            width: grid-width($cols: 10);
-            
+        p {
+            flex-grow: 1;
+            column-count: 2;
+            column-gap: 3rem;
+            padding: 3rem;
+            text-align: justify;
         }
 
-        label {
-            display: block;
-            font-family: font-family(mono);
-            font-size: 0.75rem;
-            font-weight: font-weight(medium);
-            padding: 0.5em;
-            text-transform: uppercase;
-
-            @include media("<=tablet") {
-                display: block;
-                font-family: font-family(mono);
-                font-size: 3vw;
-                font-weight: font-weight(medium);
-                width: grid-width($cols: 9.7);
-                text-transform: uppercase;
-        }
-
-            @include media("<=phone") {
-                display: block;
-                font-family: font-family(mono);
-                font-size: 3vw;
-                font-weight: font-weight(medium);
-                width: grid-width($cols: 12);
-                text-transform: uppercase;
-        }
-
-            &.key {
-                bottom: 0;
-                position: absolute;
-                right: 0;
-            }
-        }
-
-        span {
-            display: inline-block;
-            padding-left: 1rem;
-            position: relative;
-
-            &:before {
-                background-color: currentColor;
-                border-radius: 50%;
-                content: '';
-                height: 4px;
-                left: 0.5rem;
-                position: absolute;
-                top: 50%;
-                transform: translate(0%, -50%);
-                width: 4px;
-            }
-
-            &.dark-blue {
-                color: $dark-blue;
-            }
-
-            &.blue {
-                color: $light-blue;
-            }
-
-            &.orange {
-                color: $orange;
-            }
-    
-            @include media("<=phone") {
-                font-size: 5vw;
-                left: 20vw ;
-
-            }
-        }
-
-        .canvas-container {
-            bottom: 0;
-            left: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-            
-            @include media("<=phone") {
-                font-size: 10vw;
-                position: relative;
-                width: grid-width($cols: 5.5);
-            }
-        }
     }
 
     &__background {
@@ -187,6 +219,7 @@
 
     &__background-title {
         // bottom: -5%;
+        display: none;
         color: rgba($white, 0.75);
         font-family: font-family(title);
         font-size: 150vh;

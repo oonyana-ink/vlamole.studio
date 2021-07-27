@@ -1,3 +1,23 @@
+// body[incoming-section='hero'] {
+//     .primary-canvas {
+//         transform: translateX(calc(22vw * var(--incoming-y-visibility-ratio)));
+
+//         @include media('<=phone') {
+//             transform: translate(2vw, 15vh) scale(1.1);
+//         }
+//     }
+// }
+
+// body[outgoing-section='hero'] {
+//     .primary-canvas {
+//         transform: translateX(22vw);
+
+//         @include media('<=phone') {
+//             transform: translate(2vw, 15vh) scale(1.1);
+//         }
+//     }
+// }
+
 .hero {
     --y-visibility-ratio: 1;
     --y-position-ratio: 1;
@@ -27,60 +47,124 @@
     }
 
     .title {
+        align-items: stretch;
+        border: 8px solid $dark-blue;
+        box-sizing: border-box;
         color: $dark-blue;
-        font-family: font-family(title);
-        font-size: 22rem;
-        letter-spacing: -0.04em;
-        line-height: 0.75;
+        display: flex;
         pointer-events: none;
         position: absolute;
         top: 50%;
-        transform: translateX(-1%) faux-fixed($offset: -50%);
+        transform: faux-fixed($offset: -50%);
+        width: grid-width(10);
 
-        .the {
-            // bottom: calc(100% - 0.06em);
-            // letter-spacing: 0;
-            // font-size: 0.25em;
-            // position: absolute;
-            // right: calc(100% - 0.1em);
-            // transform: rotate(-90deg);
-            // transform-origin: bottom right;
-            display: none;
+        @include media("<=phone") {
+            border-width: 6px;
+            flex-direction: column-reverse;
+        }
+
+        &__copy {
+            border-right: 4px solid $dark-blue;
+            display: inline-block;
+            font-family: font-family(title);
+            font-size: 17vw;
+            letter-spacing: -0.04em;
+            line-height: 0.75;
+            padding: 4rem;
+            position: relative;
+
+            @include media("<=tablet") {
+                font-size: 25vw;
+                // top: 50%;
+                // position: absolute;
+            }
+
+            @include media("<=phone") {
+                // align-items: center;
+                border-right: 0;
+                border-top: 4px solid $dark-blue;
+                font-size: 25vw;
+                padding: 2rem;
+                // top: 67%;
+                // position: absolute;
+                // left: 50%;
+                // transform: translate(-50%, -50%);
+            }
+        }
+
+        &__drone {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        &__drone-label {
+            border-bottom: 4px solid $dark-blue;
+            flex: none;
+            font-family: font-family(mono);
+            font-size: 0.8rem;
+            font-style: italic;
+            font-weight: font-weight(medium);
+            padding: 1.5rem;
+            text-align: right;
+            text-transform: uppercase;
+
+            @include media("<=phone") {
+                font-size: 0.6rem;
+                padding: 0.75rem 1rem;
+            }
+        }
+
+        &__drone-background {
+            @include stripe-background($opacity: 0.5);
+            flex-grow: 1;
+
+            @include media("<=phone") {
+                &:after {
+                    content: '';
+                    display: block;
+                    padding-bottom: 100%;
+                }
+            }
+
         }
 
         .top {
             display: inline-block;
+            margin-left: -0.06em;
+            margin-right: 0.01em;
+
+            @include media('<=phone') {
+                margin-bottom: 0.5rem;
+            }
         }
 
         .bottom {
             display: inline-block;
+            margin-left: -0.06em;
+            font-size: 1.01em;
         }
-
-        @include media("<=tablet") {
-            font-size: 25vw;
-            top: 50%;
-            position: absolute;
-        }
-
-        @include media("<=phone") {
-            align-items: center;
-            font-size: 40vw;
-            top: 67%;
-            position: absolute;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        } 
     }
 
     .subtitle {
         background-color: $light-blue;
         color: #fff;
         font-size: 0.09em;
+        left: 4rem;
         letter-spacing: normal;
         padding: 0.5em 2em 0.5em 1.5em;
         position: absolute;
+        right: 4rem;
+        text-align: center;
         top: 50%;
-        transform: translate(0.65em, -50%);
+        transform: translate(0, -50%);
+
+        @include media('<=phone') {
+            font-size: 0.12em;
+            padding: 0.5rem;
+            left: 1.5rem;
+            right: 1.5rem;
+        }
     }
 
     &__background {
@@ -97,5 +181,3 @@
         }
     }
 }
-
-

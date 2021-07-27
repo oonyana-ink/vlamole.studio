@@ -3,28 +3,28 @@ export default class Lights {
     {
       Type: THREE.PointLight,
       color: 0xffffff,
-      intensity: 1,
-      position: [-0.5, 0.5, 1],
+      intensity: 0.65,
+      position: [0, 1, -0],
       debugColor: 0xff0000 // Red
     },
     {
       Type: THREE.PointLight,
       color: 0xffffff,
-      intensity: 0.5,
-      position: [-0.5, 0, -1],
+      intensity: 0.35,
+      position: [-0.5, -0.5, -0.5],
       debugColor: 0x00ff00 // Green
     },
     {
       Type: THREE.PointLight,
       color: 0xffffff,
-      intensity: 0.75,
-      position: [0.5, 0.25, 1],
+      intensity: 0.6,
+      position: [-0.15, 0, 1],
       debugColor: 0x0000ff // Blue
     },
     {
       Type: THREE.AmbientLight,
       color: 0xffffff,
-      intensity: 0.2,
+      intensity: 0.3,
       debugColor: 0xff00ff // Magenta
     }
   ]

@@ -1,7 +1,33 @@
 $section-height: 250vh;
-$copy-block-border-width: 4px;
+$copy-block-border-width: 3px;
 $copy-block-border-color: $light-blue;
 $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
+
+// body[incoming-section='intro'] {
+//     .primary-canvas {
+//         transform: translate(
+//             calc(-35vw * var(--incoming-y-visibility-ratio)),
+//             calc(-35vh * var(--incoming-y-visibility-ratio))
+//         );
+
+//         @include media('<=phone') {
+//             transform: translate(0, 0)
+//         }
+//     }
+// }
+
+// body[outgoing-section='intro'] {
+//     .primary-canvas {
+//         transform: translate(
+//             calc(-35vw * var(--incoming-y-visibility-ratio)),
+//             calc(-35vh * var(--incoming-y-visibility-ratio))
+//         );
+
+//         @include media('<=phone') {
+//             transform: translate(2vw, 15vh) scale(1.1);
+//         }
+//     }
+// }
 
 .intro {
     &.section {

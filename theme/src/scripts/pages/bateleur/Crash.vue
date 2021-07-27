@@ -1,56 +1,68 @@
 <template>
-  <section
+  <Section
+    name="crash"
     ref="section"
-    class="crash section"
-    :class="sectionClasses"
-    :style="sectionStyles"
+    :config="config"
+    :scrollLabel="scrollLabel"
   >
     <div class="content">
-      <div class="grid">
-        <div class="grid__column--12">
-          <div class="section__copy">
-            <h3 class="fly">Impact killer</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
+      <div class="content-container">
+        <div class="section__sidebar">
+          <div class="panel" />
+          <div class="panel" />
+          <div class="panel" />
+        </div>
+        <div class="section__copy">
+          <div class="title">
+            <label>Impact Handling</label>
+            <h2>
+              Absolute<br>
+              Armour
+            </h2>
           </div>
+          <p>
+            Designed to house all of the delicate bits inside itself. Your flight stack, receiver, RX antennas,
+            VTX cable, camera, and battery cable are all tucked snuggly inside the belly of this beast.
+            <br><br>
+            And on the outside?...well...the outside of the frame is an exoskeleton designed to dissipate, and absorb, impact forces,
+            while ensuring that import structual parts are saved from the brunt of the crash forces. In the end your drone
+            should be able to stay in the air crash after crash after crash.
+          </p>
         </div>
       </div>
+    </div>
 
+    <template v-slot:foreground>
       <div
         ref="canvasContainer"
         class="impact-forces"
       />
-    </div>
-  </section>
+    </template>
 
-  <teleport to="#section-backgrounds">
-    <div
-      ref="background"
-      class="crash__background section-background"
-      :style="sectionBackgroundStyles"
-    >
+    <template v-slot:background>
       <ScrollTrigger
         :is-active="isIntersecting"
         name="scroll-trigger"
         threshold="0.75"
         @trigger="handleTrigger"
       />
-    </div>
-  </teleport>
+    </template>
+  </Section>
 </template>
 
 <script>
 import { easeCubicOut, easeCubicIn } from 'd3-ease'
 import { interpolateRgbBasis } from 'd3-interpolate'
+import Section from '@components/Section.vue'
 import sectionMixin from '@mixins/section'
 import P5 from 'p5'
-import ScrollTrigger from './ScrollTrigger.vue'
+import ScrollTrigger from '@components/ScrollTrigger.vue'
 
 export default {
   name: 'Crash',
   components: {
-    ScrollTrigger
+    ScrollTrigger,
+    Section
   },
   mixins: [sectionMixin],
 
@@ -82,7 +94,12 @@ export default {
     config () {
       return {
         stage: {
-          drone: {
+          default: {
+            position: ['22vw', '0vh']
+          }
+        },
+        drone: {
+          default: {
             rotation: ['0deg', '630deg', '-90deg'],
             position: [0, 0, 0]
           }
@@ -135,6 +152,7 @@ export default {
 
   methods: {
     handleTrigger () {
+      console.log('handleTrigger')
       this.setupImpactForces()
     },
 

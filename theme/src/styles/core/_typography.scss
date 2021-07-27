@@ -36,30 +36,18 @@ p, .paragraph, ul li {
     line-height: 1.4rem;
     margin-bottom: 1rem;
 
-    
+
 
     &.lead {
         @include font-weight(medium);
         font-size: 1.25em;
-        
+
     }
 
-    
+
 }
 
 .small-print {
     font-size: 0.75rem;
     line-height: 1rem;
-}
-
-.specs__copy {
-    box-sizing: border-box;
-    color: #ffffff;
-    left: 6vw;
-    opacity: var(--y-visibility-ratio);
-    padding: 0 2rem;
-    position: absolute;
-    text-align: justify;
-    top: 5vw;
-    
 }

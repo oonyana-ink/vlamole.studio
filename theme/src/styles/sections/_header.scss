@@ -129,7 +129,7 @@ body {
 
     .cart {
         margin-top: 1rem;
-    
+
         @include media("<=phone") {
             display: none;
         }

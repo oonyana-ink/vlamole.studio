@@ -1,15 +1,24 @@
 <template>
   <Section
+    ref='section'
     name="hero"
     :config="config"
+    :scrollLabel="scrollLabel"
   >
     <div class='grid'>
       <div class='content grid__column--10 grid__column--offset-1'>
-        <div class='title'>
-          <span class='the'>THE</span>
-          <span class='top'>BATE</span><br/><span class='bottom'>LEUR</span>
-          <div class="subtitle" parallax='2'>
-            THE IMMORTAL CINEWHOOP FRAME
+        <div class="title">
+          <div class="title__copy">
+            <span class='top'>BATE</span><br/><span class='bottom'>LEUR</span>
+            <div class="subtitle" parallax='2'>
+              THE IMMORTAL CINEWHOOP FRAME
+            </div>
+          </div>
+          <div class="title__drone">
+            <div class="title__drone-label">
+              Fig 1. Drone in flight
+            </div>
+            <div class="title__drone-background" />
           </div>
         </div>
       </div>
@@ -34,33 +43,37 @@
 </template>
 
 <script>
-import config from '@/config'
 import Section from '@components/Section.vue'
+import sectionMixin from '@mixins/section'
 
 export default {
   name: 'Hero',
   inject: ['grid', 'gridWidth'],
+  mixins: [sectionMixin],
 
   data () {
     return {
       scrollLabel: ['The', 'Bateleur'],
-      isIntersecting: true
     }
   },
 
   computed: {
-    assetsURL () {
-      return config.assetsURL
-    },
-
     config () {
       return {
         stage: {
-          drone: {
+          default: {
+            position: ['22vw', '0vh']
+          },
+          phone: {
+            position: ['2vw', '15vh']
+          }
+        },
+        drone: {
+          default: {
             appearance: 'shaded',
-            rotation: ['40deg', '140deg', '0deg'],
-            position: [this.gridWidth({ cols: 2.5 }), 0, 0],
-            size: [this.gridWidth({ cols: 6 })]
+            rotation: ['40deg', '160deg', '0deg'],
+            position: [0, 0, 0],
+            size: ['80cw']
           }
         }
       }

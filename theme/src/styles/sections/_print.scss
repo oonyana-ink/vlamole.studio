@@ -9,46 +9,56 @@
     }
 
     .content {
-        transform: faux-fixed();
+        border: 8px solid $dark-blue;
+        display: flex;
+        height: 80vh;
+        opacity: var(--y-visibility-ratio);
+        overflow: hidden;
+        transform: faux-fixed($offset: 8vh);
     }
 
     .title {
-        font-size: 35vw;
-        letter-spacing: -0.05em;
-        margin-top: -10vh;
+        border-right: 4px solid $dark-blue;
         position: relative;
-        text-align: center;
-        transform: translateX(-0.8vw);
 
-        @include media("<=tablet") {
-            font-size: 30vw;
-            margin-top: 2vh;
+        h1 {
+            font-size: 25vw;
+            letter-spacing: -0.05em;
+            margin-top: -0.1em;
+            position: relative;
+            text-align: left;
+            transform: translateX(-0.08em);
+
+            @include media("<=tablet") {
+                font-size: 30vw;
+                margin-top: 2vh;
+            }
+
+            @include media("<=phone") {
+                font-size: 30vw;
+                margin-top: 5vh;
+            }
         }
 
-        @include media("<=phone") {
-            font-size: 30vw;
-            margin-top: 5vh;
-        }
-    }
 
-    .printp {
-        @include media("<=tablet") {
-            width: grid-width(5);
-            font-size: 1rem;  
-            margin: 0 grid-offset($cols: 1);
+        h3 {
+            background-color: $light-blue;
+            color: $white;
+            padding: 0.25em 1em;
+            position: absolute;
+            right: 0%;
+            text-transform: uppercase;
+            top: 9vw;
+            transform: translateY(-50%);
         }
 
-        @include media("<=phone") {
-            width: grid-width(5);
-            font-size: 0.8rem;  
-        }
     }
 
     .print-head {
         background-color: currentColor;
         color: $dark-blue;
-        height: 50vh;
-        left: 50%;
+        height: 40vh;
+        left: 48%;
         position: absolute;
         top: 0;
         transform: translateX(-50%);
@@ -62,14 +72,14 @@
             height: 0;
             left: 50%;
             position: absolute;
-            top: 105%;
+            top: 103%;
             transform: translateX(-50%);
             width: 1rem;
         }
 
         &:after {
             background-color: currentColor;
-            bottom: -5%;
+            bottom: -4%;
             content: '';
             height: 2vw;
             left: 50%;
@@ -102,10 +112,12 @@
     }
 
     .copy {
-        display: flex;
-        justify-content: space-between;
+        border-bottom: 4px solid $dark-blue;
+        // display: flex;
+        // justify-content: space-between;
+        padding: 3rem;
         // margin: 0 grid-offset($cols: 1);
-        text-align: justify;
+        // text-align: justify;
     }
 
     &__background {
@@ -148,7 +160,7 @@
                 position: absolute;
                 top: 0;
                 transform: translateY(30vh) rotateX(90deg);
-                width: 100%;  
+                width: 100%;
             }
         }
     }

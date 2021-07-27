@@ -19,7 +19,9 @@ export class Scene {
     scalar: 2,
     renderer: {
       alpha: true,
-      antialias: true
+      antialias: true,
+      powerPreference: "high-performance",
+      stencil: false
     }
   }
 
@@ -64,13 +66,15 @@ export class Scene {
     this.renderer.setSize(this.width, this.height)
 
     this._calcDepth()
+    this.state.width = this.width
+    this.state.height = this.height
 
     this.lights = new Lights({ scene: this })
     this.activeCamera.position.z = this.pxDepth
   }
 
-  attachStore (store) {
-    this.state.store = store
+  attachStore (store, module) {
+    this.state = store.state[module]
   }
 
   render () {
@@ -119,7 +123,8 @@ export class Scene {
 
   _calcDepth () {
     this._depth = utils.findScreenDepth(this.activeCamera, this.renderer)
-    this.state.store.depth = this._depth
+    this.state.depth = this._depth
+    console.log('_calcDepth', this._depth)
   }
 
   fog (renderFog) {

@@ -4,6 +4,7 @@ import menu from './menu'
 import page from './page'
 import product from './product'
 import scene from './scene'
+import stage from './stage'
 
 export {
   cart,
@@ -11,5 +12,6 @@ export {
   page,
   product,
   menu,
-  scene
+  scene,
+  stage
 }

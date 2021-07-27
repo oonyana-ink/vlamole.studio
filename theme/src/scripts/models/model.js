@@ -456,7 +456,8 @@ export default class Model {
 
   _castValue (value) {
     if (typeof value === 'string') {
-      value = /deg$/.test(value) && THREE.Math.degToRad(parseFloat(value))
+      value = (/deg$/.test(value) && THREE.Math.degToRad(parseFloat(value))) ||
+              (/cw$/.test(value) && (parseInt(value)/100) * this.scene.width)
     }
 
     return value

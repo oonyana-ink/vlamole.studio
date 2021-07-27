@@ -1,49 +1,54 @@
 <template>
-  <section
+  <Section
     ref="section"
-    class="fly section"
-    :class="sectionClasses"
-    :style="sectionStyles"
+    name="fly"
+    :config="config"
+    :scrollLabel="scrollLabel"
   >
     <div class="grid">
       <div class="content grid__column--12">
-        <div class="section__copy">
-          <h2 class="">Smooth flying</h2>
-          <p class="fly">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-        </div>
         <div class="blackbox-sim">
-          <label class="title">Simulated Gyro Noise</label>
+          <div class="labels">
+            <label class="caption">Simulated Gyro Noise</label>
+            <label class="key">
+              <span class="dark-blue">Pitch</span>
+              <span class="blue">Roll</span>
+              <span class="orange">Yaw</span>
+            </label>
+          </div>
+
           <div
             ref="canvasContainer"
             class="canvas-container"
           />
-          <label class="key">
-            <span class="dark-blue">Pitch</span>
-            <span class="blue">Roll</span>
-            <span class="orange">Yaw</span>
-          </label>
+        </div>
+
+        <div class="section__copy">
+          <h2>Smooth flying</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          </p>
         </div>
       </div>
     </div>
-  </section>
 
-  <teleport to="#section-backgrounds">
-    <div
-      ref="background"
-      class="fly__background section-background"
-      :style="sectionBackgroundStyles"
-    >
-      <div class="fly__background-title">
-        Fly
+    <template v-slot:background>
+      <div
+        ref="background"
+        class="fly__background section-background"
+        :style="sectionBackgroundStyles"
+      >
+        <div class="fly__background-title">
+          Fly
+        </div>
       </div>
-    </div>
-  </teleport>
+    </template>
+  </Section>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import Section from "@components/Section.vue";
 import sectionMixin from '@mixins/section'
 import P5 from 'p5'
 
@@ -64,13 +69,18 @@ export default {
     }),
 
     config () {
-      const { depth: sceneDepth } = this.sceneState
+      const { height: sceneHeight } = this.sceneState
       return {
         stage: {
-          drone: {
+          default: {
+            position: ['-23vw', '0vh']
+          }
+        },
+        drone: {
+          default: {
             appearance: 'shaded',
             rotation: ['0deg', '540deg', '0deg'],
-            position: [0, window.innerHeight * -0.25, sceneDepth * 0.3]
+            position: [0, sceneHeight * -0.2 , 0]
           }
         }
       }
@@ -105,7 +115,7 @@ export default {
 
         p.draw = () => {
           frame += 1
-          if (frame % 2 !== 1) { return }
+          // if (frame % 2 !== 1) { return }
           if (!this.isIntersecting) { return }
           let x, y
           p.clear()
@@ -141,6 +151,10 @@ export default {
     removeSimulator () {
       this.p5 && this.p5.remove()
     }
+  },
+
+  components: {
+    Section
   }
 }
 </script>
