@@ -44,6 +44,16 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
         position: relative;
         transform: faux-fixed();
         z-index: 10;
+
+        @include media("<=tablet") {
+            align-items: center;
+            width: grid-width($cols: 10);
+        }
+
+        @include media("<=phone") {
+            align-items: center;
+            width: grid-width($cols: 12);
+        }
     }
 
     .section__copy-block {
@@ -57,23 +67,21 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
 
         @include media("<=tablet") {
             align-items: center;
-            margin-left: grid-offset($cols: 1.5);
-            margin-top: grid-offset($cols: 1);
-            width: grid-width($cols: 9);
-
+            right: 35vw;
+            width: grid-width($cols: 8);
         }
 
         @include media("<=phone") {
-            align-items: center;
-            margin-left: grid-offset($cols: 0.5);
-            margin-top: grid-offset($cols: 1.5);
-            width: grid-width($cols: 11);
-
-
+            border: $copy-block-border;
+            box-sizing: border-box;
+            margin-left: grid-offset($cols: 1);
+            // margin-top: grid-offset($cols: 1);
+            margin-top: calc(var(--grid-margin) * 0.75);
+            position: relative;
+            right: 1vw;
+            width: grid-width($cols: 10); 
         }
     }
-
-
 
     .section__copy {
         color: $dark-blue;
@@ -95,6 +103,21 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
             white-space: nowrap;
             z-index: -1;
 
+            @include media("<=tablet") {
+                align-items: flex-end;
+                margin-left: grid-offset($cols: 4);
+                width: grid-width($cols: 4);
+                width: grid-width($cols: 3);
+            }
+
+            @include media("<=phone") {
+                display: inline-block;
+                font-size: 4vw;
+                position: relative;
+                right: 35vw;
+                width: grid-width($cols: 11);
+            }
+
             > label {
                 color: $white;
                 font-family: font-family(mono);
@@ -103,6 +126,12 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
                 left: 1rem;
                 position: absolute;
                 top: 1rem;
+
+                @include media("<=tablet") {
+                    display: block;
+                    font-size: 2vw;
+                    overflow: hidden;
+                }
             }
 
             > h1 {
@@ -111,6 +140,16 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
                 margin: 0;
                 position: relative;
                 z-index: 2;
+
+                @include media("<=tablet") {
+                   font-size: 4vw;
+                   right: 2.5vw;
+                }
+
+                @include media("<=phone") {
+                    font-size: 10vw;
+                    margin-left: grid-offset($cols: 1);
+                }
             }
         }
 
@@ -118,6 +157,17 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
             margin: 0;
             padding: 1.5rem;
             text-align: justify;
+
+            @include media("<=tablet") {
+                font-size: 2vw;
+                justify-content: center;
+                padding-top: 1rem;
+            }
+
+            @include media("<=phone") {
+                font-size: 3vw;
+                width: grid-width($cols: 8);
+            }
         }
     }
 
@@ -137,15 +187,14 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
         }
 
         @include media("<=tablet") {
-            font-size: 3vw;
+            font-size: 2vw;
             justify-content: center;
-            padding-top: 1rem;
         }
 
         @include media("<=phone") {
             font-size: 1.5rem;
             padding-top: 0;
-
+            size: 80vw;
         }
     }
 
@@ -155,10 +204,6 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
         display: flex;
         position: relative;
         width: 100%;
-
-        @include media("<=tablet") {
-            font-size: 1.5rem;
-        }
 
         @include media("<=phone") {
             width: 30%;
@@ -180,8 +225,6 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
             }
         }
 
-
-
         &:before {
             background-color: $copy-block-border-color;
             // border-radius: 1rem;
@@ -194,7 +237,6 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
             transition: transform 250ms;
             width: 50%;
             z-index: 1;
-
         }
 
         &__option {
@@ -209,16 +251,12 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
             text-align: center;
             width: 50%;
             z-index: 2;
-        }
 
-        @include media("<=tablet") {
-            font-size: 3vw;
-            width: 50%;
-        }
-
-        @include media("<=phone") {
-            font-size: 1rem;
-            width: 50%;
+            @include media("<=tablet") {
+                font-size: 3vw;
+                padding: 0;
+                z-index: 4;
+            }
         }
     }
 
@@ -231,7 +269,9 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
         width: 100%;
 
         @include media("<=tablet") {
-            top: 60 vh;
+            padding: 1rem;
+            left: 3vw;
+            top: 65vh;
         }
 
         @include media("<=phone") {
@@ -250,6 +290,10 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
             transform-origin: left center;
             transition: transform 300ms ease-in;
 
+            @include media("<=tablet") {
+                margin-left: grid-offset($cols: 1);
+                width: grid-width($cols: 10.5);
+            }
         }
 
         &__span {
@@ -295,6 +339,10 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
                 z-index: 4;
             }
 
+        @include media("<=tablet") {
+            align-items: center;
+        }
+
             &:nth-child(odd) {
                 @extend %extend-down;
             }
@@ -335,7 +383,7 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
             }
 
             @include media("<=tablet") {
-                font-size: 0.7rem;
+                font-size: 2vw;
             }
 
             @include media("<=phone") {
@@ -369,7 +417,6 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
                 transition: transform $point-transition-duration ease-in-out;
                 transition-delay: calc(var(--transition-delay) + #{$point-transition-duration});
                 width: 0;
-
             }
 
             &:after {
@@ -475,8 +522,8 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
             transition-delay: 1500ms;
 
             @include media("<=tablet") {
-                padding-top: 2rem;
                 font-size: 2rem;
+                padding-top: 2rem;
             }
 
             @include media("<=phone") {

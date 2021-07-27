@@ -43,10 +43,31 @@ body[outgoing-section='fix'] {
         position: relative;
         width: grid-width($cols: 5.5);
 
+        @include media("<=tablet") {
+            margin-left: grid-offset($cols: 1);
+            margin-top: 40vh;
+            width: grid-width($cols: 9);
+        }
+
+        @include media("<=phone") {
+            height: 20vh;
+            width: grid-width(12);
+        }
+
         .title-container {
             // border: 1px solid $white;
             position: relative;
             width: grid-width($cols: 2);
+
+            @include media("<=tablet") {
+                position: relative;
+                width: grid-width($cols: 1); 
+            }
+
+            @include media("<=phone") {
+                position: relative;
+                width: grid-width($cols: 2); 
+            }
         }
 
         h3 {
@@ -58,11 +79,31 @@ body[outgoing-section='fix'] {
             top: 100%;
             transform: translate(-0.1em, 0.065em) rotate(-90deg);
             transform-origin: top left;
+
+            @include media("<=tablet") {
+                top: 30vh;
+                justify-content: end;
+            }
         }
 
         p {
             // margin-left: ;
             width: grid-width($cols: 3);
+
+            @include media("<=tablet") {
+                margin-left: grid-offset($cols: 3);
+                width: grid-width(12);
+            }
+
+            @include media("<=phone") {
+                font-size: 4vw;
+                margin-left: grid-offset($cols: 2);
+                width: grid-width(11);
+            }
+        }
+
+        @include media("<=phone") {
+            top: 40vh;
         }
     }
 

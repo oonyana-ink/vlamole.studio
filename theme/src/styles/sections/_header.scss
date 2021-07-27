@@ -15,9 +15,9 @@ body {
 
     @include media("<=phone") {
         // top: 89%;
-        top: auto;
-        bottom: 0;
         background: rgba(#000, 0.1);
+        bottom: 0;
+        top: auto;
     }
 
     &__content {

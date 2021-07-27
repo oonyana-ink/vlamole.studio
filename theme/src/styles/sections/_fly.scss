@@ -49,7 +49,6 @@
             position: absolute;
             top: 60%;
             width: grid-width($cols: 10);
-
         }
 
         @include media("<=phone") {
@@ -57,9 +56,8 @@
             height: grid-width($cols: 6);
             margin: 0 grid-offset($cols: 1);
             position: absolute;
-            top: 70%;
+            top: 75%;
             width: grid-width($cols: 10);
-
         }
 
         .labels {
@@ -132,7 +130,6 @@
 
                 }
             }
-
         }
 
         .canvas-container {

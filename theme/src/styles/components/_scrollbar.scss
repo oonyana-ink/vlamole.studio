@@ -41,10 +41,6 @@
             }
         }
 
-        @include media("<=tablet") {
-
-        }
-
         @include media("<=phone") {
             display: none;
         }
@@ -57,8 +53,6 @@
         transform: translateX(0.25em);
         transition: transform 300ms, width 300ms, border-radius 300ms;
         width: 0.5em;
-
-
     }
 
     &__section-marker {
@@ -71,9 +65,6 @@
         transition: transform 300ms, width 300ms, border-radius 300ms;
         width: 0.5em;
 
-
-
-
         &:before {
             border: 1px solid;
             @include hud-color(border-color);
@@ -85,8 +76,6 @@
             position: absolute;
             right: 0;
             top: 0;
-
-
         }
 
         &:hover {

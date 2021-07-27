@@ -116,15 +116,16 @@ body[incoming-section='specs'] {
         width: grid-width($cols: 2.5);
 
         @include media("<=tablet") {
+            font-size: 1rem;
+            margin: 0 grid-offset($cols: 1);
             padding: 0;
-            margin: 0 grid-offset($cols: 0.7);
             top: 60%;
-            width: grid-width($cols: 10.5);
+            width: grid-width($cols: 10);
         }
 
         @include media("<=phone") {
-            padding: 0;
             margin: 0 grid-offset($cols: 1);
+            padding: 0;
             top: 47%;
             width: grid-width($cols: 10);
         }
@@ -266,9 +267,9 @@ body[incoming-section='specs'] {
         width: grid-width(10);
 
         @include media("<=tablet") {
-            width: grid-width(11);
             margin: 0 grid-offset($cols: 0.5);
             margin-bottom: 2rem;
+            width: grid-width(11);
         }
 
         @include media("<=phone") {
@@ -460,13 +461,13 @@ body[incoming-section='specs'] {
         }
 
         @include media("<=tablet") {
-            top: 35%;
             left: 50%;
+            top: 35%;
         }
 
         @include media("<=phone") {
-            top: 30%;
             left: 50%;
+            top: 30%;
         }
     }
 

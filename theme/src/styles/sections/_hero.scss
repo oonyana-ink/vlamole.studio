@@ -34,10 +34,10 @@
     }
 
     .content {
+        align-items: center;
         display: none;
         height: 100%;
         position: relative;
-        align-items: center;
     }
 
     &.visible {
