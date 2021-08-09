@@ -9,6 +9,9 @@ const INTERPOLATABLES = {
   },
   explodedView: {
     default: 0
+  },
+  auxColor: {
+    default: '#6cd0e0'
   }
 }
 
@@ -36,6 +39,14 @@ export default {
       to: 0,
       ratio: 0,
       value: 0
+    },
+    baseColors: {
+      aux: '#6cd0e0',
+      core: '#989898'
+    },
+    colors: {
+      aux: '#6cd0e0',
+      core: '#989898'
     }
   }),
   getters: {},
@@ -45,6 +56,11 @@ export default {
         state[key] = newState[key]
       }
       state.updated = Date.now()
+    },
+
+    applyColors (state, colors) {
+      const newColors = Object.assign({}, state.colors, colors)
+      this.commit('drone/apply', { colors: newColors })
     },
 
     interpolate (state, { incomingState, outgoingState, easedRatio }) {

@@ -70,7 +70,7 @@
             font-size: 17vw;
             letter-spacing: -0.04em;
             line-height: 0.75;
-            padding: 4rem;
+            padding: 3.3vw;
             position: relative;
 
             @include media("<=tablet") {
@@ -150,11 +150,11 @@
         background-color: $light-blue;
         color: #fff;
         font-size: 0.09em;
-        left: 4rem;
+        left: 3.25vw;
         letter-spacing: normal;
         padding: 0.5em 2em 0.5em 1.5em;
         position: absolute;
-        right: 4rem;
+        right: 3.25vw;
         text-align: center;
         top: 50%;
         transform: translate(0, -50%);

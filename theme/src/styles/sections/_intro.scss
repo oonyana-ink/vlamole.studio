@@ -63,7 +63,8 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
         // margin-top: grid-offset($cols: 1);
         margin-top: calc(var(--grid-margin) * 0.75);
         position: relative;
-        width: grid-width($cols: 4);
+        // width: grid-width($cols: 4);
+        width: 40rem;
 
         @include media("<=tablet") {
             align-items: center;
@@ -79,7 +80,7 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
             margin-top: calc(var(--grid-margin) * 0.75);
             position: relative;
             right: 1vw;
-            width: grid-width($cols: 10); 
+            width: grid-width($cols: 10);
         }
     }
 
@@ -155,7 +156,7 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
 
         &.paragraph {
             margin: 0;
-            padding: 1.5rem;
+            padding: 3rem;
             text-align: justify;
 
             @include media("<=tablet") {

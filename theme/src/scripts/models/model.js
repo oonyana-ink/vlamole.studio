@@ -433,7 +433,7 @@ export default class Model {
       this.object3D.add(childModel.model)
     }
 
-
+    child._model = childModel
     this.children.push(childModel)
   }
 
@@ -446,6 +446,7 @@ export default class Model {
         cloneMeta.isClone = true
       }
       childClone.modelMeta = cloneMeta
+      this.processChild(childClone)
       this._processChild(childClone)
     })
   }

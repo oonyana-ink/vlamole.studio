@@ -32,6 +32,16 @@ export class Drone extends Model {
       inScene: false
     }
   }
+  colors = {
+    core: {
+      baseColor: COLORS.core,
+      children: []
+    },
+    aux: {
+      baseColor: COLORS.aux,
+      children: []
+    }
+  }
 
   meta = {
     // rotation: ['40deg', '140deg', 0],
@@ -91,13 +101,19 @@ export class Drone extends Model {
     children.forEach(child => {
       const processChild = this.processChild(child)
       processedChildren.push(processChild)
+
     })
 
     super.processChildren(processedChildren)
   }
 
   processChild (child) {
-    const modelMeta = this.components[child.name]
+    const modelMeta = child.modelMeta || this.components[child.name]
+    if (modelMeta.material && typeof modelMeta.material.color === 'string') {
+      const colorKey = modelMeta.material.color
+      modelMeta.material.color = this.colors[colorKey].baseColor
+      this.colors[colorKey].children.push(child)
+    }
     child.modelMeta = modelMeta
     return child
   }
@@ -142,12 +158,16 @@ export class Drone extends Model {
     })
   }
 
-  spinExplodedView () {
+  spinExplodedView (frame) {
     if (this.explodedViewSpinRatio > 0.98) {
       const { rotation } = this.state
+      const periodDivisor = 3000
+      const sinePeriod = Math.PI * 2 / periodDivisor
+      const sineOscillation = Math.sin(frame * sinePeriod * 1.3) * -0.5
       this.store.commit('drone/apply', {
         rotation: [
-          parseFloat(rotation[0]) + (0.15 * this.explodedViewSpinRatio) + 'deg' ,
+          // parseFloat(rotation[0]) + (0.15 * this.explodedViewSpinRatio) + 'deg' ,
+          sineOscillation,
           parseFloat(rotation[1]) + (0.25 * this.explodedViewSpinRatio) + 'deg',
           rotation[2]
           // parseFloat(rotation[2]) + (0.25 * this.explodedViewSpinRatio) + 'deg'
@@ -223,6 +243,15 @@ export class Drone extends Model {
 
   }
 
+  setColors (colors) {
+    this.colors.aux.children.forEach(child => {
+      child.material.color.set(colors.aux)
+    })
+    this.colors.core.children.forEach(child => {
+      child.material.color.set(colors.core)
+    })
+  }
+
   update (frame) {
     this.floatAnimation(frame)
     this.spinExplodedView(frame)
@@ -231,11 +260,13 @@ export class Drone extends Model {
   updateFromStore () {
     const {
       appearanceInterpolation,
-      explodedViewInterpolation
+      explodedViewInterpolation,
+      colors
     } = this.state
     super.updateFromStore()
     this.appearanceInterpolator(appearanceInterpolation)
     this.explodedViewInterpolator(explodedViewInterpolation)
+    this.setColors(colors)
   }
 
   components = {
@@ -247,7 +278,7 @@ export class Drone extends Model {
       ],
       material: {
         class: THREE.MeshPhongMaterial,
-        color: COLORS.aux,
+        color: 'aux',
         flatShading: true
       },
       explodedView: {
@@ -263,7 +294,7 @@ export class Drone extends Model {
       ],
       material: {
         class: THREE.MeshPhongMaterial,
-        color: COLORS.core,
+        color: 'core',
         flatShading: true
       },
       explodedView: {
@@ -279,7 +310,7 @@ export class Drone extends Model {
       ],
       material: {
         class: THREE.MeshPhongMaterial,
-        color: COLORS.core,
+        color: 'core',
         flatShading: true
       },
       explodedView: {
@@ -298,7 +329,7 @@ export class Drone extends Model {
           rotation: [0, 0, 0],
           material: {
             class: THREE.MeshPhongMaterial,
-            color: COLORS.aux,
+            color: 'aux',
             flatShading: true
           },
           explodedView: {
@@ -315,7 +346,7 @@ export class Drone extends Model {
           rotation: [0, '180deg', 0],
           material: {
             class: THREE.MeshPhongMaterial,
-            color: COLORS.aux,
+            color: 'aux',
             flatShading: true
           },
           explodedView: {
@@ -335,7 +366,7 @@ export class Drone extends Model {
           rotation: [0, 0, 0],
           material: {
             class: THREE.MeshPhongMaterial,
-            color: COLORS.aux,
+            color: 'aux',
             flatShading: true
           },
           explodedView: {
@@ -351,7 +382,7 @@ export class Drone extends Model {
           rotation: [0, '180deg', 0],
           material: {
             class: THREE.MeshPhongMaterial,
-            color: COLORS.aux,
+            color: 'aux',
             flatShading: true
           },
           explodedView: {
@@ -369,7 +400,7 @@ export class Drone extends Model {
       ],
       material: {
         class: THREE.MeshPhongMaterial,
-        color: COLORS.core,
+        color: 'core',
         flatShading: true
       },
       explodedView: {
@@ -387,7 +418,7 @@ export class Drone extends Model {
           rotation: [0, 0, 0],
           material: {
             class: THREE.MeshPhongMaterial,
-            color: COLORS.aux,
+            color: 'aux',
             flatShading: true
           },
           explodedView: {
@@ -403,7 +434,7 @@ export class Drone extends Model {
           rotation: [0, 0, '180deg'],
           material: {
             class: THREE.MeshPhongMaterial,
-            color: COLORS.aux,
+            color: 'aux',
             flatShading: true
           },
           explodedView: {
@@ -509,7 +540,7 @@ export class Drone extends Model {
           ],
           material: {
             class: THREE.MeshPhongMaterial,
-            color: COLORS.core,
+            color: 'core',
             flatShading: true
           },
           explodedView: {
@@ -524,7 +555,7 @@ export class Drone extends Model {
           ],
           material: {
             class: THREE.MeshPhongMaterial,
-            color: COLORS.core,
+            color: 'core',
             flatShading: true
           },
           explodedView: {
@@ -541,7 +572,7 @@ export class Drone extends Model {
       ],
       material: {
         class: THREE.MeshPhongMaterial,
-        color: COLORS.aux,
+        color: 'aux',
         flatShading: true
       },
       explodedView: {

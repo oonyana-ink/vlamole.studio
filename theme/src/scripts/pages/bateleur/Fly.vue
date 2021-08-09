@@ -73,7 +73,7 @@ export default {
       return {
         stage: {
           default: {
-            position: ['-23vw', '0vh']
+            position: ['-23vw', '-2vh']
           }
         },
         drone: {

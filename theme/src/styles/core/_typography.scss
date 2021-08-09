@@ -19,6 +19,14 @@ html {
     }
 }
 
+html, body {
+    font-size: 16px;
+
+    @include media('<desktop') {
+        font-size: 14px;
+    }
+}
+
 .highlight {
     background: linear-gradient(to right, $light-blue, $light-blue) no-repeat;
     background-position: 50% 60%;

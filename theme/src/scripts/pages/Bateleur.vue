@@ -1,11 +1,11 @@
 <template>
   <Stage />
   <Hero />
-  <Print />
   <Intro />
   <Specs />
   <Fly />
   <Crash />
+  <Print />
   <Fix />
   <ProductSelector />
 </template>
@@ -18,8 +18,9 @@ import Intro from './bateleur/Intro.vue'
 import Specs from './bateleur/Specs.vue'
 import Fly from './bateleur/Fly.vue'
 import Crash from './bateleur/Crash.vue'
-import Print from '@components/Print.vue'
-import Fix from '@components/Fix.vue'
+import Print from './bateleur/Print.vue'
+import Fix from './bateleur/Fix.vue'
+import ProductSelector from '@components/ProductSelector.vue'
 
 export default {
   mixins: [Page],
@@ -31,7 +32,8 @@ export default {
     Fly,
     Crash,
     Print,
-    // Fix,
+    Fix,
+    ProductSelector
   }
 }
 </script>

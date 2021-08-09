@@ -1,4 +1,3 @@
-import { easeCubicInOut } from 'd3-ease'
 import { watch, reactive } from 'vue'
 
 const BREAKPOINTS = [
