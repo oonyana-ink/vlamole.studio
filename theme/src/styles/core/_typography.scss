@@ -36,15 +36,11 @@ p, .paragraph, ul li {
     line-height: 1.4rem;
     margin-bottom: 1rem;
 
-
-
     &.lead {
         @include font-weight(medium);
         font-size: 1.25em;
 
     }
-
-
 }
 
 .small-print {

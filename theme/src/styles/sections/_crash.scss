@@ -66,11 +66,11 @@
             display: flex;
             flex-grow: 1;
             justify-content: flex-end;
-            text-align: right;
-            text-transform: uppercase;
             padding: 2rem;
             position: relative;
-
+            text-align: right;
+            text-transform: uppercase;
+            
             h2 {
                 color: $light-blue;
                 font-size: 5rem;
@@ -90,8 +90,8 @@
             // max-width: 20rem;
             // columns: 2;
             // column-gap: 2rem;
-            padding: 2rem 3rem 3rem;
             margin: 0;
+            padding: 2rem 3rem 3rem;
         }
 
         @include media("<=tablet") {
@@ -113,8 +113,8 @@
         .impact-forces {
             $hw: 100vh;
             height: $hw;
-            right: 28vw;
             position: absolute;
+            right: 28vw;
             top: 50vh;
             transform: translateX(50%) faux-fixed($offset: -50%);
             width: $hw;

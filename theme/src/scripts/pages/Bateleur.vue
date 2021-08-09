@@ -1,11 +1,11 @@
 <template>
   <Stage />
   <Hero />
-  <Print />
   <Intro />
   <Specs />
   <Fly />
   <Crash />
+  <Print />
   <Fix />
   <ProductSelector />
 </template>

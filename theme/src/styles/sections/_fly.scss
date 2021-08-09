@@ -19,23 +19,61 @@
         position: relative;
         transform: faux-fixed($offset: 8vh);
 
+        @include media("<=tablet") {
+            border: 4px solid $dark-blue;
+            height: 80vh;
+            left: 4vw;
+            width: 80vw;
+        }
+
+        @include media("<=phone") {
+            border: 4px solid $dark-blue;
+            height: 80vh;
+            left: 1vw;
+            width: 80vw;
+        }
+
         &:after {
             @include stripe-background($opacity: 0.25);
             border-right: 4px solid $dark-blue;
-            box-sizing: border-box;
             bottom: 0;
+            box-sizing: border-box;
             content: '';
             height: 40vh;
             left: 0;
             position: absolute;
             width: 50%;
+
+            @include media("<=tablet") {
+                @include stripe-background($opacity: 0.25);
+                border-right: none;
+                bottom: 0;
+                box-sizing: border-box;
+                content: '';
+                height: 23vh;
+                left: 0;
+                position: absolute;
+                width: 100%;
+            }
+
+            @include media("<=phone") {
+                @include stripe-background($opacity: 0.25);
+                border-right: none;
+                bottom: 0;
+                box-sizing: border-box;
+                content: '';
+                height: 40vh;
+                left: 0;
+                position: absolute;
+                width: 100%;
+            }
         }
     }
 
     .blackbox-sim {
         // border: 1px solid $black;
-        border-right: 4px solid $dark-blue;
         border-bottom: 4px solid $dark-blue;
+        border-right: 4px solid $dark-blue;
         box-sizing: border-box;
         height: 40vh;
         // margin: 0 grid-offset($cols: 1);
@@ -45,19 +83,19 @@
         @include media("<=tablet") {
             border: 1px solid $black;
             height: grid-width($cols: 6);
-            margin: 0 grid-offset($cols: 1);
+            margin: 0 grid-offset($cols: 0);
             position: absolute;
             top: 60%;
-            width: grid-width($cols: 10);
+            width: 100%;
         }
 
         @include media("<=phone") {
             border: 1px solid $black;
             height: grid-width($cols: 6);
-            margin: 0 grid-offset($cols: 1);
+            margin: 0 grid-offset($cols: 0);
             position: absolute;
-            top: 75%;
-            width: grid-width($cols: 10);
+            top: 60%;
+            width: grid-width($cols: 11);
         }
 
         .labels {
@@ -77,8 +115,8 @@
                     font-family: font-family(mono);
                     font-size: 3vw;
                     font-weight: font-weight(medium);
-                    width: grid-width($cols: 9.7);
                     text-transform: uppercase;
+                    width: grid-width($cols: 9.7);
                 }
 
                 @include media("<=phone") {
@@ -86,8 +124,8 @@
                     font-family: font-family(mono);
                     font-size: 3vw;
                     font-weight: font-weight(medium);
-                    width: grid-width($cols: 12);
                     text-transform: uppercase;
+                    width: grid-width($cols: 12);
                 }
 
                 &.key {
@@ -163,6 +201,7 @@
         }
 
         @include media("<=phone") {
+            display: block;
             margin: 0 grid-offset($cols: 0);
             width: grid-width($cols: 12);
         }
@@ -182,23 +221,42 @@
             // transform: translateY(-8rem);
 
             @include media("<=tablet") {
+                bottom: 60%;
                 font-size: 15vw;
-                margin-left: grid-offset($cols: 1);
-                margin-top: 10%;
+                margin-left: grid-offset($cols: 0);
+                position: relative;
             }
 
             @include media("<=phone") {
                 font-size: 15vw;
-                margin-top: 20vw;
+                margin-top: 0;
+                padding: 2rem;
+                top: 0vh;
+                width: 80%;
             }
         }
 
         p {
-            flex-grow: 1;
             column-count: 2;
             column-gap: 3rem;
+            flex-grow: 1;
             padding: 3rem;
             text-align: justify;
+
+            @include media("<=tablet") {
+                flex-grow: 0;
+                position: relative;
+                top: 20%;
+            }
+
+            @include media("<=phone") {
+                column-count: 1;
+                flex-grow: 0;
+                font-size: 3vw;
+                padding: 1rem;
+                position: relative;
+                top: 0%;
+            }
         }
 
     }
@@ -216,8 +274,8 @@
 
     &__background-title {
         // bottom: -5%;
-        display: none;
         color: rgba($white, 0.75);
+        display: none;
         font-family: font-family(title);
         font-size: 150vh;
         left: 50%;
@@ -230,7 +288,7 @@
         transform: translateX(-50%) faux-fixed($offset: "-35% * var(--y-position-ratio)");
 
         @include media("<=tablet") {
-            display: none;
+            
             font-size: 60vh;
             opacity: 0.5;
         }

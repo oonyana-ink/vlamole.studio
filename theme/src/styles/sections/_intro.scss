@@ -49,11 +49,6 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
             align-items: center;
             width: grid-width($cols: 10);
         }
-
-        @include media("<=phone") {
-            align-items: center;
-            width: grid-width($cols: 12);
-        }
     }
 
     .section__copy-block {
@@ -67,13 +62,13 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
 
         @include media("<=tablet") {
             align-items: center;
+            margin-top: 5vw;
             right: 35vw;
             width: grid-width($cols: 8);
         }
 
         @include media("<=phone") {
-            border: $copy-block-border;
-            box-sizing: border-box;
+            height: 50vh;
             margin-left: grid-offset($cols: 1);
             // margin-top: grid-offset($cols: 1);
             margin-top: calc(var(--grid-margin) * 0.75);
@@ -142,8 +137,8 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
                 z-index: 2;
 
                 @include media("<=tablet") {
-                   font-size: 4vw;
-                   right: 2.5vw;
+                    font-size: 4vw;
+                    right: 2.5vw;
                 }
 
                 @include media("<=phone") {
@@ -166,7 +161,8 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
 
             @include media("<=phone") {
                 font-size: 3vw;
-                width: grid-width($cols: 8);
+                height: 18vw;
+                overflow: hidden;
             }
         }
     }
@@ -194,7 +190,7 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
         @include media("<=phone") {
             font-size: 1.5rem;
             padding-top: 0;
-            size: 80vw;
+            
         }
     }
 
@@ -257,6 +253,8 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
                 padding: 0;
                 z-index: 4;
             }
+
+            
         }
     }
 
@@ -269,9 +267,9 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
         width: 100%;
 
         @include media("<=tablet") {
-            padding: 1rem;
             left: 3vw;
-            top: 65vh;
+            padding: 1rem;
+            top: 63vh;
         }
 
         @include media("<=phone") {
@@ -338,10 +336,6 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
                 transition-delay: var(--transition-delay);
                 z-index: 4;
             }
-
-        @include media("<=tablet") {
-            align-items: center;
-        }
 
             &:nth-child(odd) {
                 @extend %extend-down;
@@ -455,6 +449,7 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
                 white-space: nowrap;
 
                 @include media("<=tablet") {
+                    display: block;
                     font-size: 5vw;
                 }
 
@@ -647,8 +642,6 @@ $copy-block-border: $copy-block-border-width solid $copy-block-border-color;
         .timeline__span-label {
             transform: translate(-50%, calc(1.75rem + 0.1em));
         }
-
-
 
         .timeline__point {
             &:before {

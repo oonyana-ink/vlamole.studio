@@ -48,14 +48,6 @@ body[incoming-section='specs'] {
             position: relative;
             text-align: center;
 
-            @include media("<=tablet") {
-                flex-direction: row;
-            }
-
-            @include media("<=phone") {
-                flex-direction: row;
-            }
-
             &.no-grow {
                 flex-grow: 0;
             }
@@ -116,19 +108,14 @@ body[incoming-section='specs'] {
         width: grid-width($cols: 2.5);
 
         @include media("<=tablet") {
-            font-size: 1rem;
-            margin: 0 grid-offset($cols: 1);
-            padding: 0;
-            top: 60%;
-            width: grid-width($cols: 10);
+            width: grid-width($cols: 2.5);
         }
 
         @include media("<=phone") {
-            margin: 0 grid-offset($cols: 1);
-            padding: 0;
-            top: 47%;
-            width: grid-width($cols: 10);
+            top: 50vh;
         }
+
+        
 
         p {
             // border-bottom: $data-table-border;
@@ -139,6 +126,29 @@ body[incoming-section='specs'] {
             // margin: 0;
             // padding: 2rem 2.5rem;
             text-transform: uppercase;
+
+            @include media("<=tablet") {
+                column-count: 2;
+                font-size: 1.5vw;
+                letter-spacing: 0.1rem;
+                line-height: 1.8;
+                margin: 0 grid-offset($cols: 0);
+                padding: 0;
+                width: grid-width($cols: 11); 
+            }
+
+            @include media("<=phone") {
+                column-count: 1;
+                font-size: 2vw;
+                left: 40vw;
+                letter-spacing: 0.1rem;
+                line-height: 1.8;
+                margin: 0 grid-offset($cols: -1);
+                padding: 0;
+                position: relative;
+                top: 4vh;
+                width: grid-width($cols: 6);
+            }
 
             strong {
                 font-size: 1.25em;
@@ -158,6 +168,18 @@ body[incoming-section='specs'] {
         // width: 20rem;
         // flex-grow: 1;
 
+        @include media("<=tablet") {
+            margin-left: grid-width($cols: -0.5);
+            width: 18vw;
+        }
+
+        @include media("<=phone") {
+            font-size: 2vw;
+            margin-right: grid-width($cols: 1);
+            position: absolute;
+            top: 1%;
+        }
+
         h2 {
             // background-color: $white;
             // border: $data-table-border;
@@ -172,11 +194,11 @@ body[incoming-section='specs'] {
         }
 
         .row {
+            align-items: stretch;
             border-left: $data-table-border;
             border-right: $data-table-border;
             border-top: $data-table-border;
             box-sizing: border-box;
-            align-items: stretch;
             display: flex;
             flex-grow: 1;
             width: 100%;
@@ -196,11 +218,16 @@ body[incoming-section='specs'] {
             font-size: 0.75rem;
             padding: 0.75em 1.2em;
 
+            @include media("<=phone") {
+                padding: auto;
+                
+            } 
+
             &:first-child {
                 border-right: $data-table-border;
                 // font-weight: font-weight(medium);
                 text-transform: uppercase;
-                width: 33%;
+                width: 25%;
             }
         }
     }
@@ -210,6 +237,19 @@ body[incoming-section='specs'] {
         position: absolute;
         top: calc(#{$grid-margin * 0.25} + 4rem);
         width: grid-width($cols: 3);
+
+        @include media("<=tablet") {
+            left: 80vw;
+            position: relative;
+            width: grid-width($cols: 2);
+        }
+
+        @include media("<=phone") {
+            left: 10vw;
+            position: absolute;
+            top: calc(#{$grid-margin * 0.25} + 4rem);
+            width: grid-width($cols: 12);
+        }
 
         h2 {
             // background-color: $white;
@@ -244,13 +284,18 @@ body[incoming-section='specs'] {
                     font-size: 0.8rem;
                     font-weight: font-weight(regular);
                     margin-top: 1rem;
+
+                    @include media("<=phone") {
+                       font-size: 3vw;
+                    }
                 }
             }
         }
 
         .screw-svg {
-            width: 2vw;
             height: auto;
+            width: 2vw;
+            
             stroke: rgba($white, 0.9);
             stroke-width: 2px;
 
@@ -258,6 +303,15 @@ body[incoming-section='specs'] {
                 stroke-width: 4px;
             }
         }
+
+        @include media("<=tablet") {
+            top: 15%;
+        }
+
+        @include media("<=phone") {
+            top: 5%;
+        }
+        
     }
 
     &__footer {
@@ -272,13 +326,28 @@ body[incoming-section='specs'] {
             width: grid-width(11);
         }
 
-        @include media("<=phone") {
-            display: none;
-        }
+        
 
         &.data-table {
             border-bottom: none;
             border-left: none;
+
+            @include media("<=tablet") {
+                border-bottom: $data-table-border;
+                border-left: $data-table-border;
+                border-right: $data-table-border;
+                left: 10%;
+                width: grid-width(10);
+                
+            }
+
+            @include media("<=phone") {
+                border-bottom: $data-table-border;
+                border-left: none;
+                border-right: none;
+                left: 2vw;
+                width: grid-width(12);
+            }
 
             .col {
                 justify-content: center;
@@ -291,23 +360,37 @@ body[incoming-section='specs'] {
                 label {
                     border: none;
                     font-size: 0.65rem;
-                    line-height: 1;
                     left: 0;
+                    line-height: 1;
                     padding: 0.5em;
                     position: absolute;
                     top: 0;
+
+                    @include media("<=phone") {
+                        font-size: 2vw;
+                    }
                 }
 
                 .value {
                     font-size: 1rem;
                     line-height: 1;
                     padding: 0.3em 0.5em;
+
+                    @include media("<=phone") {
+                        font-size: 2vw;
+                    }
                 }
 
                 @include media("<=tablet") {
                     font-size: 0.5rem;
-                    padding: 1rem 1rem 0 0;
-                }
+                    padding: 0.5rem;
+                } 
+                
+                @include media("<=phone") {
+                    display: none;
+                    font-size: 0.5rem;
+                    padding: 0.5rem;
+                } 
             }
         }
 
@@ -462,12 +545,12 @@ body[incoming-section='specs'] {
 
         @include media("<=tablet") {
             left: 50%;
-            top: 35%;
+            top: 57%;
         }
 
         @include media("<=phone") {
             left: 50%;
-            top: 30%;
+            top: 37%;
         }
     }
 
@@ -476,6 +559,7 @@ body[incoming-section='specs'] {
         background-color: $dark-blue;
         position: relative;
 
+        
         &.section-background {
             height: 150vh;
         }

@@ -15,11 +15,20 @@
         opacity: var(--y-visibility-ratio);
         overflow: hidden;
         transform: faux-fixed($offset: 8vh);
+
+        @include media("<=tablet") {
+            border: none;
+            display: block;
+        }
     }
 
     .title {
         border-right: 4px solid $dark-blue;
         position: relative;
+
+        @include media("<=tablet") {
+            border-right: none;
+        }
 
         h1 {
             font-size: 25vw;
@@ -30,8 +39,9 @@
             transform: translateX(-0.08em);
 
             @include media("<=tablet") {
-                font-size: 30vw;
-                margin-top: 2vh;
+                font-size: 31vw;
+                left: 6vw;
+               
             }
 
             @include media("<=phone") {
@@ -39,7 +49,6 @@
                 margin-top: 5vh;
             }
         }
-
 
         h3 {
             background-color: $light-blue;
@@ -50,6 +59,12 @@
             text-transform: uppercase;
             top: 9vw;
             transform: translateY(-50%);
+
+            @include media("<=tablet") {
+                font-size: 4vw;
+                right: 11.5%;
+                top: 23vw;
+            }
         }
 
     }
@@ -118,6 +133,19 @@
         padding: 3rem;
         // margin: 0 grid-offset($cols: 1);
         // text-align: justify;
+
+        @include media("<=tablet") {
+            border-bottom: none;
+            column-count: 2;
+            column-gap: 12vw;
+            display: inline-block;
+            font-size: 4vw;
+            left: 2vw;
+            margin: 0 grid-offset($cols: -0.2);
+            position: absolute;
+            top: 15vh;
+            width: grid-width($cols: 10);  
+        }        
     }
 
     &__background {

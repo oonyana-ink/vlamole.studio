@@ -81,8 +81,8 @@ body[outgoing-section='fix'] {
             transform-origin: top left;
 
             @include media("<=tablet") {
-                top: 30vh;
                 justify-content: end;
+                top: 30vh;
             }
         }
 
