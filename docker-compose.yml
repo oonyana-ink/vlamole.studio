@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: api
+      args:
+        - ENV=development
+    volumes:
+      - ./api/app:/api/app
+      - ./api/run.sh:/api/run.sh
+    depends_on:
+      - db
+    ports:
+      - "8246:8000"
+    command: ['./run.sh', 'serve_dev']
+
+  db:
+    image: postgres:14
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
