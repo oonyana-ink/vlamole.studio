@@ -1,0 +1,18 @@
+$black: #444444;
+$white: #ffffff;
+$grey: #ccc;
+
+// $dark-blue: #525274;
+$dark-blue: #2e2e61;
+$light-blue: #6cd0e0;
+$orange: #fb5902;
+
+@mixin stripe-background ($background-color: $dark-blue, $opacity: 0.5) {
+    background: repeating-linear-gradient(
+        45deg,
+        rgba($background-color, $opacity),
+        rgba($background-color, $opacity) 2px,
+        rgba($background-color, 0) 2px,
+        rgba($background-color, 0) 12px,
+    );
+}

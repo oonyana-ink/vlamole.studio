@@ -1,0 +1,402 @@
+@use "sass:math";
+
+.print {
+    --filament-color: #{$orange};
+
+    &.section {
+        height: 150vh;
+    }
+
+    .grid {
+        box-sizing: border-box;
+        height: 100%;
+    }
+
+    .content {
+        // border: 8px solid $dark-blue;
+        display: flex;
+        height: 80vh;
+        opacity: var(--y-visibility-ratio);
+        transform: faux-fixed($offset: 8vh);
+    }
+
+    .title {
+        // border-right: 4px solid $dark-blue;
+        position: relative;
+
+        h1 {
+            color: $white;
+            font-size: 25vw;
+            letter-spacing: -0.05em;
+            margin-top: -0.094em;
+            position: relative;
+            text-align: left;
+            transform: translateX(-0.08em);
+            z-index: 6;
+
+            @include media("<=tablet") {
+                font-size: 30vw;
+                margin-top: 2vh;
+            }
+
+            @include media("<=phone") {
+                font-size: 30vw;
+                margin-top: 5vh;
+            }
+        }
+
+
+        h3 {
+            // background-color: $light-blue;
+            background-color: $orange;
+            color: $white;
+            padding: 0.25em 1em;
+            position: absolute;
+            right: 0%;
+            text-transform: uppercase;
+            top: 9vw;
+            transform: translateY(-50%);
+            z-index: 7;
+        }
+
+    }
+
+    .print-head {
+        background-color: currentColor;
+        // color: $dark-blue;
+        color: $white;
+        height: 50vh;
+        left: 48%;
+        position: absolute;
+        top: -10vh;
+        transform: translateX(-50%);
+        width: 5.8vw;
+        z-index: 10;
+
+        &:before {
+            border-left: 2.6vw solid transparent;
+            border-right: 2.6vw solid transparent;
+            border-top: 2vw solid currentColor;
+            content: '';
+            height: 0;
+            left: 50%;
+            position: absolute;
+            top: 103%;
+            transform: translateX(-50%);
+            width: 1rem;
+        }
+
+        &:after {
+            background-color: currentColor;
+            bottom: -4%;
+            content: '';
+            height: 2vw;
+            left: 50%;
+            position: absolute;
+            transform: translateX(-50%);
+            width: 8vw;
+        }
+
+        .filament {
+            background-color: $light-blue;
+            bottom: -3.3vw;
+            left: 50%;
+            position: absolute;
+            top: 0;
+            transform: translateX(-50%);
+            width: 0.75rem;
+            z-index: 10;
+
+            &:before {
+                background-color: var(--filament-color);
+                content: '';
+                height: calc(100% * var(--y-position-ratio));
+                left: 50%;
+                position: absolute;
+                top: 0;
+                transform: translateX(-50%);
+                width: 0.5rem;
+            }
+        }
+    }
+
+    .marlin-symbols {
+        border: 2px solid lighten($grey, 10%);
+        // background-color: lighten($grey, 15%);
+        // margin: 0 4rem;
+        // bottom: 30%;
+        border-radius: 1rem;
+        display: flex;
+        justify-content: space-between;
+        left: 0;
+        padding: 1.5rem 4rem;
+        position: absolute;
+        // right: 0;
+        // transform: translateY(-40%);
+        top: 56%;
+        z-index: 5;
+
+        &__left,
+        &__right {
+            align-items: flex-end;
+            display: flex;
+            // flex-direction: column;
+            // height: 26vh;
+            justify-content: space-between;
+            width: 14vw;
+        }
+
+        &__right {
+            display: none;
+        }
+
+
+        &__symbol {
+            height: 4vw;
+            // fill: darken($grey, 15%);
+            // fill: $light-blue;
+            fill: $white;
+        }
+    }
+
+    .sidebar {
+        background-color: $white;
+        border: 8px solid $dark-blue;
+        display: flex;
+        flex-direction: column-reverse;
+        overflow: hidden;
+    }
+
+    .copy {
+        @include scrollable-copy;
+        background-color: $white;
+        // border-top: 4px solid $dark-blue;
+        flex-grow: 1;
+        // color: $white;
+        // display: flex;
+        // justify-content: space-between;
+        margin: 0 0.25rem 0 1rem;
+        padding: 4rem 1.75rem 3rem 1.5rem;
+        // margin: 0 grid-offset($cols: 1);
+        // text-align: justify;
+    }
+
+    @mixin filament() {
+        $width: 1%;
+        $start: 25%;
+        $end: 61%;
+        $step: $start;
+        $color: var(--filament-color);
+        $highlight: rgba(#fff, 0.35);
+        $shadow: rgba(#000, 0.35);
+
+        $substeps: (
+            ($shadow, 0.5%),
+            (transparent, 1%),
+            ($highlight, 0.5%)
+        );
+
+        $gradient: (transparent, #{transparent $start});
+        $substep-index: 1;
+        @while $step < $end {
+            $substep: nth($substeps, $substep-index);
+            $substep-color: nth($substep, 1);
+            $step-increment: nth($substep, 2);
+            $step: $step + $step-increment;
+
+            @if ($step < $end) {
+                $gradient: append($gradient, #{$substep-color $step});
+            }
+
+            $substep-index: $substep-index + 1;
+            @if($substep-index > length($substeps)) {
+                $substep-index: 1;
+            }
+        }
+
+        $gradient: join($gradient, (#{transparent $end}), $separator: comma);
+        background-image: radial-gradient($gradient), radial-gradient(transparent, #{transparent $start}, #{$color $start + 1%}, #{$color $end - 0.5%}, #{transparent $end});
+    }
+
+
+    $filament-translate: translate(-50%, -85%);
+    @keyframes filament-spin {
+        from {
+            transform: $filament-translate rotate(0deg);
+        }
+        to {
+            transform: $filament-translate rotate(360deg);
+        }
+    }
+
+    .filament-details {
+        // @include stripe-background;
+        // flex-grow: 1;
+        // background-color: lighten($light-blue, 15%);
+        // background-image: radial-gradient(circle at top center, lighten($light-blue, 20%), darken($light-blue, 10%));
+        background-image: radial-gradient(circle at top center, lighten($dark-blue, 20%), darken($dark-blue, 0%));
+        border-bottom: 4px solid $dark-blue;
+        // display: flex;
+        // justify-content: center;
+        // padding: 2rem 0;
+        position: relative;
+        // overflow: hidden;
+
+        &:before {
+            // background-color: #ccc;
+            content: '';
+            display: block;
+            width: 100%;
+            padding-bottom: 50%;
+        }
+
+        &__roll {
+            animation-name: filament-spin;
+            animation-duration: 120s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            // fill: rgba($grey, 0.75);
+            fill: rgba($white, 0.85);
+            left: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -90%);
+            width: 120%;
+
+            svg {
+                @include filament;
+            }
+        }
+
+        &__swatches {
+            border: 4px solid $dark-blue;
+            background-color: $white;
+            display: flex;
+            justify-content: center;
+            // padding: 2px;
+            margin: 0 auto;
+            position: relative;
+            transform: translateY(50%);
+            width: 20rem;
+
+            &:before,
+            &:after {
+                // border: 4px solid $dark-blue;
+                // content: '';
+                // height: calc(3.5rem);
+                // left: -4px;
+                // position: absolute;
+                // top: -4px;
+                // transform: translateX(0);
+                // width: calc(3.5rem);
+                // z-index: 2;
+                content: '';
+                height: 0;
+                left: 1rem;
+                position: absolute;
+                transition: transform 400ms ease-out;
+                width: 0;
+                z-index: 2;
+            }
+
+            &:before {
+                border-right: 1rem solid transparent;
+                border-left: 1rem solid transparent;
+                border-top: 1.25rem solid $dark-blue;
+                top: -0.75rem;
+            }
+
+            &:after {
+                border-bottom: 1.25rem solid $dark-blue;
+                border-right: 1rem solid transparent;
+                border-left: 1rem solid transparent;
+                bottom: -0.75rem;
+            }
+
+            @for $i from 0 through 4 {
+                &[aux-index="#{$i}"] {
+                    &:before {
+                        transform: translateX(#{4rem * $i});
+                    }
+
+                    .color-swatch:nth-child(#{$i + 1}) {
+                        transform: scale(1);
+                    }
+                }
+            }
+
+            @for $i from 0 through 4 {
+                &[core-index="#{$i}"] {
+                    &:after {
+                        transform: translateX(#{4rem * $i});
+                    }
+
+                    .color-swatch:nth-child(#{$i + 1}) {
+                        transform: scale(1);
+                    }
+                }
+            }
+
+
+        }
+
+        .color-swatch {
+            // border: 0.5rem solid $white;
+            box-sizing: border-box;
+            height: 3rem;
+            margin: 0.5rem;
+            position: relative;
+            transform: scale(0.8);
+            transition: transform 200ms;
+            width: 3rem;
+        }
+    }
+
+    &__background {
+        &.section-background {
+            background-color: $white;
+            background-color: $light-blue;
+            height: 150vh;
+            overflow: hidden;
+            position: relative;
+            z-index: 12;
+        }
+
+        .build-plate-grid {
+            --grid-size: calc(((100vw - #{math.div($grid-margin, 2)}) / 60));
+            height: 100vh;
+            left: 50%;
+            perspective: 100vh;
+            position: absolute;
+            top: 0;
+            transform: translateX(-50%) faux-fixed();
+            width: 200vw;
+
+            &:before {
+                background-image: linear-gradient($white 5px, transparent 2px), linear-gradient(90deg, $white 2px, transparent 2px);
+                background-position: center center;
+                background-size: var(--grid-size) var(--grid-size);
+                border: 1px solid $grey;
+                content: '';
+                height: 100%;
+                left: 0;
+                position: absolute;
+                top: 0;
+                transform: translateY(30vh) rotateX(90deg);
+                transform-origin: center;
+                width: 100%;
+            }
+
+            &:after {
+                background-image: linear-gradient($light-blue, rgba($light-blue, 0));
+                content: '';
+                height: 100%;
+                left: 0;
+                position: absolute;
+                top: 0;
+                transform: translateY(30vh) rotateX(90deg);
+                width: 100%;
+            }
+        }
+    }
+}

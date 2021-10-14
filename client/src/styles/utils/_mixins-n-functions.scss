@@ -1,0 +1,8 @@
+@function faux-fixed ($offset: 0%) {
+    @return translateY(calc(#{$offset} + (100vh * (var(--y-position-ratio) - 1))));
+}
+
+@mixin hud-color($prop) {
+    #{$prop}: var(--hud-color);
+    transition: $prop 600ms;
+}

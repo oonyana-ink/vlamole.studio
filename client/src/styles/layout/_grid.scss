@@ -1,0 +1,62 @@
+$grid-margin: 6vw;
+$column-count: 12;
+$gutter: 1rem;
+
+:root {
+    --space: #{rem(10)};
+    --grid-margin: #{$grid-margin};
+    --grid-gutter: #{$gutter};
+    --column-width: calc((100vw - #{$grid-margin * 2} - (#{$column-count - 1} * var(--grid-gutter))) / #{$column-count});
+}
+
+@function grid-width($cols) {
+    @return calc((var(--column-width) * #{$cols}) + (var(--grid-gutter) * #{$cols - 1}));
+}
+
+@function grid-offset($cols) {
+    @return calc(var(--column-width) * #{$cols} + (var(--grid-gutter) * #{$cols}));
+}
+
+.grid {
+    @include flex(
+        $justify: flex-start
+    );
+    margin: 0 var(--grid-margin);
+
+    &--full-page {
+        box-sizing: border-box;
+        height: 100%;
+        padding: var(--grid-margin) 0
+    }
+
+    &--align-center {
+        align-items: center;
+    }
+
+    &__column {
+        margin-right: var(--grid-gutter);
+        width: var(--column-width);
+
+        &:last-child {
+            margin-right: 0;
+        }
+
+        
+
+    
+        @for $i from 1 through $column-count {
+            &--#{$i} {
+                width: grid-width($i);
+            }
+
+            &--offset-#{$i} {
+                margin-left: grid-offset($i);
+
+                @include media("<=phone") {
+                    justify-content: center;
+                    
+                }
+            }
+        }
+    }
+}

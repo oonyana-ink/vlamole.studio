@@ -1,0 +1,34 @@
+{
+  "extends": [
+    "standard",
+    "plugin:vue/vue3-recommended"
+  ],
+  "ignorePatterns": ["assets/*.js", "**/vendor/**/*.js"],
+  "parser": "babel-eslint",
+  "rules": {
+    "indent": [
+      "error",
+      2
+    ],
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 2
+      }
+    ]
+  },
+  "globals": {
+    "THREE": "readonly",
+    "requestAnimationFrame": "readonly"
+  },
+  "plugins": [
+    "import",
+    "vue"
+  ],
+  "overrides": [
+    {
+      "files": ["*.vue"],
+      "parser": "vue-eslint-parser"
+    }
+  ]
+}

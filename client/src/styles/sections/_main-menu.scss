@@ -1,0 +1,98 @@
+$background-color: $white;
+$foreground-color: $dark-blue;
+$accent-color: $light-blue;
+
+.main-menu {
+    align-items: center;
+    backdrop-filter: blur(0.5rem);
+    background: rgba($background-color, 0.75);
+    // border: 1px solid rgba($white, 0.5);
+    bottom: 0;
+    // box-shadow: 0 2px 18px rgba($black, 0.35);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    right: var(--grid-margin);
+    top: 0;
+    transform: translate(-100%, 0);
+    transition: transform 500ms ease;
+    // width: 100vw;
+    z-index: 80;
+
+    @include media("<=phone") {
+        right: 0;
+    }
+
+    #App.menu-open & {
+        transform: translate(0%, 0);
+
+        ul {
+            transform: translate(0%, 0);
+        }
+    }
+
+    .logo {
+        display: none;
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -150%);
+
+        svg {
+            // fill: $foreground-color;
+            fill: none;
+            height: 15vh;
+            stroke: $foreground-color;
+            width: auto;
+        }
+    }
+
+    ul {
+        display: flex;
+        font-family: font-family(title);
+        font-size: 3rem;
+        margin-right: 2rem;
+        text-transform: uppercase;
+        transform: translate(-100%, 0);
+        transition: transform 300ms ease;
+        transition-delay: 300ms;
+
+        @include media("<=phone") {
+            flex-direction: column;
+            margin-right: 0;
+            align-items: center;
+        }
+
+        li {
+            position: relative;
+
+            @include media("<=phone") {
+                text-align: right;
+            }
+
+            &:not(:first-child):before {
+                background-color: $accent-color;
+                content: '';
+                height: 2.25em;
+                left: 0;
+                position: absolute;
+                top: 50%;
+                transform: translate(-50%, -50%) rotate(15deg);
+                width: 0.1em;
+
+                @include media("<=phone") {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    a {
+        color: $foreground-color;
+        display: block;
+        padding: 0.5em;
+        text-decoration: none;
+    }
+}

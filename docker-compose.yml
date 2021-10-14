@@ -1,6 +1,21 @@
 version: "3.9"
 
 services:
+  client:
+    build:
+      context: client
+      args:
+        - ENV=development
+    volumes:
+      - ./client/src:/client/src
+      - ./client/public:/client/public
+      - ./client/package.json:/client/package.json
+      - ./client/snowpack.config.js:/client/snowpack.config.js
+      - ./client/index.html:/client/index.html
+    ports:
+      - "8080:8080"
+    command: ['npm', 'run', 'devserver']
+
   api:
     build:
       context: api

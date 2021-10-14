@@ -1,0 +1,108 @@
+.product-selector {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    left: 0;
+    overflow: hidden;
+    pointer-events: none;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 90;
+
+    &.show {
+        pointer-events: all;
+
+        &:before {
+            opacity: 1;
+        }
+
+        .product-selector {
+            &__box {
+                opacity: 1;
+                transform: translate(0, 0);
+            }
+        }
+    }
+
+    &:before {
+        backdrop-filter: blur(10px);
+        bottom: 0;
+        content: '';
+        left: 0;
+        opacity: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transition: opacity 300ms;
+        // transition-delay: 300ms;
+        z-index: -1;
+    }
+
+    &__box {
+        background-color: $white;
+        box-shadow: 0 0.5rem 1rem rgba($dark-blue, 0.35);
+        display: flex;
+        flex-direction: column;
+        height: 80vh;
+        opacity: 0;
+        transform: translate(0, -50%);
+        transition: transform 300ms ease-in, opacity 200ms;
+        width: 30vw;
+
+        &.free {
+            background-color: lighten($grey, 15%);
+            height: 70vh;
+            transform: translate(0, 50%);
+            width: 20vw;
+        }
+
+        &:first-child {
+            // margin-right: 2vw;
+        }
+
+        .illustration {
+            align-items: center;
+            display: flex;
+            height: 50%;
+            justify-content: center;
+            position: relative;
+
+            img {
+                height: 80%;
+                object-fit: contain;
+                width: 80%;
+            }
+        }
+
+        .copy {
+            flex-grow: 1;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .price {
+            align-items: flex-end;
+            border-bottom: 1px solid $grey;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+
+            .category-label {
+                color: $orange;
+            }
+        }
+
+        .cta {
+            flex: 0;
+            padding: 2rem;
+
+            button {
+                margin: 0 auto;
+                width: 100%;
+            }
+        }
+    }
+}

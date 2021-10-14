@@ -1,0 +1,40 @@
+.main-content {
+    .section,
+    .section-background {
+        height: 100vh;
+
+        &--auto-height {
+            height: auto;
+        }
+    }
+
+    .section-backgrounds {
+        position: relative;
+        z-index: 10;
+    }
+
+    .section-foregrounds {
+        left: 0;
+        pointer-events: none;
+        position: absolute;
+        top: 0;
+        z-index: 30;
+    }
+
+    .section-foreground {
+        left: 0;
+        height: 100vh;
+        position: absolute;
+        width: 100vw;
+    }
+
+    > section.section {
+        overflow: hidden;
+        position: absolute;
+        width: 100%;
+    }
+
+    .section {
+        z-index: 11;
+    }
+}

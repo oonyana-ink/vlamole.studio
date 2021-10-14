@@ -1,0 +1,58 @@
+$button-transition-duration: 340ms;
+
+.button,
+button {
+    @include font(title);
+    // background-color: $light-blue;
+    border: none;
+    color: $white;
+    cursor: pointer;
+    display: block;
+    font-size: 1.5rem;
+    line-height: 1em;
+    outline: none;
+    padding: 0.75em 2em;
+    position: relative;
+    text-transform: uppercase;
+    transition: color $button-transition-duration;
+    z-index: 1;
+
+    &:before {
+        background-color: $dark-blue;
+        content: '';
+        display: block;
+        height: 100%;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 100%;
+        z-index: -1;
+    }
+
+    &:after {
+        background-color: $light-blue;
+        content: '';
+        display: block;
+        height: 0%;
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(90deg);
+        transition:
+            height $button-transition-duration,
+            transform $button-transition-duration,
+            width $button-transition-duration;
+        width: 0%;
+        z-index: -1;
+    }
+
+    &:hover {
+        color: $light-blue;
+
+        &:after {
+            height: 100%;
+            transform: translate(-50%, -50%) rotate(0deg);
+            width: 100%;
+        }
+    }
+}

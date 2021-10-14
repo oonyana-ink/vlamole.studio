@@ -1,0 +1,25 @@
+@mixin scrollable_copy {
+    &::-webkit-scrollbar * {
+        background: transparent !important;
+        display: initial;
+    }
+
+    &::-webkit-scrollbar {
+        display: initial;
+        width: 0.4rem;
+    }
+
+    &::-webkit-scrollbar-track {
+        display: none;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: $dark-blue;
+        background-color: $orange;
+        border-radius: 0.25rem;
+        border-bottom: 0.25rem solid $white;
+        border-top: 0.25rem solid $white;
+    }
+
+    overflow-y: auto;
+}

@@ -1,0 +1,17 @@
+.drone {
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+    position: fixed;
+    right: 0;
+    top: 0;
+    transform: translateX(0);
+    transition: transform 200ms ease-out;
+    z-index: 40;
+
+    canvas {
+        display: block;
+        height: 100vh;
+        width: 100vw;
+    }
+}

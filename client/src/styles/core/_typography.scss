@@ -1,0 +1,68 @@
+html {
+    @include font(sans, $weight: regular);
+    @include responsive(font-size, (
+        default:  100%,
+        // full-xl:  110%,
+        // full-xxl: 130%,
+
+        tablet: 87.5%, // 16px --> 14px
+        phone: 87.5%  // 16px --> 14px
+    ));
+    color: $black;
+}
+
+@for $i from 1 through 5 {
+    h#{$i} {
+        @include font(title, $size: 1rem * (6 - $i), $line-height: 0.9);
+        color: $dark-blue;
+        margin-bottom: 1rem;
+    }
+}
+
+html, body {
+    font-size: 16px;
+
+    @include media('<desktop') {
+        font-size: 14px;
+    }
+}
+
+.highlight {
+    background: linear-gradient(to right, $light-blue, $light-blue) no-repeat;
+    background-position: 50% 60%;
+    background-size: 100% 80%;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    color: $white;
+    padding: 0 0.15em;
+    position: relative;
+    z-index: -1;
+}
+
+p, .paragraph, ul li {
+    font-size: 1rem;
+    line-height: 1.4rem;
+    margin-bottom: 1rem;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &.lead {
+        @include font-weight(medium);
+        font-size: 1.25em;
+    }
+
+    b {
+        @include font-weight(medium);
+
+        &:first-child {
+            font-size: 1.1em;
+        }
+    }
+}
+
+.small-print {
+    font-size: 0.75rem;
+    line-height: 1rem;
+}

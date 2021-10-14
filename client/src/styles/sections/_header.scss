@@ -1,0 +1,143 @@
+$menu_toggle_width: 1.5rem;
+$menu_toggle_height: $menu_toggle_width;
+
+body {
+    --hud-color: #{$dark-blue};
+}
+
+.header {
+    left: 0;
+    padding: var(--page-margin);
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 100;
+
+    @include media("<=phone") {
+        // top: 89%;
+        background: rgba(#000, 0.1);
+        bottom: 0;
+        top: auto;
+    }
+
+    &__content {
+        align-items: flex-start;
+        display: flex;
+        justify-content: space-between;
+
+        @include media("<=phone") {
+            align-items: center;
+        }
+    }
+
+    &__right-side {
+        align-items: flex-end;
+        display: flex;
+        flex-direction: column;
+
+        @include media("<=phone") {
+            display: block;
+        }
+    }
+
+    .logo {
+        align-items: center;
+        display: flex;
+
+        svg {
+            height: 2rem;
+            width: auto;
+
+            path {
+                @include hud-color(fill);
+            }
+        }
+    }
+
+    .logotype {
+        @include font(title);
+        @include hud-color(color);
+        font-size: 1rem;
+        margin-left: 0.6rem;
+        transform: translateY(-50%) rotate(90deg);
+        transform-origin: left bottom;
+
+        @include media("<=phone") {
+            display: none;
+        }
+    }
+
+    .breadcrumb {
+        background-color: $light-blue;
+        color: $white;
+        margin-left: 0.3em;
+        padding: 0 0.5em 0 0.2em;
+
+        &:before {
+            @include hud-color(background-color);
+            content: '';
+            display: inline-block;
+            height: 1.15em;
+            transform: translateX(-0.25em) translateY(0.25em) rotate(25deg);
+            width: 0.14em;
+        }
+    }
+
+    .menu-toggle {
+        cursor: pointer;
+        height: $menu_toggle_height;
+        position: relative;
+        transform: scale(1);
+        transition: transform 150ms;
+        width: $menu_toggle_width;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+
+        &:before,
+        &:after {
+            @include hud-color(background-color);
+            backface-visibility: hidden;
+            content: '';
+            height: 2px;
+            position: absolute;
+            top: 50%;
+            transform-origin: center center;
+            transition: transform 200ms ease;
+            width: 100%;
+        }
+
+        &:before {
+            transform: translateY(calc(#{$menu_toggle_height * -0.25} - 50%)) rotate(0deg) translateZ(0);
+        }
+
+        &:after {
+            transform: translateY(calc(#{$menu_toggle_height * 0.25} - 50%)) rotate(0deg) translateZ(0);
+        }
+
+        #App.menu-open & {
+            &:before {
+                transform: translateY(-50%) rotate(-45deg) translateZ(0);
+            }
+
+            &:after {
+                transform: translateY(-50%) rotate(45deg) translateZ(0);
+            }
+        }
+    }
+
+    .cart {
+        margin-top: 1rem;
+
+        @include media("<=phone") {
+            display: none;
+        }
+
+        svg {
+            path {
+                @include hud-color(fill);
+            }
+        }
+    }
+}

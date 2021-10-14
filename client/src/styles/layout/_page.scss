@@ -1,0 +1,101 @@
+$page-margin: 2rem;
+
+:root {
+    --page-margin: 2rem;
+
+    @include media("<=phone") {
+        --page-margin: 1rem 1.5rem;
+    }
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    width: 100vw;
+}
+
+body {
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar * {
+    background: transparent !important;
+    display: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+    width: 0.5rem;
+}
+
+::-webkit-scrollbar-track {
+    // background: rgba(0, 0, 0, 0);
+    background: #c00;
+    display: none;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: $dark-blue;
+}
+
+.main-content {
+    // height: 100vh;
+    // overflow-x: hidden;
+    // overflow-y: scroll;
+    // overflow: overlay;
+    position: relative;
+    // overflow: overlay;
+    // scroll-snap-type: y;
+    width: 100vw;
+    z-index: 10;
+}
+
+.page-section {
+    height: 100vh;
+    scroll-snap-align: start;
+    width: 100vw;
+
+    &--white-bg {
+        background-color: #fff;
+    }
+
+    &.behind-drone {
+        z-index: 10;
+    }
+
+    &.above-drone {
+        z-index: 30;
+    }
+}
+
+// p, .paragraph {
+//     font-size: 1rem;
+//     line-height: 1rem;
+//     margin-bottom: 1rem;
+
+//     @include media("<=tablet") {
+//         font-size: 2.5vw;
+//         line-height: 1.6rem;
+//         letter-spacing: 0.1vw;
+//     }
+
+//     @include media("<=phone") {
+//         font-size: 1rem;
+//         line-height: 1.1rem;
+//         letter-spacing: 0.02rem;
+//     }
+
+// }
+
+.intro .timeline__point:after {
+    size: 1rem;
+}
+
+.intro .timeline__point:after {
+    font-size: 1rem;
+}
+
+.specs__copy p {
+    font-size: 0.5rem;
+}

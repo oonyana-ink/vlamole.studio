@@ -1,0 +1,26 @@
+.grid-overlay {
+    background-color: rgba(#fff, 0.25);
+    bottom: 0;
+    display: none;
+    left: 0;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    z-index: 200;
+
+    &.show {
+        display: block;
+    }
+
+    .grid {
+        // border: 1px solid rgba($dark-blue, 0.75);
+        box-sizing: border-box;
+        height: 100%;
+
+        &__column {
+            background-color: rgba($dark-blue, 0.5);
+            height: 100%;
+        }
+    }
+}

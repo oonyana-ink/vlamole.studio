@@ -1,0 +1,16 @@
+// $base-ratio: -0.2;
+
+// :root {
+//     --scroll-y: 0
+// }
+
+// span[parallax] {
+//     display: inline-block;
+// }
+
+// @for $i from 1 through 5 {
+//     [parallax="#{$i}"] {
+//         transform: translateY(calc(#{$i * $base-ratio} * var(--scroll-y)));
+//         // transition: transform 250ms;
+//     }
+// }

@@ -1,0 +1,129 @@
+// FONT VARIABLES
+///////////////////////////////////////////////////////////
+@use "sass:map";
+@use "sass:math";
+
+$font-names: (
+    'sans': 'Cabin',
+    'title': 'Gilroy',
+    'mono': 'IBM Plex Mono',
+    'hand': 'Rock Salt'
+);
+$font-fallbacks: (
+    'sans': 'Helvetica Neue, Helvetica, Arial, sans-serif',
+    'title': 'Helvetica Neue, Helvetica, Arial, sans-serif',
+    'mono': 'monospace',
+    'hand': 'cursive'
+);
+$font-weights: (
+    light: 300,
+    regular: 400,
+    medium: 500,
+    bold: 700,
+    extrabold: 800,
+    black: 900
+);
+
+@function rem($pixel-val) {
+    @return math.div(1rem * $pixel-val, 16);
+}
+
+@mixin font-face($filename, $family, $weight, $style: normal) {
+    @font-face {
+        font-family: $family;
+        font-style: $style;
+        font-weight: $weight;
+        src: url("/fonts/#{$filename}.woff2") format("woff2"),
+             url("/fonts/#{$filename}.woff") format("woff");
+        // src: var(--#{$filename}-woff2) format('woff2'),
+        //     var(--#{$filename}-woff) format('woff');
+    }
+}
+
+@function font-family($family) {
+    @return map.get($font-names,  $family), map.get($font-fallbacks, $family);
+}
+
+@mixin font-size($size, $family: sans, $uppercase: false) {
+    @if unit($size) == "px" {
+        font-size: rem($size);
+    } @else {
+        font-size: $size;
+    }
+
+    // @if $family == sans and $uppercase == false {
+    //     @if $size {
+    //         @if $size > 72 {
+    //             letter-spacing: -0.055em;
+    //         } @else if $size > 32 {
+    //             letter-spacing: -0.04em;
+    //         } @else {
+    //             letter-spacing: -0.01em;
+    //         }
+    //     }
+
+    // } @else if $family == sans and $uppercase == true {
+    //     @if $size {
+    //         @if $size > 32 {
+    //             letter-spacing: 0;
+    //         } @else if $size > 24 {
+    //             letter-spacing: 0;
+    //         }
+    //         @else if $size > 12 {
+    //             letter-spacing: 0.03em;
+    //         } @else {
+    //             letter-spacing: 0.04em;
+    //         }
+    //     }
+
+    // } @else if $family == mono {
+    //     @if $size {
+    //         @if $size > 64 {
+    //             letter-spacing: -0.15em;
+    //         } @else if $size > 24 {
+    //             letter-spacing: -0.1em;
+    //         } @else {
+    //             letter-spacing: -0.05em;
+    //         }
+    //     }
+    // }
+}
+
+@function font-weight ($weight) {
+    $font-weight: map-get($font-weights, $weight);
+    @return $font-weight;
+}
+
+@mixin font-weight($weight) {
+    $font-weight: map-get($font-weights, $weight);
+    font-weight: $font-weight;
+}
+
+@mixin font-prettifier() {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+@mixin font($family, $weight: regular, $size: null, $line-height: null, $uppercase: false) {
+    font-family: font-family($family);
+
+    @if $size {
+        @include font-size($size, $family, $uppercase);
+    }
+
+    // title only has extrabold
+    @if $family == title {
+        @include font-weight(extrabold);
+    } @else {
+        @include font-weight($weight);
+    }
+
+    @if $line-height {
+        line-height: $line-height;
+    }
+
+    @if $uppercase {
+        text-transform: uppercase;
+    }
+}

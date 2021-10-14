@@ -1,0 +1,24 @@
+.nopage {
+    &.section {
+        height: 100vh;
+    }
+
+    &__background {
+        background-color: $dark-blue;
+
+        &.section-background {
+            height: 100vh;
+        }
+    }
+}
+
+.nohead {
+    color: rgb(59, 116, 167);
+    font-size: 30vw;
+    letter-spacing: -0.075em;
+    margin: 0px;
+    padding-right: 11%;
+    padding-top: 20vh;
+    text-align: end;
+
+}

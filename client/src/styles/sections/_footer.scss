@@ -1,0 +1,107 @@
+.footer {
+    bottom: 0;
+    left: 0;
+    padding: var(--page-margin);
+    pointer-events: none;
+    position: fixed;
+    right: 0;
+    z-index: 100;
+
+    &__content {
+        align-items: flex-end;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .primary-cta {
+        height: 1em;
+        overflow: hidden;
+        padding: 0.75em 4em;
+        pointer-events: all;
+        position: relative;
+        text-align: center;
+        // width: 10vw;
+
+        &:before {
+            background: $orange;
+        }
+
+        &:after {
+            background-color: $dark-blue;
+        }
+
+        @include media("<=tablet") {
+            display: none;
+            width: 20vw;
+        }
+
+        @include media("<=phone") {
+            margin-bottom: 2.5rem;
+            margin-right: 2.5rem;
+            width: 80vw;
+        }
+
+        span {
+            left: 50%;
+            opacity: 0;
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            transition: opacity 1000ms;
+            white-space: nowrap;
+        }
+
+        &[label-index="0"] {
+            span:first-child {
+                opacity: 1;
+            }
+        }
+
+        &[label-index="1"] {
+            span:last-child {
+                opacity: 1;
+            }
+        }
+    }
+
+    .social-icon {
+        margin-top: 1rem;
+
+        svg {
+            path {
+                @include hud-color(fill);
+            }
+
+            @include media("<=phone") {
+                display: none;
+            }
+        }
+    }
+
+    .small-print,
+    .small-print a {
+        @include hud-color(color);
+        margin-top: 1rem;
+        text-decoration: none;
+
+        @include media("<=phone") {
+            display: none;
+        }
+    }
+
+    .small-print a {
+        cursor: pointer;
+        pointer-events: initial;
+
+        &:before {
+            content: '|';
+            display: inline-block;
+            margin-left: 1em;
+            margin-right: 1em;
+        }
+
+        @include media("<=phone") {
+            display: none;
+        }
+    }
+}
